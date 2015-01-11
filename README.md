@@ -55,3 +55,7 @@ This software is currently unpublished, so please just cite the homepage (thanks
 ## Copyright
 
 Copyright (c) 2014 Xuebing Wu. See LICENSE.txt for further details.
+
+PKA reuses the ushuffle code written by Minghui Jiang: http://digital.cs.usu.edu/~mjiang/ushuffle/
+
+
