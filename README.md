@@ -35,7 +35,7 @@ Unweighted sequences in fasta, default background (relative to other positions)
 Weighted sequences 
 
 ```sh
- ./PKA ../test/input/input.weighted.txt -weighted 
+ ./PKA ../test/input/input.weighted.txt -weighted -o ../test/output/weighted 
 ```
 
 Please refer to the manual for other examples and explanation of the output files.
