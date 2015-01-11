@@ -174,5 +174,9 @@ map<string,double> markov_model::probs(vector<string> kmers)
         }
         return p;
     }
+
+    // other orders
+    cerr << "Not supported: order = " << order << endl;
+    exit(1);
 }
 

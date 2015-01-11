@@ -1437,7 +1437,7 @@ int non_overlapping_sig_motifs(string inputfile, string outputfile)
             {
                 int start2 = position[i];
                 int end2 = start2+ length[i] - 1;
-                if (start <= start2 && end >= start2 || start <= end2 && end >= end2) // overlap
+                if ( ((start <= start2) && (end >= start2)) || ((start <= end2) && (end >= end2))) // overlap
                 {
                     removed[i] = true;        
                 }
