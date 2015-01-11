@@ -2,6 +2,8 @@
 
 PKA is tool for identifying well-positioned short motifs from a set of aligned sequences. 
 
+Developed by Xuebing Wu (wuxbl@wi.mit.edu) at Whitehead Institute.
+
 ## Installation
 1. Download the source code from github: https://github.com/xuebingwu/PKA
 2. Unzip, enter the subfolder 'src', then type 'make':
