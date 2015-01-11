@@ -9,7 +9,7 @@ Developed by Xuebing Wu (wuxbl@wi.mit.edu) at Whitehead Institute.
 PKA is also available as an online tool (under-construction): http://iona.wi.mit.edu/xuebing/PKA/
 
 ## Installation
-Download the source code from github: https://github.com/xuebingwu/PKA
+Download the source code from github: https://github.com/xuebingwu/PKA/releases/
 
 Unzip, enter the subfolder 'src', then type 'make':
 
