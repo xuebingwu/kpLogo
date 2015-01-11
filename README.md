@@ -45,7 +45,7 @@ Please refer to the manual for other examples and explanation of the output file
 
 Source code, compiled binaries (Linux), documentation, and examples can be found on github page:
 
-https://github.com/xuebingwu/xtools
+https://github.com/xuebingwu/PKA
 
 
 ## Cite
@@ -56,6 +56,10 @@ This software is currently unpublished, so please just cite the homepage (thanks
 
 Copyright (c) 2014 Xuebing Wu. See LICENSE.txt for further details.
 
-PKA reuses the ushuffle code written by Minghui Jiang: http://digital.cs.usu.edu/~mjiang/ushuffle/
+PKA reuses the following library/code: 
+
+1. Boost library (version 1.57.0): http://www.boost.org/  
+
+2. The ushuffle code written by Minghui Jiang: http://digital.cs.usu.edu/~mjiang/ushuffle/
 
 
