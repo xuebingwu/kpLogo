@@ -501,10 +501,10 @@ int main(int argc, char* argv[]) {
 					weights.erase(weights.begin()+removed[i]);
 				}
 				// save the data
-				ofstream tmpout("tmp.txt");
-				for(int i=0;i<seqs1.size();i++)
-					tmpout << seqs1[i] << "\t" << weights[i] << endl;
-				tmpout.close();
+				//ofstream tmpout("tmp.txt");
+				//for(int i=0;i<seqs1.size();i++)
+				//	tmpout << seqs1[i] << "\t" << weights[i] << endl;
+				//tmpout.close();
 			}
 		}
         
@@ -526,8 +526,6 @@ int main(int argc, char* argv[]) {
 		message("building model from file: "+prefix+".pass.p.cutoff.txt");		
 		vector<positional_kmer> ranked_kmers = build_model_from_PKA_output(prefix+".pass.p.cutoff.txt",startPos);
 		message("- " + to_string(ranked_kmers.size())+" positional kmers included in the model");
-		save_model_to_file(ranked_kmers, "model.txt");
-		
 	
 		// save the model to file
 		// save_model_to_file(ranked_kmers, output+".model.txt");	

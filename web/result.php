@@ -31,36 +31,29 @@ $backgroundfile = $_POST['backgroundfile'];
 $output = $_POST['output'];
 
 
-// visitor information
+// make a folder with randome name for each job
+$randomString = substr(str_shuffle(md5(time())),0,20);
 
-$ip = get_real_ip();
+$tmpfolder = "./files_to_be_removed_72_hrs_after_creation/".$randomString;
 
-$date = date("y.m.d.h.i.s");
+$oldmask = umask(0);
+if (!mkdir($tmpfolder, 0777, true)) {
+    die('Failed to create folders...');
+}
 
+// enter this folder
+chdir($tmpfolder);
 
-$h = fopen("./visitor.txt", 'a');
-
-fwrite($h, $date."\t".$ip."\n");
-
-fclose($h); 
-
-// input	
-
-$inputDir = "./files_to_be_emptied_after_72_hrs/";
-
-$job = $date."-".$ip;
-
-$inputPath = $inputDir.$job;
-
+// input
 if (strlen($foreground) > 0) // sequence pasted, save to file
 {
-	$h = fopen($inputPath, 'w');
+	$h = fopen("PKA.input.txt", 'w');
 	fwrite($h, $foreground);
 	fclose($h); 
 }
 else
 {
-	if(move_uploaded_file($_FILES['forgroundfile']['tmp_name'], $inputPath)) 
+	if(move_uploaded_file($_FILES['forgroundfile']['tmp_name'], "PKA.input.txt")) 
 	{
 		echo "The file ".basename( $_FILES['uploadedfile']['name'])." has been uploaded";
 	}
@@ -71,9 +64,6 @@ else
 	}
 }
 
-$outputDir = "./files_to_be_emptied_after_72_hrs/";
-
-$outputPath = $outputDir.$job;
 
 $k = "-k";
 if ($kmer_upto == "on")
@@ -81,78 +71,28 @@ if ($kmer_upto == "on")
 	$k = "-upto";
 }
 
-$command = "PKA $inputPath -o $inputPath -alphabet $alphabet $k $kmer_length ";
+$command = "/lab/bartel1_ata/wuxbl/scripts/C++/bin/PKA PKA.input.txt -o PKA";
 
 echo "commandline:"."<br>";
 
 echo $command."<br>";
 
-echo "Input: <a href=\"$inputPath\">download</a> <br>";
-
-echo "Output:<br>";
-echo "\t<a href=\"$inputPath\">plot</a> <br>";
-echo "\t<a href=\"$inputPath\">data</a> <br>";
-echo "\t<a href=\"$inputPath\">summary</a> <br>";
-
-
 
 $result = exec($command);
 
-echo $result."<br>";
+umask($oldmask);
 
+echo "Input: <a href=\"$tmpfolder/PKA.input.txt\">download</a> <br>";
 
-function get_real_ip()
+echo "Output (to be removed after 72 hours):<br>";
+echo "\t<a href=\"$tmpfolder/PKA.freq.ps\">frequency logo</a> <br>";
+echo "\t<a href=\"$tmpfolder/PKA.info.ps\">information content logo</a> <br>";
+echo "\t<a href=\"$tmpfolder/PKA.ps\">significance logo</a> <br>";
+echo "\t<a href=\"$tmpfolder/PKA.most.significant.each.position.ps\">kmer logo</a> <br>";
+echo "\t<a href=\"$tmpfolder/PKA.most.significant.each.position.txt\">most.significant.kmer.at.each.position</a> <br>";
+echo "\t<a href=\"$tmpfolder/PKA.pass.p.cutoff.txt\">output data file</a> <br>";
 
-{
-
-	$ip=false;
-
-	if(!empty($_SERVER["HTTP_CLIENT_IP"]))
-
-	{
-
-		$ip = $_SERVER["HTTP_CLIENT_IP"];
-
-	}
-
-	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) 
-
-	{
-
-		$ips = explode (", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
-
-		if ($ip) 
-
-		{
-
-			array_unshift($ips, $ip); 
-
-			$ip = FALSE;
-
-		}
-
-		for ($i=0;$i<count($ips);$i++)
-
-		{
-
-			if (!eregi ("^(10|172\.16|192\.168)\.", $ips[$i]))
-
-			{
-
-				$ip = $ips[$i];
-
-				break;
-
-			}
-
-		}
-
-	}
-
-	return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
-
-}
-
+echo "done <br>";
 
 
 ?>
