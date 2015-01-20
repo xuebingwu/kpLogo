@@ -71,7 +71,7 @@ if ($kmer_upto == "on")
 	$k = "-upto";
 }
 
-$command = "/lab/bartel1_ata/wuxbl/scripts/C++/bin/PKA PKA.input.txt -o PKA";
+$command = "../..//PKA PKA.input.txt -o PKA";
 
 echo "commandline:"."<br>";
 
