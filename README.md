@@ -6,7 +6,7 @@ Developed by Xuebing Wu (wuxbl@wi.mit.edu) at Whitehead Institute.
 
 ## Web server
 
-PKA is also available as an online tool (under-construction): http://iona.wi.mit.edu/xuebing/PKA/
+PKA is also available as an online tool (under-construction): http://pka.wi.mit.edu
 
 ## Installation
 Download the source code from github: https://github.com/xuebingwu/PKA/releases/
