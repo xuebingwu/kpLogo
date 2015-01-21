@@ -34,7 +34,8 @@ PKA: sequence.o markov.o container.o utility.o text.o stat.o ushuffle.o PKA.o
 	gcc -O3 $(INCLUDES) -c $< -o $@	
 
 install:
-	mv $(PROGS) ../bin	
+	cp $(PROGS) ../bin
+	mv $(PROGS) ../web/$(PROGS)
 
 clean:
 	$(RM) *.o *~ ../bin/*
