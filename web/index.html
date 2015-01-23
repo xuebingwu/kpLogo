@@ -1,222 +1,76 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
 
+
   
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title></head><body><font color="#6633cc" face="Arial, Helvetica, sans-serif" size="7"><strong>PKA: <font color="#0033ff" size="5">positional kmer analysis</font> </strong></font><font face="Arial, Helvetica, sans-serif">(updated Dec 23. 2014)</font>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
+  
 
-<p align="left"><strong><font face="Arial, Helvetica, sans-serif">This
-is a demonstration of the utility of the PKA tool sets. Input file size
-and search space will be limited on this server. Users can download the
-binary or source code to run at full capacity.</font></strong></p>
-<p align="left"><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"><span style="font-weight: bold;">Reference</span>: Wu et al, Detecting well-positioned short sequence motifs by positional k-mer analysis (PKA). <br>
-</span></font></strong></p>
-<hr><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"><a style="font-weight: bold;" href="help.html" target="_blank">Manual</a>&nbsp;&nbsp; |&nbsp;&nbsp;  </span></font></strong><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"></span></font></strong><strong><font face="Arial, Helvetica, sans-serif"><a href="https://github.com/xuebingwu/xtools" target="_blank">Source code</a></font></strong>&nbsp;&nbsp; <span style="font-weight: bold;">|&nbsp; </span><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"><span style="font-weight: bold;">Example Input files</span>: </span></font></strong><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"><a href="example.input.fasta.txt" target="_blank">fasta</a>,</span></font></strong><strong><font face="Arial, Helvetica, sans-serif"><span style="font-weight: normal;"> <a target="_blank" href="example.input.raw.txt">raw</a>, <a href="example.input.weighted.txt" target="_blank">weighted</a>&nbsp;&nbsp;<span style="font-weight: bold;"> |</span>&nbsp; <a style="font-weight: bold;" href="output.html">Example Output &amp; Explanation</a><br>
-</span></font></strong>
-
-<ol></ol>
-
-<hr>
-<div align="left">
-<form action="./result.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table border="0" cellspacing="5">
-    <tbody>
-      <tr>
-        <td style="background-color: rgb(204, 204, 255);" rowspan="7">
-        <div align="center"><strong><font face="Arial, Helvetica, sans-serif"> Foreground sequences <a href="./help.html#upload"><img src="./questionmark.png" alt="help"><br>
-        <span style="font-weight: normal;">(paste or upload)</span><br>
-        </font></strong></div>
-        </td>
-        <td rowspan="7" width="500"><textarea name="foreground" cols="40" rows="15" id="foreground"></textarea><br>
-<br><label> Or upload a file (1MB max) <input name="MAX_FILE_SIZE" value="1000000" type="hidden"> </label><input name="forgroundfile" type="file"><label> </label></td>
-
-
-
-
-        <td style="vertical-align: top;"><br></td><td width="569"><strong><font face="Arial, Helvetica, sans-serif">Input type and format</font></strong><font face="Arial, Helvetica, sans-serif"><br></font></td>
-        
-      </tr>
-      <tr>
-        <td style="vertical-align: top;"><br>
-        </td>
-        <td style="vertical-align: top;"><span style="font-style: italic;">1. fasta</span><br>
-        </td>
-      </tr>
-      <tr>
-        <td style="vertical-align: top;"><br>
-        </td>
-        <td style="vertical-align: top; font-family: Courier New,Courier,monospace;"><strong style="font-weight: normal;">&nbsp; </strong><strong><span style="font-weight: normal;"></span></strong><strong style="font-weight: normal;">&nbsp; &gt;seq1<br>&nbsp;&nbsp;&nbsp; GCATGCATGCATCGATGCATGCATGCATG<br></strong><strong><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp; &gt;seq2</span><br style="font-weight: normal;"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp; GCATGCATGCATCGATGCCCCCATGCATG</span><br style="font-weight: normal;"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp; ...</span></strong><br>
-        </td>
-      </tr>
-<tr>
-        <td style="vertical-align: top;"><br></td><td><em><font face="Arial, Helvetica, sans-serif">2. raw<br>
-</font></em></td>
-        
-      </tr>
+  
+  
+  <style>
+input[type="submit"]{
+/* change these properties to whatever you want */
+background-color: #555;
+color: #fff;
+border-radius: 10px;
+font-size:1em;
+}
+  </style>
+  
+  <style>
+input[type="file"]{
+/* change these properties to whatever you want */
+background-color: #555;
+color: #fff;
+border-radius: 10px;
+font-size:1em;
+}
+  </style>
+  
+  <style>
+input[type="text"]{
+/* change these properties to whatever you want */
+background-color: #aaa;
+color: #fff;
+}
+  </style></head><body style="margin-left: 101px; width: 970px;">
+<div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
+<h1><span class="title">
+PKA: Positional Kmer Analysis</span><br>
+</h1>
+<span class="title"></span>
+<hr style="width: 100%; height: 8px;" noshade="noshade"></div>
 
 
-      <tr>
+<table style="text-align: left; width: 436px; height: 32px; margin-left: auto; margin-right: 0px;" border="0" cellpadding="0" cellspacing="0">
 
-        <td style="vertical-align: top;"><br></td><td style="font-family: Courier New,Courier,monospace;"><strong style="font-weight: normal;">&nbsp; </strong><strong style="font-weight: normal;">&nbsp; GCATGCATGCATCGATGCATGCATGCATG</strong><strong><span style="font-weight: normal;"></span><br style="font-weight: normal;"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp; GCATGCATGCATCGATGCCCCCATGCATG<br>
-&nbsp;&nbsp;&nbsp; ...<br>
-</span></strong><strong><span style="font-weight: normal;"></span></strong></td>
-        
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 69px;">
+      <form action="./index.html"> <input value="Home" type="submit"></form>
+      </td>
+      <td style="vertical-align: top; width: 69px;">
+      <form action="./submit.html"> <input value="Start/Run" type="submit"></form>
+      </td>
+      <td style="vertical-align: top; width: 69px;">
+      <form action="./help.html"> <input value="Help" type="submit"></form>
+      </td>
+      <td style="vertical-align: top; width: 69px;">
+      <form action="./examples.html"> <input value="Examples" type="submit"></form>
+      </td>
+      <td style="vertical-align: top; width: 0px;">
+      <form action="./download.html"> <input value="Download" type="submit"></form>
+      </td>
 
-
-      </tr>
-      <tr>
-
-        <td style="vertical-align: top;"><br></td><td style="font-family: Courier New,Courier,monospace;"><em><font face="Arial, Helvetica, sans-serif">3. weighted<br>
-</font></em></td>
-        
-      </tr>
-      <tr>
-        <td style="vertical-align: top;"><br></td><td style="vertical-align: top; font-family: Courier New,Courier,monospace;">&nbsp;&nbsp;&nbsp; <strong style="font-weight: normal;">GCATGCATGCATCGATGCATGCATGCATG&nbsp;&nbsp;&nbsp; 2.33<br></strong><strong><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp; GCATGCATGCATCGATGCCCCCATGCATG&nbsp;&nbsp;&nbsp; 1.64<br>&nbsp;&nbsp;&nbsp; ...<br></span></strong></td>
-
-
-
-        
-      </tr>
-      
-      
-      <tr><td bgcolor="#ccccff">
-
-        <div align="center"><font face="Arial, Helvetica, sans-serif"><strong>sequence type<br>
-
-        </strong></font></div>
-        </td>
-<td colspan="3" rowspan="1" style="vertical-align: top;"><p align="left"><label> <input name="alphabet" value="DNA" checked="checked" type="radio">DNA/RNA</label>    &nbsp; &nbsp; &nbsp;&nbsp;<label>   
-          <input name="alphabet" value="protein" type="radio">protein</label> &nbsp; &nbsp;&nbsp;<label>   
-          <input name="alphabet" value="other" type="radio">other</label> (please enter all allowed letters here:   
-
-<font face="Arial, Helvetica, sans-serif"><input name="other_alphabet" id="other_alphabet" size="30" type="text"></font>
-        </p>
-
-</td></tr><tr>
-        <td colspan="1" rowspan="2" bgcolor="#ccccff">
-        <div align="center"><strong><font face="Arial, Helvetica, sans-serif">kmer length<br></font></strong></div>
-        </td>
-        <td colspan="3">&nbsp;K =&nbsp;
-        <select name="kmer_length" id="kmer_length">
-
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3" selected="selected">3</option>
-        <option value="4">4</option>
-        
-        </select>
-    (to use larger k, please install PKA locally)</td>
-      </tr>
-
-      <tr><td colspan="3" rowspan="1" style="vertical-align: top;"><label> 
-        <input name="kmer_upto" checked="checked" type="checkbox"> check here if also consider all smaller k, i.e. k = 1, 2, ..., K </label></td>
-
-</tr><tr><td bgcolor="#ccccff">
-
-        <div align="center"><font face="Arial, Helvetica, sans-serif"><strong>positional shift<br>
-
-        </strong></font></div>
-        </td><td colspan="3" rowspan="1" style="vertical-align: top;">&nbsp;from <input name="min_shift" id="min_shift" size="4" value="0" type="text"> to <input name="max_shift" id="max_shift" size="4" value="0" type="text"> default: no positional shift allowed </td></tr>
-
-      <tr>
-        <td bgcolor="#ccccff">
-
-        <div align="center"><font face="Arial, Helvetica, sans-serif"><strong>degenerate&nbsp; letters <br>
-
-        </strong></font></div>
-        </td>
-        <td colspan="3"><label>   
-          <input name="degenerate" value="false" checked="checked" type="radio">not allowed</label>&nbsp;&nbsp; &nbsp;&nbsp;<label>   
-          <input name="degenerate" value="true" type="radio">allowed</label>, please enter all allowed letters here (default: all IUPAC DNA letters):   
-
-<font face="Arial, Helvetica, sans-serif"><input name="degenerate_alphabet" id="degenerate_alphabet" size="30" value="ACGTRYMKWSBDHVN" type="text"></font></td>
-
-      </tr>
-      <tr>
-        <td rowspan="4" bgcolor="#ccccff" width="218">
-        <div align="center"><strong><font face="Arial, Helvetica, sans-serif">Background<br>
-        <span style="font-weight: normal;">(</span><span style="color: red; font-weight: normal;">unweighted</span><span style="font-weight: normal;">)</span><br>
-</font></strong></div>
-        </td>
-        <td colspan="3"><font face="Arial, Helvetica, sans-serif"> </font><input name="background" value="markov_foreground" checked="checked" type="radio"><font face="Arial, Helvetica, sans-serif"> <label></label></font>&nbsp;
-        <select name="markov_foreground_order" id="markov_foreground_order">
-
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-        
-        </select>
-
-
-        <font face="Arial, Helvetica, sans-serif"><label> </label>order Markov model learned from foreground sequences<br>
-
-
-        </font></td>
-      </tr>
-	  
-	        <tr>
-	          <td colspan="3"><input name="background" value="shuffle" type="radio"><font face="Arial, Helvetica, sans-serif"><label> shuffle each foreground sequence&nbsp; </label></font><input name="shuffle_n" id="shuffle_n" size="4" value="100" type="text"><font face="Arial, Helvetica, sans-serif"><label> times
-	  preserving  
-      </label></font>
-        <select name="shuffle_m" id="shuffle_m">
-
-      <option value="1">mono-</option>
-      <option value="2" selected="selected">di-</option>
-      <option value="3">tri-</option>
-      <option value="4">tetra-</option>
-      
-        </select>
-        <font face="Arial, Helvetica, sans-serif"><label>
-	  </label>
-
-
-	  nucleotide frequency </font></td>
-	        </tr>
-
-			
-			      <tr>
-			        <td colspan="3"><input name="background" value="backgroundfromfile" type="radio"> <font face="Arial, Helvetica, sans-serif">upload background sequences: </font> <input name="backgroundfile" type="file"></td>
-
-			      </tr>
-
-				  
-      <tr>
-        <td colspan="3"><label> <input name="neighbor_definition" value="interval" type="radio"></label>&nbsp;&nbsp;
-        <select name="markov_background_order" id="markov_background_order">
-
-
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-
-        
-        
-        </select>
-
-
-        <font face="Arial, Helvetica, sans-serif">order
-Markov model
-learned from background sequences uploaded here: </font><input name="backgroundfile" type="file"></td>
-
-      </tr>
-	  
-	  
-      <tr>
-        <td bgcolor="#ccccff">
-
-        <div align="center"><strong><font face="Arial, Helvetica, sans-serif">Output file name</font></strong></div>
-        </td>
-
-        <td colspan="3"><input name="output" id="output" size="30" type="text"><font face="Arial, Helvetica, sans-serif"><label>(if
-blank, the default name will be: your_input_file_name.neighbors.txt)</label>
-
-        <label> </label> </font></td>
-
-      </tr>
-    </tbody>
-  </table>
-  <p> <label></label> <font face="Arial, Helvetica, sans-serif"> <input name="Submit1" value="Submit" type="submit">&nbsp; </font> </p>
-</form>
-</div>
+<td style="vertical-align: top; width: 0px;">
+<form action="./feedback.html"> <input value="Feedback" type="submit"></form>
+</td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-family: Helvetica,Arial,sans-serif;"></span><strong style="font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: normal;"></span></strong><br>
+INDEX<br>
 
 
 </body></html>
