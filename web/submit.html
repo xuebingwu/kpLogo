@@ -1,13 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
 
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
-  
+<html>
 
-  
-  
-  <style>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
+
+<style>
+
+input {
+text-align: center;
+}
+
 input[type="submit"]{
 /* change these properties to whatever you want */
 background-color: #555;
@@ -15,204 +19,236 @@ color: #fff;
 border-radius: 10px;
 font-size:1em;
 }
-  </style>
-  
-  <style>
+
 input[type="file"]{
 /* change these properties to whatever you want */
 background-color: #555;
 color: #fff;
 border-radius: 10px;
-font-size:1em;
+/*font-size:1em;*/
 }
-  </style>
   
-  <style>
 input[type="text"]{
 /* change these properties to whatever you want */
 background-color: #aaa;
 color: #fff;
 }
-  </style></head><body style="margin-left: 101px; width: 970px;">
+
+</style>
+
+</head>
+
+<body style="margin-left: 101px; width: 970px;">
+
 <div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
-<h1><span class="title">
-PKA: Positional Kmer Analysis</span><br>
-</h1>
-<span class="title"></span>
+<h1><span class="title"> PKA: Positional Kmer Analysis</span><br> </h1>
 <hr style="width: 100%; height: 8px;" noshade="noshade"></div>
 
-
 <table style="text-align: left; width: 436px; height: 32px; margin-left: auto; margin-right: 0px;" border="0" cellpadding="0" cellspacing="0">
-
   <tbody>
     <tr>
-      <td style="vertical-align: top; width: 69px;">
+      <td style="vertical-align: center; width: 69px;">
       <form action="./index.html"> <input value="Home" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 69px;">
-      <form action="./submit.html"> <input value="Start/Run" type="submit"></form>
+      <td style="vertical-align: center; width: 69px;">
+      <form action="./submit.html"> <input value="Web Server" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 69px;">
-      <form action="./help.html"> <input value="Help" type="submit"></form>
+      <td style="vertical-align: center; width: 0px;">
+      <form action="./download.html"> <input value="Code" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 69px;">
+      <td style="vertical-align: center; width: 69px;">
+      <form action="./help.html"> <input value="Manual" type="submit"></form>
+      </td>
+      <td style="vertical-align: center; width: 69px;">
       <form action="./examples.html"> <input value="Examples" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 0px;">
-      <form action="./download.html"> <input value="Download" type="submit"></form>
-      </td>
-
-<td style="vertical-align: top; width: 0px;">
-<form action="./feedback.html"> <input value="Feedback" type="submit"></form>
-</td>
+	  <td style="vertical-align: center; width: 0px;">
+	  <form action="./feedback.html"> <input value="Feedback" type="submit"></form>
+	  </td>
     </tr>
   </tbody>
 </table>
-<span style="font-family: Helvetica,Arial,sans-serif;"></span><strong style="font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: normal;"></span></strong>
+
 <div style="font-family: Helvetica,Arial,sans-serif;" align="left">
 <form action="./result.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellspacing="5">
-  </table>
-  <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellspacing="5">
-  </table>
-  <table style="text-align: left; margin-left: auto; margin-right: auto; width: 1287px; height: 412px;" border="0" cellspacing="5">
+
+  <table style="text-align: left; margin-left: auto; margin-right: auto; width: 1000px; height: 412px;" border="0" cellspacing="5">
     <tbody>
       <tr>
-        <td rowspan="1" style="width: 30%;">
+		  
+        <td rowspan="1" style="width: 40%;">
         <h3>Upload input sequences <a href="./help.html#upload"><img src="./info.gif" alt="help"> </a></h3>
         <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB
-max) </label><input name="forgroundfile" type="file"><br>
+max) </label> <br> 
+	<input name="forgroundfile" type="file">
+		<br>
         <br>
-Or paste on the right<br>
-        <br>
+			Or paste on the right
         </td>
-        <td rowspan="1" style="width: 500px;"><br>
-        <textarea name="foreground" cols="60" rows="10" id="foreground"></textarea><br>
+		
+        <td rowspan="1" style="width: 400px;"><br>
+        <textarea name="foreground" cols="80" rows="10" id="foreground"></textarea><br>
         </td>
+		
       </tr>
+	  
+	  
       <tr>
-        <td style="vertical-align: top;">
-        <h3>Optional background sequences <a href="help.html#upload"><img src="info.gif" alt="help"></a><a href="help.html#upload"> </a></h3>
-        <label> Select a file (1MB max) <input name="MAX_FILE_SIZE" value="1000000" type="hidden"> </label><input name="backgroundfile" type="file"><br>
+        <td rowspan="1" style="width: 40%;">
+        Optional background sequences <a href="help.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
+        <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB max)</label>
+		<br>
+		<input name="backgroundfile" type="file">
+		<br>
         <br>
-Or paste on the right<br>
+			Or paste on the right<br>
         </td>
-        <td style="vertical-align: top;"><textarea name="background" cols="60" rows="10" id="background"></textarea></td>
+		
+        <td rowspan="1" style="width: 400px;"><br>
+        <textarea name="foreground" cols="80" rows="10" id="foreground"></textarea><br>
+        </td>
+		
       </tr>
+	  
       <tr>
-        <td style="vertical-align: top;"> <input name="Submit1" value="Run PKA" style="width: 100px; height: 40px;" type="submit"> </td>
-        <td style="vertical-align: top;"><br>
+        <td style="vertical-align: center;"> <input name="Submit1" value="Run PKA" style="width: 100px; height: 40px;" type="submit"> </td>
+        <td style="vertical-align: center;"><br>
         </td>
       </tr>
+	  
     </tbody>
   </table>
+  
   <table style="width: 978px; height: 454px; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="10">
     <tbody>
+
       <tr>
-      </tr>
-      <tr>
-        <td colspan="2" rowspan="1" style="vertical-align: top;">
+        <td colspan="2" rowspan="1" style="vertical-align: center;">
         <h2 style="text-align: center;">Options</h2>
         <hr style="width: 100%; height: 2px;" noshade="noshade"></td>
-        <td style="vertical-align: top;"><br>
+        <td style="vertical-align: center;"><br>
         </td>
       </tr>
+      
+	  
       <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>tabular
-format&nbsp; </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a> </div>
-        </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">&nbsp;sequence
-in column <input value="1" name="col_seq" id="col_seq" size="5" type="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-weight in column <input value="2" name="col_seq" id="col_seq" size="5" type="text"></td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>sequence
-type </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Input Type </strong> <a href="help.html#format"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">
-        <p align="left"><label> <input name="alphabet" value="DNA" checked="checked" type="radio">DNA/RNA</label> &nbsp;&nbsp; &nbsp;<label>
-        <input name="alphabet" value="protein" type="radio">protein</label>
-        <br>
-        <label> <input name="alphabet" value="other" type="radio">other</label>,
-please enter all allowed letters here: <input name="other_alphabet" id="other_alphabet" size="30" type="text"> </p>
-        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        <select name="inputtype" id="inputtype" style="vertical-align: center;">
+        <option value="unranked" selected="selected">unranked</option>
+        <option value="ranked">ranked</option>
+        <option value="weighted">weighted</option>
+	</select> (for tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_seq" id="col_seq" size="5" type="text"> )</td>
       </tr>
+
+	        <tr>
+	          <td colspan="1" style="vertical-align: center; text-align: center;">
+	          <div style="text-align: right;"><strong>Sequence type </strong><a href="help.html#inputtype"><img src="info.gif" alt="help"></a><br>
+	          </div>
+	          </td>
+	          <td colspan="1" rowspan="1" style="vertical-align: center;">
+			   <select name="alphabet" id="alphabet">
+			          <option value="dna" selected="selected">DNA/RNA</option>
+			          <option value="protein">Protein</option>
+			          <option value="other">Other</option>
+			  	</select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed symbols here" type="text">
+	          </td>
+	        </tr>
+	  
+	  
       <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>kmer
-length </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Kmer length </strong> <a href="help.html#kmer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1">&nbsp;K =&nbsp;
         <select name="kmer_length" id="kmer_length">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3" selected="selected">3</option>
-        <option value="4">4</option>
-        </select>
-(to use larger k, please install PKA locally)<br>
-        <label> <input name="kmer_upto" checked="checked" type="checkbox">check
-here if also consider all smaller k, i.e. k = 1, 2, ..., K </label></td>
+        <option value="-k 1">1</option>
+        <option value="-k 2">2</option>
+        <option value="-k 3">3</option>
+        <option value="-k 4">4</option>
+        <option value="-max_k 2">1, 2</option>
+        <option value="-max_k 3">1, 2, 3</option>
+        <option value="-max_k 4" selected="selected">1, 2, 3, 4</option>
+	</select> (to use larger k, please install PKA locally)<br>
+       </td>
       </tr>
+	  
+
       <tr>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: right;"><strong>positional
-shift </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
+        <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
+shift </strong> <a href="help.html#shift"><img src="info.gif" alt="help"></a><br>
         </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">&nbsp;min
-        <input name="min_shift" id="min_shift" size="4" value="0" type="text"> max <input name="max_shift" id="max_shift" size="4" value="0" type="text"> default: no positional shift allowed </td>
+        <td colspan="1" rowspan="1" style="vertical-align: center;">&nbsp;min
+        <input name="min_shift" id="min_shift" size="4" value="0" type="text"> max <input name="max_shift" id="max_shift" size="4" value="0" type="text"> (by default no positional shift allowed) </td>
       </tr>
+	  
+	  
       <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>degenerate
-letters </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a></div>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Degenerate symbols </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
+        </div>
         </td>
-        <td colspan="1"><label> <input name="degenerate" value="false" checked="checked" type="radio">not allowed</label>&nbsp;&nbsp;
-&nbsp;<label> <input name="degenerate" value="true" type="radio">allowed</label>
-        <input name="degenerate_alphabet" id="degenerate_alphabet" size="30" value="ACGTRYMKWSBDHVN" type="text"><br>
-&nbsp;If allowed , please enter all allowed letters above (default: all
-IUPAC DNA letters):&nbsp;</td>
+        <td colspan="1" rowspan="1" style="vertical-align: center;">
+	   <select name="degenerate" id="degenerate">
+          <option value="iupac">all IUPAC nucleotide symbols: ACGTRYMKWSBDHVN</option>
+	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped kmer</option>
+	          <option value="none">ACGT only (no degenerate symbols)</option>
+	          <option value="other">Other</option>
+	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed symbols here" type="text"> 
+        </td>
       </tr>
+	  
+	  
+	  
       <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>background
-model </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a></div>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Background model </strong><a href="help.html#background"><img src="info.gif" alt="help"></a></div>
         </td>
-        <td rowspan="1" colspan="1"> <input name="background" value="markov_foreground" checked="checked" type="radio"> <label></label>
+        <td colspan="1" style="vertical-align: center; ">
+		
+		<label> 
+		<input name="background" value="default" checked="checked" type="radio"> Average across all positions in input sequences </label> 
+		 <br>
+		 
+
+		 
+		<label> 
+		<input name="background" value="markov_foreground" type="radio"> Learn a
         <select name="markov_foreground_order" id="markov_foreground_order">
         <option value="0">zero</option>
         <option value="1" selected="selected">first</option>
         <option value="2">second</option>
-        </select>
-        <label> </label>order
-Markov model learned from foreground sequences<br>
-        <input name="background" value="shuffle" type="radio"><label>shuffle
-each foreground sequence&nbsp; </label><input name="shuffle_n" id="shuffle_n" size="4" value="100" type="text"><label> times
-preserving </label>
-        <select name="shuffle_m" id="shuffle_m">
-        <option value="1">mono-</option>
-        <option value="2" selected="selected">di-</option>
-        <option value="3">tri-</option>
-        <option value="4">tetra-</option>
-        </select>
-        <label> </label>nucleotide
-frequency<br>
-        <input name="background" value="backgroundfromfile" type="radio">&nbsp;
-background sequences uploaded or pasted above<br>
-        <label> <input name="neighbor_definition" value="interval" type="radio"></label>
-        <select name="markov_background_order" id="markov_background_order">
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-        </select>
-order
-Markov model
-learned from background sequences uploaded or pasted above<br>
-        </td>
+        </select> order Markov model from input sequences </label> 
+		 <br>
+		 
+ 		 <label>
+         <input name="background" value="shuffle" type="radio"> Shuffle each input sequence 
+ 		<input name="shuffle_n" id="shuffle_n" size="4" value="100" type="text"> times preserving
+         <select name="shuffle_m" id="shuffle_m">
+         <option value="1">mono-</option>
+         <option value="2" selected="selected">di-</option>
+         <option value="3">tri-</option>
+         <option value="4">tetra-</option>
+         </select> nucleotide frequency </label><br>
+		 
+  		<label> 
+  		<input name="background" value="bgfile" type="radio"> The same position in background sequences (please upload/paste background sequences) </label> 
+  		 <br>
+		 
+ 		<label> 
+ 		<input name="background" value="markov_background" type="radio"> Learn a
+         <select name="markov_background_order" id="markov_background_order">
+         <option value="0">zero</option>
+         <option value="1" selected="selected">first</option>
+         <option value="2">second</option>
+         </select> order Markov model from background sequences (need background sequences) </label> 
+ 		 <br>
+		 
+
       </tr>
       <tr>
       </tr>

@@ -1,10 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-
-
   
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
-  
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+  <title>PKA:positional kmer analysis</title>
 
   
   
@@ -34,7 +32,8 @@ input[type="text"]{
 background-color: #aaa;
 color: #fff;
 }
-  </style></head><body style="margin-left: 101px; width: 970px;">
+  </style>
+</head><body style="margin-left: 101px; width: 970px;">
 <div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
 <h1><span class="title">
 PKA: Positional Kmer Analysis</span><br>
@@ -42,188 +41,56 @@ PKA: Positional Kmer Analysis</span><br>
 <span class="title"></span>
 <hr style="width: 100%; height: 8px;" noshade="noshade"></div>
 
-
 <table style="text-align: left; width: 436px; height: 32px; margin-left: auto; margin-right: 0px;" border="0" cellpadding="0" cellspacing="0">
-
   <tbody>
     <tr>
       <td style="vertical-align: top; width: 69px;">
       <form action="./index.html"> <input value="Home" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
-      <form action="./submit.html"> <input value="Start/Run" type="submit"></form>
+      <form action="./submit.html"> <input value="Web Server" type="submit"></form>
+      </td>
+      <td style="vertical-align: top; width: 0px;">
+      <form action="./download.html"> <input value="Code" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
-      <form action="./help.html"> <input value="Help" type="submit"></form>
+      <form action="./help.html"> <input value="Manual" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
       <form action="./examples.html"> <input value="Examples" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 0px;">
-      <form action="./download.html"> <input value="Download" type="submit"></form>
-      </td>
-
-<td style="vertical-align: top; width: 0px;">
-<form action="./feedback.html"> <input value="Feedback" type="submit"></form>
-</td>
+	  <td style="vertical-align: top; width: 0px;">
+	  <form action="./feedback.html"> <input value="Feedback" type="submit"></form>
+	  </td>
     </tr>
   </tbody>
 </table>
-<span style="font-family: Helvetica,Arial,sans-serif;"></span><strong style="font-family: Helvetica,Arial,sans-serif;"><span style="font-weight: normal;"></span></strong>
-<div style="font-family: Helvetica,Arial,sans-serif;" align="left">
-<form action="./result.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellspacing="5">
-  </table>
-  <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellspacing="5">
-  </table>
-  <table style="text-align: left; margin-left: auto; margin-right: auto; width: 1287px; height: 412px;" border="0" cellspacing="5">
-    <tbody>
-      <tr>
-        <td rowspan="1" style="width: 30%;">
-        <h3>Upload input sequences <a href="./help.html#upload"><img src="./info.gif" alt="help"> </a></h3>
-        <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB
-max) </label><input name="forgroundfile" type="file"><br>
-        <br>
-Or paste on the right<br>
-        <br>
-        </td>
-        <td rowspan="1" style="width: 500px;"><br>
-        <textarea name="foreground" cols="60" rows="10" id="foreground"></textarea><br>
-        </td>
-      </tr>
-      <tr>
-        <td style="vertical-align: top;">
-        <h3>Optional background sequences <a href="help.html#upload"><img src="info.gif" alt="help"></a><a href="help.html#upload"> </a></h3>
-        <label> Select a file (1MB max) <input name="MAX_FILE_SIZE" value="1000000" type="hidden"> </label><input name="backgroundfile" type="file"><br>
-        <br>
-Or paste on the right<br>
-        </td>
-        <td style="vertical-align: top;"><textarea name="background" cols="60" rows="10" id="background"></textarea></td>
-      </tr>
-      <tr>
-        <td style="vertical-align: top;"> <input name="Submit1" value="Run PKA" style="width: 100px; height: 40px;" type="submit"> </td>
-        <td style="vertical-align: top;"><br>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table style="width: 978px; height: 454px; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="10">
-    <tbody>
-      <tr>
-      </tr>
-      <tr>
-        <td colspan="2" rowspan="1" style="vertical-align: top;">
-        <h2 style="text-align: center;">Options</h2>
-        <hr style="width: 100%; height: 2px;" noshade="noshade"></td>
-        <td style="vertical-align: top;"><br>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>tabular
-format&nbsp; </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a> </div>
-        </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">&nbsp;sequence
-in column <input value="1" name="col_seq" id="col_seq" size="5" type="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-weight in column <input value="2" name="col_seq" id="col_seq" size="5" type="text"></td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>sequence
-type </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
-        </div>
-        </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">
-        <p align="left"><label> <input name="alphabet" value="DNA" checked="checked" type="radio">DNA/RNA</label> &nbsp;&nbsp; &nbsp;<label>
-        <input name="alphabet" value="protein" type="radio">protein</label>
-        <br>
-        <label> <input name="alphabet" value="other" type="radio">other</label>,
-please enter all allowed letters here: <input name="other_alphabet" id="other_alphabet" size="30" type="text"> </p>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>kmer
-length </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
-        </div>
-        </td>
-        <td rowspan="1" colspan="1">&nbsp;K =&nbsp;
-        <select name="kmer_length" id="kmer_length">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3" selected="selected">3</option>
-        <option value="4">4</option>
-        </select>
-(to use larger k, please install PKA locally)<br>
-        <label> <input name="kmer_upto" checked="checked" type="checkbox">check
-here if also consider all smaller k, i.e. k = 1, 2, ..., K </label></td>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: right;"><strong>positional
-shift </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
-        </td>
-        <td colspan="1" rowspan="1" style="vertical-align: top;">&nbsp;min
-        <input name="min_shift" id="min_shift" size="4" value="0" type="text"> max <input name="max_shift" id="max_shift" size="4" value="0" type="text"> default: no positional shift allowed </td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>degenerate
-letters </strong> <a href="help.html#upload"><img src="info.gif" alt="help"></a></div>
-        </td>
-        <td colspan="1"><label> <input name="degenerate" value="false" checked="checked" type="radio">not allowed</label>&nbsp;&nbsp;
-&nbsp;<label> <input name="degenerate" value="true" type="radio">allowed</label>
-        <input name="degenerate_alphabet" id="degenerate_alphabet" size="30" value="ACGTRYMKWSBDHVN" type="text"><br>
-&nbsp;If allowed , please enter all allowed letters above (default: all
-IUPAC DNA letters):&nbsp;</td>
-      </tr>
-      <tr>
-        <td colspan="1" style="vertical-align: top; text-align: center;">
-        <div style="text-align: right;"><strong>background
-model </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a></div>
-        </td>
-        <td rowspan="1" colspan="1"> <input name="background" value="markov_foreground" checked="checked" type="radio"> <label></label>
-        <select name="markov_foreground_order" id="markov_foreground_order">
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-        </select>
-        <label> </label>order
-Markov model learned from foreground sequences<br>
-        <input name="background" value="shuffle" type="radio"><label>shuffle
-each foreground sequence&nbsp; </label><input name="shuffle_n" id="shuffle_n" size="4" value="100" type="text"><label> times
-preserving </label>
-        <select name="shuffle_m" id="shuffle_m">
-        <option value="1">mono-</option>
-        <option value="2" selected="selected">di-</option>
-        <option value="3">tri-</option>
-        <option value="4">tetra-</option>
-        </select>
-        <label> </label>nucleotide
-frequency<br>
-        <input name="background" value="backgroundfromfile" type="radio">&nbsp;
-background sequences uploaded or pasted above<br>
-        <label> <input name="neighbor_definition" value="interval" type="radio"></label>
-        <select name="markov_background_order" id="markov_background_order">
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-        </select>
-order
-Markov model
-learned from background sequences uploaded or pasted above<br>
-        </td>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-      </tr>
-    </tbody>
-  </table>
-</form>
-</div>
+
+
+
+       <div style="font-family: Helvetica,Arial,sans-serif;">
+	   
+	   <strong> Unranked/unweighted </strong> <br>
+	   Example 
+	   
+	   </div>
+	   
+	   <br>
+	   
+       <div style="font-family: Helvetica,Arial,sans-serif;">
+	   
+	   <strong> Ranked </strong> <br>
+	   Example 
+	   
+	   </div>
+	   
+	   <br>
+	   
+       <div style="font-family: Helvetica,Arial,sans-serif;">
+	   
+	   <strong> Weighted </strong> <br>
+	   Example 
+	   
+	   </div>
 
 </body></html>

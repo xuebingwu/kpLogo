@@ -809,6 +809,21 @@ WriteFasta(seqs1,"implanted.fa");
 	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",-log10(0.05/nTest),startPos,fontsize,"Frequency");
 	generate_ps_logo_from_pwm(pwm2, output+".info.ps",-log10(0.05/nTest),startPos,fontsize,"Bits",true);
 	
+	// convert ps to pdf
+	system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");
+	system_run("ps2pdf -dEPSCrop "+output+".info.ps "+output+".info.pdf");
+	system_run("ps2pdf -dEPSCrop "+output+".ps "+output+".pdf");
+	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.pdf");
+	
+	// merge pdf
+	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+"*.pdf");
+	
+	// ps to png
+	system_run("convert "+output+".freq.ps "+output+".freq.png");
+	system_run("convert "+output+".info.ps "+output+".info.png");
+	system_run("convert "+output+".ps "+output+".png");
+	system_run("convert "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.png");
+	
 	
     message("Done!");
 
