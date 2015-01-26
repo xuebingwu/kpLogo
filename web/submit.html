@@ -51,7 +51,7 @@ color: #fff;
       <form action="./index.html"> <input value="Home" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
-      <form action="./submit.html"> <input value="Web Server" type="submit"></form>
+      <form action="./submit.html"> <input value="Server" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 0px;">
       <form action="./code.html"> <input value="Code" type="submit"></form>
@@ -77,7 +77,7 @@ color: #fff;
       <tr>
 		  
         <td rowspan="1" style="width: 40%;">
-        <h3>Upload input sequences <a href="./help.html#upload"><img src="./info.gif" alt="help"> </a></h3>
+        <h3>Upload input sequences <a href="./manual.html#upload"><img src="./info.gif" alt="help"> </a></h3>
         <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB
 max) </label> <br> 
 	<input name="forgroundfile" type="file">
@@ -95,7 +95,7 @@ max) </label> <br>
 	  
       <tr>
         <td rowspan="1" style="width: 40%;">
-        Optional background sequences <a href="help.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
+        Optional background sequences <a href="manual.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
         <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB max)</label>
 		<br>
 		<input name="backgroundfile" type="file">
@@ -133,7 +133,7 @@ max) </label> <br>
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Input Type </strong> <a href="help.html#format"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -146,7 +146,7 @@ max) </label> <br>
 
 	        <tr>
 	          <td colspan="1" style="vertical-align: center; text-align: center;">
-	          <div style="text-align: right;"><strong>Sequence type </strong><a href="help.html#inputtype"><img src="info.gif" alt="help"></a><br>
+	          <div style="text-align: right;"><strong>Sequence type </strong><a href="manual.html#inputtype"><img src="info.gif" alt="help"></a><br>
 	          </div>
 	          </td>
 	          <td colspan="1" rowspan="1" style="vertical-align: center;">
@@ -161,10 +161,11 @@ max) </label> <br>
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Kmer length </strong> <a href="help.html#kmer"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Kmer length </strong> <a href="manual.html#kmer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
-        <td rowspan="1" colspan="1">&nbsp;K =&nbsp;
+        <td colspan="1" style="vertical-align: center;">
+			K = 
         <select name="kmer_length" id="kmer_length">
         <option value="-k 1">1</option>
         <option value="-k 2">2</option>
@@ -180,7 +181,7 @@ max) </label> <br>
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
-shift </strong> <a href="help.html#shift"><img src="info.gif" alt="help"></a><br>
+shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><br>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">&nbsp;min
         <input name="min_shift" id="min_shift" size="4" value="0" type="text"> max <input name="max_shift" id="max_shift" size="4" value="0" type="text"> (by default no positional shift allowed) </td>
@@ -189,7 +190,7 @@ shift </strong> <a href="help.html#shift"><img src="info.gif" alt="help"></a><br
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Degenerate symbols </strong><a href="help.html#upload"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Degenerate symbols </strong><a href="manual.html#upload"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
@@ -206,7 +207,7 @@ shift </strong> <a href="help.html#shift"><img src="info.gif" alt="help"></a><br
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Background model </strong><a href="help.html#background"><img src="info.gif" alt="help"></a></div>
+        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#background"><img src="info.gif" alt="help"></a></div>
         </td>
         <td colspan="1" style="vertical-align: center; ">
 		
@@ -250,12 +251,7 @@ shift </strong> <a href="help.html#shift"><img src="info.gif" alt="help"></a><br
 		 
 
       </tr>
-      <tr>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-      </tr>
+
     </tbody>
   </table>
 </form>
