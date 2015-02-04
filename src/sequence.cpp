@@ -1732,7 +1732,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 	return res;
 }
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content)
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content)
 {
 	// fontsize
 	//int fontsize = 20;
@@ -1743,7 +1743,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	
 	// max score will be used to normalize
 	// this will be the max value in pwm after normalization
-	double max_scale = 4;
+	double max_scale = 6;
 	
 	// distance between pos and neg, for plotting coordinates
 	
@@ -1849,12 +1849,8 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		out << postscript_text(to_string(pos),x0 + xstep * (i+0.75) ,y0+ystep/2,0.6,0.6,color_sig,90);
 	}
 	
-	array<string,4> letters = {"A","C","G","T"};
-    map<string,string> colors;
-    colors["A"] = "0.05 0.75 0.05";
-    colors["C"] = "0 0 1";
-    colors["G"] = "1 0.75 0";
-    colors["T"] = "1 0 0";
+	//array<char,5> letters = {'A','C','G','T','N'};
+	string letters="ACGTN";
 	
 	// plot logo at each position
 	for (int i=0;i<L; i++)
@@ -1873,8 +1869,8 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		for(int j=0;j<4;j++)
 		{
 			if (w[idx[j]] > 0)
-			{
-				out << postscript_text(letters[idx[j]], x, y_pos, 1, w[idx[j]],colors[letters[idx[j]]]); 
+			{				
+				out << postscript_text(letters.substr(idx[j],1),x, y_pos, 1, w[idx[j]],colors[letters[idx[j]]]); 
 				y_pos += w[idx[j]] * ystep ;
 			}
 		}
@@ -1883,7 +1879,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 			if (w[idx[j]] < 0)
 			{
 				y_neg += w[idx[j]] * fontsize * scaley;
-				out << postscript_text(letters[idx[j]], x, y_neg, 1, -w[idx[j]],colors[letters[idx[j]]]); 
+				out << postscript_text(letters.substr(idx[j],1), x, y_neg, 1, -w[idx[j]],colors[letters[idx[j]]]); 
 				//y_neg += w[idx[j]] * ystep * 0.05;
 			}
 		}
@@ -1934,7 +1930,7 @@ string postscript_kmer(string seq, double x, double y, int fontsize, double scal
 }
 
 
-void postscript_logo_from_PKA_output(string infile, string outfile, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore, string y_label)
+void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -1977,7 +1973,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, int seqLen, 
 	
 	double scalex = 0.75;
 	double scaley = 0.75;
-	double max_scale = 4;
+	double max_scale = 6;
 	
 
 	double xstep = fontsize * scalex;
@@ -2045,12 +2041,6 @@ void postscript_logo_from_PKA_output(string infile, string outfile, int seqLen, 
 		out << postscript_text(to_string(pos),x0 + xstep * (i+0.75) ,y0+ystep/2,0.6,0.6,color_sig,90);
 	}
 	
-    map<char,string> colormap;
-    colormap['A'] = "0.05 0.75 0.05";
-    colormap['C'] = "0 0 1";
-    colormap['G'] = "1 0.75 0";
-    colormap['T'] = "1 0 0";
-    colormap['N'] = "0.5 0.5 0.5";
 	
 	fin.open(infile.c_str());
 	while(fin)
@@ -2067,8 +2057,8 @@ void postscript_logo_from_PKA_output(string infile, string outfile, int seqLen, 
 		if (pos < 0) pos += 1;
 		pos = pos + startPos - 1;
 		//cout << flds[cSeq] << endl;
-		if (score > 0 ) out << postscript_kmer(flds[cSeq], x0+ xstep * (pos-1), y0+coord_size, fontsize, scaley, 1, score/ absmax * max_scale, colormap, 0);
-		else if (score < 0) out << postscript_kmer(flds[cSeq], x0+ xstep * (pos-1), y0, fontsize, scaley, 1, score/ absmax * max_scale, colormap, 0);
+		if (score > 0 ) out << postscript_kmer(flds[cSeq], x0+ xstep * (pos-1), y0+coord_size, fontsize, scaley, 1, score/ absmax * max_scale, colors, 0);
+		else if (score < 0) out << postscript_kmer(flds[cSeq], x0+ xstep * (pos-1), y0, fontsize, scaley, 1, score/ absmax * max_scale, colors, 0);
 		//cout << pos << "," <<  score_cutoff << "," << score<< endl;
 		//if (score > score_cutoff)	out << postscript_text("*",x0+ xstep * (pos-0.75),y0+coord_size + int(height_pos) * ystep,0.6,0.6,"1 0 0",0);
 		//else if (score <  -score_cutoff) out << postscript_text("*",x0+ xstep * (pos-0.75),y0-int(height_neg) * ystep ,0.6,0.6,"1 0 0",0);

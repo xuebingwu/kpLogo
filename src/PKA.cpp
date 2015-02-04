@@ -61,6 +61,8 @@ void print_help()
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
     "   -pseudo FLOAT        pseudocount added to background counts. default=1e-9. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
+	"   -colorblind          use colorblind friendly color scheme\n"
+		
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
 	"   (default)            compare to the same kmer at other positions \n"
 	"   -bgfile FILE         background sequence file\n"	
@@ -128,8 +130,25 @@ int main(int argc, char* argv[]) {
 	
 	// output
     int startPos= 1; // coordinates
-	int fontsize=20;
+	int fontsize=40;
 	string plot = "p"; // or b or f or s
+	
+	// color blind
+	bool colorblind = false;
+	map<char,string> colors;
+    colors['A'] = "0.05 0.75 0.05";
+    colors['C'] = "0 0 1";
+    colors['G'] = "1 0.75 0";
+    colors['T'] = "1 0 0";
+    colors['N'] = "0.5 0.5 0.5";
+	
+    map<char,string> colorblind_colors;
+    colorblind_colors['A'] = "0 0.620 0.451";
+    colorblind_colors['C'] = "0 0.450 0.698";
+    colorblind_colors['G'] = "0.941 0.894 0.259";
+    colorblind_colors['T'] = "0.835 0.369 0";
+    colorblind_colors['N'] = "0.5 0.5 0.5";
+	
 		
 	// background 
 	bool local = true;
@@ -245,6 +264,8 @@ int main(int argc, char* argv[]) {
 			} else if (str == "-fontsize") {
 				fontsize = atoi(argv[i + 1]);
 				i=i+1;
+            } else if (str == "-colorblind") {
+                colorblind = true;
             } else if (str == "-markov") {
                 markov_order = atoi(argv[i + 1]);
 				local = false;
@@ -273,6 +294,8 @@ int main(int argc, char* argv[]) {
         }
     }
 	
+
+	if(colorblind) colors = colorblind_colors;
 	
 	if(boost::algorithm::to_lower_copy(alphabet) == "dna") 
 		alphabet="ACGT";
@@ -790,7 +813,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps", seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)");
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)");
 	
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -799,15 +822,15 @@ WriteFasta(seqs1,"implanted.fa");
 		//plot_nucleotide_profile( out,  output+".nucleotide.profile.pdf",  seq_len1, cScore, startPos);
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out, seq_len1, startPos, cScore);
-	    generate_ps_logo_from_pwm(pwm, output+".ps",-log10(0.05/nTest),startPos,fontsize,"-log10(p)");
+	    generate_ps_logo_from_pwm(pwm, output+".ps",colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)");
 		
 	}
 	
 	// plot frequency
 	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1);
 	//print_matrix(pwm2);
-	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",-log10(0.05/nTest),startPos,fontsize,"Frequency");
-	generate_ps_logo_from_pwm(pwm2, output+".info.ps",-log10(0.05/nTest),startPos,fontsize,"Bits",true);
+	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Frequency");
+	generate_ps_logo_from_pwm(pwm2, output+".info.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true);
 	
 	// convert ps to pdf
 	system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");

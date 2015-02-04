@@ -9,6 +9,8 @@
   
   
   <style>
+  
+  
 input[type="submit"]{
 /* change these properties to whatever you want */
 background-color: #555;
@@ -34,8 +36,10 @@ input[type="text"]{
 background-color: #aaa;
 color: #fff;
 }
-  </style></head><body style="margin-left: 101px; width: 970px;">
-<div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
+  </style></head>
+  
+  <body style="margin:0 auto; width: 970px; text-align: center" >
+<div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
 <h1><span class="title">
 PKA: Positional Kmer Analysis</span><br>
 </h1>
@@ -68,11 +72,13 @@ PKA: Positional Kmer Analysis</span><br>
   </tbody>
 </table>
 
+       <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">	
        <td style="vertical-align: top; width: 69px;">
        <form action="./submit.html"> <input value="Run PKA" type="submit"></form>
        </td>
+   		</div>
 
-       <div style="font-family: Helvetica,Arial,sans-serif;">
+       <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">
 	   
 	   <strong> PKA </strong> <br>
 	   Figure illustration: input -> PKA -> output 
@@ -81,26 +87,28 @@ PKA: Positional Kmer Analysis</span><br>
 	   
 	   <br>
 	   
-       <div style="font-family: Helvetica,Arial,sans-serif;">
+       <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">
 	   
-	   <strong> PKA allows you to: </strong> <br>
-	   1. discover and visualize well-positioned short motifs from aligned sequences <br>
-	   2. plot frequency logo, sequence (information) logo, probability logo, and kmer-logo at the same time <br>
-	   3. score sequences using positional motif information (commandline only) <br>
+	   <strong> Unique features of PKA: </strong> <br>
+	   PKA combines motif discovery with visualization. Compared to existing sequence logo generating tools, PKA is unique in several ways: <br>
+	   1. visualize not only single nucleotides but also short motifs, i.e. kmer logo <br>
+	   2. plot frequency logo, information content logo, probability logo, and kmer logo in one run <br>
+	   3. can generate logos from ranked or weighted sequences <br>
+	   4. allow positional shifts <br>
+	   5. allow degenerate nucleotides <br>
+	   6. logos can be generated with colorblind friendly colors <br>
+	   7. allow users to score new sequenes using the learned positional sequence features <br> 
 	   
 	   </div>
 	   
 	   <br>
 	   
-       <div style="font-family: Helvetica,Arial,sans-serif;">
+       <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">
 	   
 	   <strong> To cite PKA </strong> <br>
 	   Xuebing Wu et al, in preparation 
-	   
+	  
+	   <hr> <p align="center">Copyright (c) 2014 Xuebing Wu <br><br><br>
 	   </div>
-
-	   
-
-
 
 </body></html>

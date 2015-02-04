@@ -1,7 +1,4 @@
-<?php
-// Start the buffering //
-ob_start();
-?>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
@@ -51,35 +48,74 @@ PKA: Positional Kmer Analysis</span><br>
 
 <?php // get values of all variables
 
-$foreground=$_POST['foreground'];	// foreground sequences
+session_start();
 
-$forgroundfile=$_POST['forgroundfile'];	// forgroundfile
+// $command = "../../PKA PKA.input.txt -o PKA $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos";
+
+$email=$_POST['email'];
+
+
+$foregroundpaste=$_POST['foregroundpaste'];	// foreground sequences
+$foregroundfile=$_POST['foregroundfile'];	// forgroundfile
+$backgroundpaste=$_POST['backgroundpaste'];	// foreground sequences
+$backgroundfile=$_POST['backgroundfile'];	// forgroundfile
+
+$inputtype=$_POST['inputtype']; // (none), -ranked, -weighted
+
+$col_seq=$_POST['col_seq'];
+$col_weight=$_POST['col_weight'];
+
+
 
 $alphabet=$_POST['alphabet'];		// alphabet: DNA, protein, other
+$other_alphabet=$_POST['other_alphabet'];		// alphabet: DNA, protein, other
+if($alphabet == "other")
+{
+	$alphabet = $other_alphabet;
+}
 
 $kmer_length = $_POST['kmer_length'];
 
-$kmer_upto = $_POST['kmer_upto'];
-
-$min_shift = $_POST['min_shift'];
-
-$max_shift = $_POST['max_shift'];
+$shift = $_POST['shift'];
 
 $degenerate = $_POST['degenerate'];
-
 $degenerate_alphabet = $_POST['degenerate_alphabet'];
 
-$background = $_POST['background']; // markov_foreground, shuffle, backgroundfromfile, markov_background
+if($degenerate == "other")
+{
+	if($degenerate_alphabet == "Other: enter all allowed symbols here")
+	{
+		echo "<font color='red'> Please enter degenerate symbols !</font>";
+		exit();	
+	}
+	$degenerate = " -degenerate $degenerate_alphabet ";
+}
 
+
+$background = $_POST['background']; // 
 $markov_foreground_order = $_POST['markov_foreground_order'];
-
 $shuffle_n = $_POST['shuffle_n'];
-
 $shuffle_m = $_POST['shuffle_m'];
 
-$backgroundfile = $_POST['backgroundfile'];
+if($background == "markov_foreground"){
+	$background = " -markov $markov_foreground_order ";
+} elseif ($background == "shuffle") {
+	$background = " -shuffle $shuffle_n,$shuffle_m ";
+} elseif ($background == "bgfile") {
+	$background = " -bgfile pka.background.txt ";
+} elseif ($background == "markov_background") {
+	$background = " -markov $markov_background_order -bgfile pka.background.txt ";
+} 
 
-$output = $_POST['output'];
+	
+$startPos = $_POST['startPos'];
+$colorblind = $_POST['colorblind'];
+
+
+
+// clean up folders older than 3 days
+$clean = "find ./files_to_be_removed_72_hrs_after_creation -mtime +3 -exec rm -rf {} \;";
+exec('nohup '. $clean . ' > /dev/null 2>&1 &');
 
 
 // make a folder with randome name for each job
@@ -96,15 +132,16 @@ if (!mkdir($tmpfolder, 0777, true)) {
 chdir($tmpfolder);
 
 // input
-if (strlen($foreground) > 0) // sequence pasted, save to file
+if (strlen($foregroundpaste) > 0) // sequence pasted, save to file
 {
-	$h = fopen("PKA.input.txt", 'w');
-	fwrite($h, $foreground);
+	$h = fopen("pka.input.txt", 'w');
+	fwrite($h, $foregroundpaste);
 	fclose($h); 
 }
 else
 {
-	if(move_uploaded_file($_FILES['forgroundfile']['tmp_name'], "PKA.input.txt")) 
+	$file1 = $_FILES['foregroundfile'];
+	if(move_uploaded_file($file1['tmp_name'], "pka.input.txt")) 
 	{
 		//echo "The file ".basename( $_FILES['uploadedfile']['name'])." has been uploaded";
 	}
@@ -115,22 +152,36 @@ else
 	}
 }
 
-
-$k = "-k";
-if ($kmer_upto == "on")
-{
-	$k = "-upto";
+// background
+if ($background == "bgfile" || $background == "markov_background") {
+	if (strlen($backgroundpaste) > 0) // sequence pasted, save to file
+	{
+		$hb = fopen("pka.background.txt", 'w');
+		fwrite($hb, $backgroundpaste);
+		fclose($hb); 
+	}
+	else 
+	{
+		$file2 = $FILES['backgroundfile'];
+		if(move_uploaded_file($file2['tmp_name'], "pka.background.txt"))
+		{
+		}
+		else 
+		{
+			//echo "<font color='red'>Please paste or upload your background!</font>";
+			//exit();
+		}
+	}
 }
 
-$command = "../../PKA PKA.input.txt -o PKA";
+//
 
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos $degenerate $colorblind";
 
+//$result = exec($command);
+$result = exec('nohup ../../'. $command . ' > /dev/null 2>&1 &');
 
-
-$result = exec($command);
-
-
-//$myFile = "result.html"; // or .php   
+//$myFile = "output.html"; // or .php   
 //$fh = fopen($myFile, 'w'); // or die("error");  
 //$stringData = "you html code php code goes here";   
 //fwrite($fh, $stringData);
@@ -138,44 +189,18 @@ $result = exec($command);
 
 umask($oldmask);
 
-$path_parts = pathinfo($_SERVER['REQUEST_URI']);
-$path = $path_parts['dirname'];
+exec("cp ../../summary.php ./");
 
-$url_folder = "http" . ($_SERVER['HTTPS'] ? 's' : '') . "://{$_SERVER['HTTP_HOST']}" . $path . "/files_to_be_removed_72_hrs_after_creation/".$randomString;
-
-echo "Your output figures and data can be accessed here:  <a href=\"$url_folder/all.tar.gz\"> Download </a> (<font color=\"red\">to be removed after 72 hours!</font>) <br> This page: <a href=\"$url_folder/result.html\"> $url_folder/output.html </a> <br>";
-
-echo "<div style=\"font-family: Helvetica,Arial,sans-serif;\" id=\"figures\"> <br> ";
-	
-echo "<a href=\"$url_folder/PKA.freq.png\"> <figure> <img src=\"$url_folder/PKA.freq.png\" width=\"400\"> </figure> </a>";
-echo "<a href=\"$url_folder/PKA.info.png\"> <figure> <img src=\"$url_folder/PKA.info.png\" width=\"400\"> </figure> </a> ";
-echo "<a href=\"$url_folder/PKA.png\"> <figure> <img src=\"$url_folder/PKA.png\" width=\"400\"> </figure> </a>";
-echo "<a href=\"$url_folder/PKA.most.significant.each.position.png\"> <figure> <img src=\"$url_folder/PKA.most.significant.each.position.png\" width=\"400\"> </figure> </a>";
-
-echo "</div>";
-
-echo "<div style=\"font-family: Helvetica,Arial,sans-serif;\" id=\"info\"> <br> ";
-
-echo "<strong> commandline </strong> <br>";
-
-echo $command."<br>";
-
-echo "</div>";
+$_SESSION['email'] = $email;
+$_SESSION['command'] = $command;
 
 
-echo "Input: <a href=\"$url_folder/PKA.input.txt\">download</a> <br>";
+header("Location: $tmpfolder/summary.php");
 
-echo "Output:<br>";
-echo "\t<a href=\"$url_folder/PKA.freq.ps\">frequency logo</a> <br>";
-echo "\t<a href=\"$url_folder/PKA.info.ps\">information content logo</a> <br>";
-echo "\t<a href=\"$url_folder/PKA.ps\">significance logo</a> <br>";
-echo "\t<a href=\"$url_folder/PKA.most.significant.each.position.ps\">kmer logo</a> <br>";
-echo "\t<a href=\"$url_folder/PKA.most.significant.each.position.txt\">most.significant.kmer.at.each.position</a> <br>";
-echo "\t<a href=\"$url_folder/PKA.pass.p.cutoff.txt\">output data file</a> <br>";
+
+
 
 ?>
 
-<?php
-// Get the content that is in the buffer and put it in your file //
-file_put_contents('result.html', ob_get_contents());
-?>
+
+

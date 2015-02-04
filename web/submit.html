@@ -22,7 +22,7 @@ font-size:1em;
 
 input[type="file"]{
 /* change these properties to whatever you want */
-background-color: #555;
+background-color: #aaa;
 color: #fff;
 border-radius: 10px;
 /*font-size:1em;*/
@@ -38,9 +38,9 @@ color: #fff;
 
 </head>
 
-<body style="margin-left: 101px; width: 970px;">
-
-<div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
+  <body style="margin:0 auto; width: 970px; text-align: center" >
+<div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
+	
 <h1><span class="title"> PKA: Positional Kmer Analysis</span><br> </h1>
 <hr style="width: 100%; height: 8px;" noshade="noshade"></div>
 
@@ -80,14 +80,16 @@ color: #fff;
         <h3>Upload input sequences <a href="./manual.html#upload"><img src="./info.gif" alt="help"> </a></h3>
         <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB
 max) </label> <br> 
-	<input name="forgroundfile" type="file">
+	<input name="foregroundfile" type="file">
 		<br>
         <br>
-			Or paste on the right
+			Or paste on the right 
+			<br> <br>
+			(see <a href="./examples.html">examples</a>)
         </td>
 		
         <td rowspan="1" style="width: 400px;"><br>
-        <textarea name="foreground" cols="80" rows="10" id="foreground"></textarea><br>
+        <textarea name="foregroundpaste" cols="80" rows="10" id="foregroundpaste"></textarea><br>
         </td>
 		
       </tr>
@@ -105,19 +107,24 @@ max) </label> <br>
         </td>
 		
         <td rowspan="1" style="width: 400px;"><br>
-        <textarea name="foreground" cols="80" rows="10" id="foreground"></textarea><br>
+        <textarea name="backgroundpaste" cols="80" rows="10" id="backgroundpaste"></textarea><br>
         </td>
 		
       </tr>
 	  
       <tr>
-        <td style="vertical-align: center;"> <input name="Submit1" value="Run PKA" style="width: 100px; height: 40px;" type="submit"> </td>
+        <td style="vertical-align: center;"> <input name="Submit1" value="Run PKA" style="width: 100px; height: 40px;" type="submit">  </td>
         <td style="vertical-align: center;"><br>
         </td>
+		
       </tr>
 	  
+	  
     </tbody>
+	
   </table>
+  
+  (optional) Email results to: <input value="xxx@yyy.com" name="email" id="email" size="30" type="text">
   
   <table style="width: 978px; height: 454px; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="10">
     <tbody>
@@ -138,10 +145,10 @@ max) </label> <br>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
         <select name="inputtype" id="inputtype" style="vertical-align: center;">
-        <option value="unranked" selected="selected">unranked</option>
-        <option value="ranked">ranked</option>
-        <option value="weighted">weighted</option>
-	</select> (for tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_seq" id="col_seq" size="5" type="text"> )</td>
+        <option value="" selected="selected">unranked</option>
+        <option value="-ranked">ranked</option>
+        <option value="-weighted">weighted</option>
+	</select> (for tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> )</td>
       </tr>
 
 	        <tr>
@@ -183,8 +190,8 @@ max) </label> <br>
         <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
 shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><br>
         </td>
-        <td colspan="1" rowspan="1" style="vertical-align: center;">&nbsp;min
-        <input name="min_shift" id="min_shift" size="4" value="0" type="text"> max <input name="max_shift" id="max_shift" size="4" value="0" type="text"> (by default no positional shift allowed) </td>
+        <td colspan="1" rowspan="1" style="vertical-align: center;">
+        <input name="shift" id="shift" size="4" value="0" type="text"> (by default no positional shift allowed) </td>
       </tr>
 	  
 	  
@@ -197,7 +204,7 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
 	   <select name="degenerate" id="degenerate">
           <option value="iupac">all IUPAC nucleotide symbols: ACGTRYMKWSBDHVN</option>
 	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped kmer</option>
-	          <option value="none">ACGT only (no degenerate symbols)</option>
+	          <option value="">ACGT only (no degenerate symbols)</option>
 	          <option value="other">Other</option>
 	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed symbols here" type="text"> 
         </td>
@@ -212,7 +219,7 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
         <td colspan="1" style="vertical-align: center; ">
 		
 		<label> 
-		<input name="background" value="default" checked="checked" type="radio"> Average across all positions in input sequences </label> 
+		<input name="background" value="" checked="checked" type="radio"> Average across all positions in input sequences </label> 
 		 <br>
 		 
 
@@ -239,7 +246,6 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
   		<label> 
   		<input name="background" value="bgfile" type="radio"> The same position in background sequences (please upload/paste background sequences) </label> 
   		 <br>
-		 
  		<label> 
  		<input name="background" value="markov_background" type="radio"> Learn a
          <select name="markov_background_order" id="markov_background_order">
@@ -248,13 +254,36 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
          <option value="2">second</option>
          </select> order Markov model from background sequences (need background sequences) </label> 
  		 <br>
-		 
-
       </tr>
+	  
+	  
+        <tr>
+          <td colspan="1" style="vertical-align: center; text-align: center;">
+          <div style="text-align: right;"><strong>First position number </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
+          </div>
+          </td>
+          <td rowspan="1" colspan="1" style="vertical-align: center;">
+          Set nucleotide <input value="1" name="startPos" id="startPos" size="5" type="text"> as position 1. The positions before it will be numbered as -1, -2, etc (no 0).</td>
+        </tr>
+		
+        <tr>
+          <td colspan="1" style="vertical-align: center; text-align: center;">
+          <div style="text-align: right;"><strong>Color-blind </strong><a href="manual.html#colorblind"><img src="info.gif" alt="help"></a></div>
+          </td>
+          <td colspan="1" style="vertical-align: center; ">
+		
+  		<label> 
+	  	<input name="colorblind" value="" checked="checked" type="radio"> Use default colors (Red/Green/Yellow/Blue) </label> <br>
+  		<input name="colorblind" value="-colorblind" type="radio"> Use colorblind-friendly color scheme </label> 
+  		 <br>
+	 </tr>
 
     </tbody>
   </table>
 </form>
+
+<hr> <p align="center">Copyright (c) 2014 Xuebing Wu <br><br><br>
+
 </div>
 
 </body></html>
