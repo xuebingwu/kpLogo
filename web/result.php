@@ -37,12 +37,14 @@ background-color: #aaa;
 color: #fff;
 }
   </style></head><body style="margin-left: 101px; width: 970px;">
-<div style="font-family: Helvetica,Arial,sans-serif;" id="title"> <br>
-<h1><span class="title">
-PKA: Positional Kmer Analysis</span><br>
-</h1>
-<span class="title"></span>
-<hr style="width: 100%; height: 8px;" noshade="noshade"></div>
+
+<div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
+<h1><span class="title"> PKA: Positional Kmer Analysis</span><br> </h1>
+</div>
+
+<div style=" border-top: 8px solid DimGray; width: 970px"></div>
+<div style=" border-top: 8px solid White; width: 970px" ></div>
+
 
 </body></html>
 
@@ -53,7 +55,7 @@ session_start();
 // $command = "../../PKA PKA.input.txt -o PKA $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos";
 
 $email=$_POST['email'];
-
+$jobname=$_POST['jobname'];
 
 $foregroundpaste=$_POST['foregroundpaste'];	// foreground sequences
 $foregroundfile=$_POST['foregroundfile'];	// forgroundfile
@@ -192,6 +194,7 @@ umask($oldmask);
 exec("cp ../../summary.php ./");
 
 $_SESSION['email'] = $email;
+$_SESSION['jobname'] = $jobname;
 $_SESSION['command'] = $command;
 
 
