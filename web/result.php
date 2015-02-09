@@ -193,10 +193,19 @@ umask($oldmask);
 
 exec("cp ../../summary.php ./");
 
-$_SESSION['email'] = $email;
-$_SESSION['jobname'] = $jobname;
-$_SESSION['command'] = $command;
-$_SESSION[$jobID] = "submitted"; // to keep track of job status: submitted, submission_email_sent, results_available_email_sent, 
+// save relevent information
+file_put_contents("jobinfo.txt", $jobID."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("jobinfo.txt", $email."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("jobinfo.txt", $jobname."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("jobinfo.txt", $command."\n", FILE_APPEND | LOCK_EX);
+
+if($email != "xxx@yyy.com")
+{
+    touch("submission_notification_not_sent");
+    touch("finish_notification_not_sent");
+}
+
+
 header("Location: $tmpfolder/summary.php");
 
 

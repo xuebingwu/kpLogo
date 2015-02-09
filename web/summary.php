@@ -78,11 +78,13 @@ color: #fff;
 
 <?php 
 
-session_start();
-
-
-$tmp = explode("/", $_SERVER[REQUEST_URI]);
-$jobid = $tmp[6];
+// load job info
+$handle = @fopen("jobinfo.txt", "r");
+$jobID = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
+$email = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
+$jobname = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
+$command = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
+fclose($handle);
 
 if (file_exists('./pka.output.most.significant.each.position.png')) {
 
@@ -102,10 +104,10 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 	echo "</div>";
 
     echo "<h3> Job name </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['jobname'] . "<br>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;$jobname<br>";
 
     echo "<h3> Commandline & Screen Output </h3>";
-    echo $_SESSION['command'] . "<br>";
+    echo "$command<br><br>";
     echo nl2br(file_get_contents( "log" ));
 
 	echo "<h3> Input </h3>";
@@ -122,31 +124,28 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;raw data : <a href=\"./pka.output.pass.p.cutoff.txt\">txt</a> <br>";
 
 	// email
-	$email = $_SESSION['email'];
-	if ($email != "xxx@yyy.com" && $_SESSION[$jobid] == "submission_email_sent" )
+	if (file_exists("finish_notification_not_sent") )
 	{
 		//echo "$email <br>";
 		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		//echo "$url <br>";
-		$message = "Your PKA job '" . $_SESSION['jobname'] . "' has been finished and results are available here within 72 hours: \r\n\r\n $url ";
+		$message = "Your PKA job ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url ";
 		// In case any of our lines are larger than 70 characters, we should use wordwrap()
 		$message = wordwrap($message, 70, "\r\n");
-        $subject = 'PKA results available: ' . $_SESSION['jobname'];
+        $subject = "PKA results available: $jobname";
 		mail($email, $subject, $message);
-	    $_SESSION[$jobid] = "results_available_email_sent";	
+	    exec("rm finish_notification_not_sent");	
 	}
 }
 else{
 
     header("refresh: 1;");
 
-    $jobname=$_SESSION['jobname'];
-    $email = $_SESSION['email'];
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	$message = "Your job '$jobname' has been submitted and results will be available here: \r\n\r\n $url";
+	$message = "Your job ($jobname) has been submitted and results will be available here: \r\n\r\n $url";
     $message = wordwrap($message, 70, "\r\n");
 
-	echo "Your job '$jobname' has been submitted and results will be available here (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
+	echo "Your job ($jobname) has been submitted and results will be available here (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
 
 	//$list = listdir_by_date('./');
 	//foreach ($list as $file)
@@ -155,25 +154,23 @@ else{
 	//}
     
     // email reminder
-    if ($email != "xxx@yyy.com" && $_SESSION[$jobid] == "submitted" )
+    if (file_exists("submission_notification_not_sent") )
     {
         $subject = 'PKA job submitted: ' . $jobname;
-        $message = "Your job '$jobname' has been submitted and results will be available here: \r\n\r\n $url";
+        $message = "Your job ($jobname) has been submitted and results will be available here: \r\n\r\n $url";
 		$message = wordwrap($message, 70, "\r\n");
         mail($email, $subject, $message);
-        $_SESSION[$jobid] = "submission_email_sent"; // avoid send emails every time this page is loaded, only send email once
-    }
-
-    if ($_SESSION[$jobid] == "submission_email_sent" )
+        exec("rm submission_notification_not_sent");
+    } elseif ($email != "xxx@yyy.com" )
     {
 		echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
 	}
 
     echo "<h3> Job name </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['jobname'] . "<br>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;$jobname<br>";
 
     echo "<h3> Commandline & Screen Output </h3>";
-    echo $_SESSION['command'] . "<br>";
+    echo "$command<br><br>";
     echo nl2br(file_get_contents( "log" ));
 
     echo "<h3> Input </h3>";
