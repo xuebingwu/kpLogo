@@ -196,6 +196,8 @@ file_put_contents("jobinfo.txt", $jobname."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $command."\n", FILE_APPEND | LOCK_EX);
 
 
+touch("submission_notification_not_sent");
+
 header("Location: $tmpfolder/summary.php");
 
 
