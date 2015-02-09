@@ -18,6 +18,7 @@ background-color: #555;
 color: #fff;
 border-radius: 10px;
 font-size:1em;
+height:30px;
 }
 
 input[type="file"]{
