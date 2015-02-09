@@ -49,6 +49,7 @@ color: #fff;
 
 </body></html>
 
+
 <?php // get values of all variables
 
 
@@ -178,10 +179,16 @@ if ($background == "bgfile" || $background == "markov_background") {
 
 $command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos $degenerate $colorblind";
 
+$ip = $_SERVER['REMOTE_ADDR'];
+file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
+$totalLines=intval(exec('wc -l ../../visitor.info.txt'));
+$jobID="PKA-".$totalLines;
+
+
 //email
-$subject = "PKA results available: $jobname";
+$subject = "PKA results available: $jobID ($jobname)";
 $url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-$content = "Your PKA job ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url";
+$content = "Your PKA job $jobID ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url";
 
 $result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
 
@@ -190,12 +197,13 @@ umask($oldmask);
 
 exec("cp ../../result.php ./");
 
+
 // save relevent information
-file_put_contents("jobinfo.txt", $jobID."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("jobinfo.txt", $folder."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $email."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $jobname."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $command."\n", FILE_APPEND | LOCK_EX);
-
+file_put_contents("jobinfo.txt", $jobID."\n", FILE_APPEND | LOCK_EX);
 
 touch("submission_notification_not_sent");
 
