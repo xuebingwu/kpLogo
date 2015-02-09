@@ -1,0 +1,15 @@
+[Mon Feb  9 09:28:01 2015] Summary: 
+[Mon Feb  9 09:28:01 2015]    Input       :   pka.input.txt
+[Mon Feb  9 09:28:01 2015]    Background  :   local
+[Mon Feb  9 09:28:01 2015]    Output      :   pka.output.*
+[Mon Feb  9 09:28:01 2015]    alphabet    :   ACGT
+[Mon Feb  9 09:28:01 2015]    min_kmer    :   1
+[Mon Feb  9 09:28:01 2015]    max_kmer    :   4
+[Mon Feb  9 09:28:01 2015]    min_shift   :   0
+[Mon Feb  9 09:28:01 2015]    max_shift   :   0
+[Mon Feb  9 09:28:01 2015]    degenerate  :   ACGTN
+[Mon Feb  9 09:28:01 2015]    p           :   1.010000
+[Mon Feb  9 09:28:01 2015]    start at    :   1
+[Mon Feb  9 09:28:01 2015] too few columns in line: Yiping Xing
+[Mon Feb  9 09:28:01 2015] too few columns in line: Yiping Xing
+[Mon Feb  9 09:28:01 2015] No sequence present in file: pka.input.txt

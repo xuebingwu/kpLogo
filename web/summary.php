@@ -18,7 +18,6 @@ background-color: #555;
 color: #fff;
 border-radius: 10px;
 font-size:1em;
-height:30px;
 }
 
 input[type="file"]{
@@ -79,13 +78,10 @@ color: #fff;
 
 <?php 
 
-// load job info
-$handle = @fopen("jobinfo.txt", "r");
-$jobID = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
-$email = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
-$jobname = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
-$command = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
-fclose($handle);
+session_start();
+
+
+
 
 if (file_exists('./pka.output.most.significant.each.position.png')) {
 
@@ -104,12 +100,12 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 
 	echo "</div>";
 
-    echo "<h3> Job name </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;$jobname<br>";
 
-    echo "<h3> Commandline & Screen Output </h3>";
-    echo "$command<br><br>";
-    echo nl2br(file_get_contents( "log" ));
+    echo "<h3> Job name </h3>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['jobname'] . "<br>";
+
+	echo "<h3> Commandline </h3>";
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['command'] . "<br>";
 
 	echo "<h3> Input </h3>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
@@ -124,43 +120,50 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;the most significant kmer at each position : <a href=\"./pka.output.most.significant.each.position.txt\">txt</a> <br>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;raw data : <a href=\"./pka.output.pass.p.cutoff.txt\">txt</a> <br>";
 
+	// email
+	$email = $_SESSION['email'];
+	if ($email != "xxx@yyy.com")
+	{
+		//echo "$email <br>";
+		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		//echo "$url <br>";
+		$message = "Your PKA job '" . $_SESSION['jobname'] . "' has been finished and results are available here within 72 hours: \r\n\r\n $url ";
+		// In case any of our lines are larger than 70 characters, we should use wordwrap()
+		$message = wordwrap($message, 70, "\r\n");
+        $subject = 'PKA results available: ' . $_SESSION['jobname'];
+		mail($email, $subject, $message);
+		$_SESSION['email'] = "xxx@yyy.com"; // avoid send emails every time this page is loaded, only send email once
+		
+	}
+
 }
 else{
-
-    header("refresh: 1;");
-
-    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
-	echo "Your job ($jobname) has been submitted and results will be available here (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
-
+    $jobname=$_SESSION['jobname'];
+	echo " <br>Your job '$jobname' has been submitted and results will be available on this page. Typically it takes a few seconds. <br><br><br>";
+	
 	//$list = listdir_by_date('./');
 	//foreach ($list as $file)
 	//{
 	//	echo "$file <br>";
 	//}
-    
+
     // email reminder
-    if (file_exists("submission_notification_not_sent") )
+    $email = $_SESSION['email'];
+    if ($email != "xxx@yyy.com")
     {
-        $subject = 'PKA job submitted: ' . $jobname;
-        $message = "Your job ($jobname) has been submitted and results will be available here: \r\n\r\n $url";
-		$message = wordwrap($message, 70, "\r\n");
+        //echo "$email <br>";
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        //echo "$url <br>";
+        $message = "Your PKA job '" . $_SESSION['jobname'] . "' has been submitted and results will be available here once finished: \r\n\r\n $url ;
+        // In case any of our lines are larger than 70 characters, we should use wordwrap()
+        $message = wordwrap($message, 70, "\r\n");
+        $subject = 'PKA results available: ' . $_SESSION['jobname'];
         mail($email, $subject, $message);
-        exec("rm submission_notification_not_sent");
-    } elseif ($email != "xxx@yyy.com" )
-    {
-		echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
-	}
+        $_SESSION['email'] = "xxx@yyy.com"; // avoid send emails every time this page is loaded, only send email once
 
-    echo "<h3> Job name </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;$jobname<br>";
+    }
 
-    echo "<h3> Commandline & Screen Output </h3>";
-    echo "$command<br><br>";
-    echo nl2br(file_get_contents( "log" ));
-
-    echo "<h3> Input </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
+	header("refresh: 1;");
 
 }
 

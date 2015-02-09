@@ -75,7 +75,7 @@ color: #fff;
 </table>
 
 <div style="font-family: Helvetica,Arial,sans-serif;" align="left">
-<form action="./result.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="./submit.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
 
   <table style="text-align: left; margin-left: auto; margin-right: auto; width: 1000px; height: 412px;" border="0" cellspacing="5">
     <tbody>
@@ -99,10 +99,18 @@ max) </label> <br>
 		
       </tr>
 	  
-	  
+      <tr>
+        <td colspan="2" style="vertical-align: center;"> <input name="Submit1" value="Submit" style="color: Yellow" type="submit">  
+	<br><br>
+    <font color="Blue">Optional:</font> Email results to: <input value="xxx@yyy.com" name="email" id="email" size="30" type="text"> <input value="Job name" name="jobname" id="jobname" size="30" type="text">
+</td>
+        <td style="vertical-align: center;"><br>
+        </td>
+      </tr>
+
       <tr>
         <td rowspan="1" style="width: 40%;">
-        Optional background sequences <a href="manual.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
+        <font color="Blue">Optional:</font> Background sequences <a href="manual.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
         <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB max)</label>
 		<br>
 		<input name="backgroundfile" type="file">
@@ -117,19 +125,11 @@ max) </label> <br>
 		
       </tr>
 	  
-      <tr>
-        <td style="vertical-align: center;"> <input name="Submit1" value="Submit" style="color: Yellow" type="submit">  </td>
-        <td style="vertical-align: center;"><br>
-        </td>
-		
-      </tr>
-	  
 	  
     </tbody>
 	
   </table>
   
-  (optional) Email results to: <input value="xxx@yyy.com" name="email" id="email" size="30" type="text"> <input value="Job name" name="jobname" id="jobname" size="30" type="text">
   
   <table style="width: 978px; height: 454px; text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="10">
     <tbody>

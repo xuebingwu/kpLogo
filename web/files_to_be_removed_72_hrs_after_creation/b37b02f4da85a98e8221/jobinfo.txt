@@ -1,0 +1,4 @@
+b37b02f4da85a98e8221
+wuxb07@gmail.com
+Job name
+PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
