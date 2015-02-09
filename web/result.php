@@ -50,9 +50,6 @@ color: #fff;
 
 <?php // get values of all variables
 
-session_start();
-
-// $command = "../../PKA PKA.input.txt -o PKA $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos";
 
 $email=$_POST['email'];
 $jobname=$_POST['jobname'];
@@ -180,14 +177,13 @@ if ($background == "bgfile" || $background == "markov_background") {
 
 $command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos $degenerate $colorblind";
 
-$result = exec('nohup ../../'. $command . ' >> log 2>&1 &');
-//$result = exec('nohup ../../'. $command . ' > /dev/null 2>&1 &');
+//email
+$subject = "PKA results available: $jobname";
+$url = str_replace("result.php","$tmpfolder/summary.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+$content = "Your PKA job ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url";
 
-//$myFile = "output.html"; // or .php   
-//$fh = fopen($myFile, 'w'); // or die("error");  
-//$stringData = "you html code php code goes here";   
-//fwrite($fh, $stringData);
-//fclose($fh);
+$result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
+
 
 umask($oldmask);
 
@@ -198,12 +194,6 @@ file_put_contents("jobinfo.txt", $jobID."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $email."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $jobname."\n", FILE_APPEND | LOCK_EX);
 file_put_contents("jobinfo.txt", $command."\n", FILE_APPEND | LOCK_EX);
-
-if($email != "xxx@yyy.com")
-{
-    touch("submission_notification_not_sent");
-    touch("finish_notification_not_sent");
-}
 
 
 header("Location: $tmpfolder/summary.php");

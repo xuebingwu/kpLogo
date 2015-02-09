@@ -123,27 +123,12 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;the most significant kmer at each position : <a href=\"./pka.output.most.significant.each.position.txt\">txt</a> <br>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;raw data : <a href=\"./pka.output.pass.p.cutoff.txt\">txt</a> <br>";
 
-	// email
-	if (file_exists("finish_notification_not_sent") )
-	{
-		//echo "$email <br>";
-		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		//echo "$url <br>";
-		$message = "Your PKA job ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url ";
-		// In case any of our lines are larger than 70 characters, we should use wordwrap()
-		$message = wordwrap($message, 70, "\r\n");
-        $subject = "PKA results available: $jobname";
-		mail($email, $subject, $message);
-	    exec("rm finish_notification_not_sent");	
-	}
 }
 else{
 
     header("refresh: 1;");
 
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	$message = "Your job ($jobname) has been submitted and results will be available here: \r\n\r\n $url";
-    $message = wordwrap($message, 70, "\r\n");
 
 	echo "Your job ($jobname) has been submitted and results will be available here (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
 

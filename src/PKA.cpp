@@ -62,6 +62,9 @@ void print_help()
     "   -pseudo FLOAT        pseudocount added to background counts. default=1e-9. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
 	"   -colorblind          use colorblind friendly color scheme\n"
+    "   -email STR           send email notification to this address\n"
+    "   -subject STR         email subject (quoted, default='PKA job done')\n"
+    "   -content STR         email content (quoted, default='PKA job done')\n"
 		
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
 	"   (default)            compare to the same kmer at other positions \n"
@@ -132,7 +135,7 @@ int main(int argc, char* argv[]) {
     int startPos= 1; // coordinates
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
-	
+
 	// color blind
 	bool colorblind = false;
 	map<char,string> colors;
@@ -161,6 +164,11 @@ int main(int argc, char* argv[]) {
 	bool pair = false; // test all pairs of monomers
 	
 	bool build_model = false;
+
+    // email
+    string email = "";
+    string subject = "PKA job done";
+    string content = "PKA job done";
 	
     string seqfile1,seqfile2,save_to_file,str;
 
@@ -285,6 +293,15 @@ int main(int argc, char* argv[]) {
                 i=i+1;
             } else if (str == "-plot") {
                 plot = argv[i + 1];
+                i=i+1;
+            } else if (str == "-email") {
+                email = argv[i + 1];
+                i=i+1;            
+			} else if (str == "-subject") {
+                subject = argv[i + 1];
+                i=i+1;
+            } else if (str == "-content") {
+                content = argv[i + 1];
                 i=i+1;
             } else {
                 message("ERROR: Unknown options: "+str);
@@ -849,6 +866,8 @@ WriteFasta(seqs1,"implanted.fa");
 	
 	
     message("Done!");
+
+    system_run("echo '"+content+"' | mailx -s '"+subject+"' "+email);
 
     return 0;
 } 
