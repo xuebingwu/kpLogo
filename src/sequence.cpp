@@ -1732,7 +1732,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 	return res;
 }
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content)
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content, double max_scale)
 {
 	// fontsize
 	//int fontsize = 20;
@@ -1743,7 +1743,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	
 	// max score will be used to normalize
 	// this will be the max value in pwm after normalization
-	double max_scale = 6;
+	// double max_scale = 6;
 	
 	// distance between pos and neg, for plotting coordinates
 	
@@ -1869,8 +1869,12 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		for(int j=0;j<4;j++)
 		{
 			if (w[idx[j]] > 0)
-			{				
-				out << postscript_text(letters.substr(idx[j],1),x, y_pos, 1, w[idx[j]],colors[letters[idx[j]]]); 
+			{		
+                string color;
+                if (colors.find(letters[idx[j]]) != colors.end()) {color = colors[letters[idx[j]]];}
+                else {color = "0.5 0.5 0.5";}
+                 	
+				out << postscript_text(letters.substr(idx[j],1),x, y_pos, 1, w[idx[j]],color); 
 				y_pos += w[idx[j]] * ystep ;
 			}
 		}
@@ -1879,7 +1883,9 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 			if (w[idx[j]] < 0)
 			{
 				y_neg += w[idx[j]] * fontsize * scaley;
-				out << postscript_text(letters.substr(idx[j],1), x, y_neg, 1, -w[idx[j]],colors[letters[idx[j]]]); 
+                string color;
+                if (colors.find(letters[idx[j]]) != colors.end()) {color = colors[letters[idx[j]]];}else {color = "0.5 0.5 0.5";}
+				out << postscript_text(letters.substr(idx[j],1), x, y_neg, 1, -w[idx[j]],color); 
 				//y_neg += w[idx[j]] * ystep * 0.05;
 			}
 		}
@@ -1912,17 +1918,19 @@ string postscript_kmer(string seq, double x, double y, int fontsize, double scal
 	}
 	else height = height / L;
 	
-	string res;
+	string res,color;
 	
 	for(int i = L-1;i >= 0;i--)
 	{
+		if (colormap.find(seq[i]) == colormap.end()) color = "0.5 0.5 0.5";
+        else color = colormap[seq[i]];
 		//cout << i << endl;
 		res += "\n"
    		 "gsave \n "
     	 "  "+to_string(x)+" "+to_string(y + fontsize * scaley * (L-i-1) * height)+" moveto \n"
          "  "+to_string(width) +" "+to_string(height*0.95) + " scale \n "
 	     "  "+to_string(rotate)+ " rotate\n"
-         "  "+colormap[seq[i]] + " setrgbcolor ("+seq[i]+") show  \n"
+         "  "+color + " setrgbcolor ("+seq[i]+") show  \n"
          "grestore \n"
 	     "\n";
 	}	
@@ -1930,7 +1938,7 @@ string postscript_kmer(string seq, double x, double y, int fontsize, double scal
 }
 
 
-void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label)
+void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -1973,7 +1981,6 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	
 	double scalex = 0.75;
 	double scaley = 0.75;
-	double max_scale = 6;
 	
 
 	double xstep = fontsize * scalex;

@@ -813,7 +813,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)");
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)",8);
 	
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -822,15 +822,15 @@ WriteFasta(seqs1,"implanted.fa");
 		//plot_nucleotide_profile( out,  output+".nucleotide.profile.pdf",  seq_len1, cScore, startPos);
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out, seq_len1, startPos, cScore);
-	    generate_ps_logo_from_pwm(pwm, output+".ps",colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)");
+	    generate_ps_logo_from_pwm(pwm, output+".ps",colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)",false,8);
 		
 	}
 	
 	// plot frequency
 	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1);
 	//print_matrix(pwm2);
-	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Frequency");
-	generate_ps_logo_from_pwm(pwm2, output+".info.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true);
+	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Frequency",false,4);
+	generate_ps_logo_from_pwm(pwm2, output+".info.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true,4);
 	
 	// convert ps to pdf
 	system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");

@@ -30,13 +30,14 @@ string postscript_line(double x1, double y1, double x2, double y2);
 
 string postscript_text(string text, double x, double y, double width, double height, string color, double rotate=0);
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", bool info_content=false);
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", bool info_content=false, double max_scale=6.0);
 
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs);
 
 boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, int seqLen, int startPos=1,int cScore=5);
 
-void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)");
+void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
+
 string postscript_kmer(string text, double x, double y, int fontsize, double scaley, double width, double height, map<char,string> colormap, double rotate);
 
 bool is_fasta(string filename);

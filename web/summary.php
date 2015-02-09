@@ -81,7 +81,8 @@ color: #fff;
 session_start();
 
 
-
+$tmp = explode("/", $_SERVER[REQUEST_URI]);
+$jobid = $tmp[6];
 
 if (file_exists('./pka.output.most.significant.each.position.png')) {
 
@@ -100,12 +101,12 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 
 	echo "</div>";
 
-
     echo "<h3> Job name </h3>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['jobname'] . "<br>";
 
-	echo "<h3> Commandline </h3>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['command'] . "<br>";
+    echo "<h3> Commandline & Screen Output </h3>";
+    echo $_SESSION['command'] . "<br>";
+    echo nl2br(file_get_contents( "log" ));
 
 	echo "<h3> Input </h3>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
@@ -122,7 +123,7 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 
 	// email
 	$email = $_SESSION['email'];
-	if ($email != "xxx@yyy.com")
+	if ($email != "xxx@yyy.com" && $_SESSION[$jobid] == "submission_email_sent" )
 	{
 		//echo "$email <br>";
 		$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -132,22 +133,51 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 		$message = wordwrap($message, 70, "\r\n");
         $subject = 'PKA results available: ' . $_SESSION['jobname'];
 		mail($email, $subject, $message);
-		$_SESSION['email'] = "xxx@yyy.com"; // avoid send emails every time this page is loaded, only send email once
-		
+	    $_SESSION[$jobid] = "results_available_email_sent";	
 	}
-
 }
 else{
+
+    header("refresh: 1;");
+
     $jobname=$_SESSION['jobname'];
-	echo " <br>Your job '$jobname' has been submitted and results will be available on this page. Typically it takes a few seconds. <br><br><br>";
-	
+    $email = $_SESSION['email'];
+    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	$message = "Your job '$jobname' has been submitted and results will be available here: \r\n\r\n $url";
+    $message = wordwrap($message, 70, "\r\n");
+
+	echo "Your job '$jobname' has been submitted and results will be available here (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
+
 	//$list = listdir_by_date('./');
 	//foreach ($list as $file)
 	//{
 	//	echo "$file <br>";
 	//}
+    
+    // email reminder
+    if ($email != "xxx@yyy.com" && $_SESSION[$jobid] == "submitted" )
+    {
+        $subject = 'PKA job submitted: ' . $jobname;
+        $message = "Your job '$jobname' has been submitted and results will be available here: \r\n\r\n $url";
+		$message = wordwrap($message, 70, "\r\n");
+        mail($email, $subject, $message);
+        $_SESSION[$jobid] = "submission_email_sent"; // avoid send emails every time this page is loaded, only send email once
+    }
 
-	header("refresh: 1;");
+    if ($_SESSION[$jobid] == "submission_email_sent" )
+    {
+		echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
+	}
+
+    echo "<h3> Job name </h3>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;" . $_SESSION['jobname'] . "<br>";
+
+    echo "<h3> Commandline & Screen Output </h3>";
+    echo $_SESSION['command'] . "<br>";
+    echo nl2br(file_get_contents( "log" ));
+
+    echo "<h3> Input </h3>";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
 
 }
 

@@ -121,9 +121,9 @@ exec('nohup '. $clean . ' > /dev/null 2>&1 &');
 
 
 // make a folder with randome name for each job
-$randomString = substr(str_shuffle(md5(time())),0,20);
+$jobID = substr(str_shuffle(md5(time())),0,20);
  
-$tmpfolder = "./files_to_be_removed_72_hrs_after_creation/".$randomString;
+$tmpfolder = "./files_to_be_removed_72_hrs_after_creation/".$jobID;
 
 $oldmask = umask(0);
 if (!mkdir($tmpfolder, 0777, true)) {
@@ -180,8 +180,8 @@ if ($background == "bgfile" || $background == "markov_background") {
 
 $command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos $degenerate $colorblind";
 
-//$result = exec($command);
-$result = exec('nohup ../../'. $command . ' > /dev/null 2>&1 &');
+$result = exec('nohup ../../'. $command . ' >> log 2>&1 &');
+//$result = exec('nohup ../../'. $command . ' > /dev/null 2>&1 &');
 
 //$myFile = "output.html"; // or .php   
 //$fh = fopen($myFile, 'w'); // or die("error");  
@@ -196,8 +196,7 @@ exec("cp ../../summary.php ./");
 $_SESSION['email'] = $email;
 $_SESSION['jobname'] = $jobname;
 $_SESSION['command'] = $command;
-
-
+$_SESSION[$jobID] = "submitted"; // to keep track of job status: submitted, submission_email_sent, results_available_email_sent, 
 header("Location: $tmpfolder/summary.php");
 
 
