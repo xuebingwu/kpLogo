@@ -188,7 +188,7 @@ $jobID="PKA-".$totalLines;
 //email
 $subject = "PKA results available: $jobID ($jobname)";
 $url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-$content = "Your PKA job $jobID ($jobname) has been finished and results are available here within 72 hours: \r\n\r\n $url";
+$content = "Your PKA job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n $url";
 
 $result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
 
