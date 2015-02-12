@@ -5,7 +5,7 @@
 
 
   
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional K-mer analysis</title>
   
 
   
@@ -40,7 +40,7 @@ color: #fff;
   </style></head><body style="margin-left: 101px; width: 970px;">
 
 <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
-<h1><span class="title"> PKA: Positional Kmer Analysis</span><br> </h1>
+<h1><span class="title"> PKA: Positional K-mer Analysis</span><br> </h1>
 </div>
 
 <div style=" border-top: 8px solid DimGray; width: 970px"></div>

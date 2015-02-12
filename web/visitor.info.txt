@@ -22,3 +22,15 @@
 10.9.9.70	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
 10.9.9.70	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
 10.9.9.70	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 2 -shift 0  -startPos 1 -degenerate all 
+10.9.9.70	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 2 -shift 0  -startPos 1 -degenerate all -colorblind
+10.9.9.70	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.9.58	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna   -shift 0  -startPos 1 -gapped 
+10.9.9.94	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna   -shift 0  -startPos 1 -gapped 
+10.9.9.94	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 6 -shift 0  -startPos 1 -gapped 
+10.9.9.99	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.9.99	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 6 -shift 0  -startPos 1 -gapped 

@@ -1,4 +1,4 @@
-# PKA: positional kmer analysis
+# PKA: Positional K-mer Analysis
 
 PKA is tool for identifying well-positioned short motifs from a set of aligned sequences.
 

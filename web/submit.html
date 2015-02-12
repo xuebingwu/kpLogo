@@ -4,7 +4,19 @@
 
 <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional kmer analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional K-mer analysis</title>
+
+<script type='javascript'>
+    var clear = true;
+    function clear(obj)
+    {
+        if(clear)
+        {
+            obj.value = '';
+            clear = false;
+        }
+    }
+</script>
 
 <style>
 
@@ -42,7 +54,7 @@ color: #fff;
 <body style="margin:0 auto; width: 970px; text-align: center" >
 
 <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
-<h1><span class="title"> PKA: Positional Kmer Analysis</span><br> </h1>
+<h1><span class="title"> PKA: Positional K-mer Analysis</span><br> </h1>
 </div>
 
 <div style=" border-top: 8px solid DimGray; width: 970px"></div> 
@@ -77,54 +89,40 @@ color: #fff;
 <div style="font-family: Helvetica,Arial,sans-serif;" align="left">
 <form action="./submit.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
 
-  <table style="text-align: left; margin-left: auto; margin-right: auto; width: 1000px; height: 412px;" border="0" cellspacing="5">
+  <table style="text-align: center; margin-left: auto; margin-right: auto; width: 1000px; height: 412px;" border="0" cellspacing="1">
     <tbody>
+		
       <tr>
-		  
-        <td rowspan="1" style="width: 40%;">
-        <h3>Upload input sequences <a href="./manual.html#upload"><img src="./info.gif" alt="help"> </a></h3>
-        <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB
-max) </label> <br> 
-	<input name="foregroundfile" type="file">
-		<br>
-        <br>
-			Or paste on the right 
-			<br> <br>
-			(see <a href="./examples.html">examples</a>)
+	    <td rowspan="1" style="vertical-align: center;" ><br>
+        	<h4>Paste input sequences below -- <font color="Blue">OR</font> -- Upload input sequences in a file (<2MB)
+				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
+           	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
+				<a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
+			</h4> 
+	        <textarea name="foregroundpaste" cols="100" rows="8" id="foregroundpaste"></textarea>
+			<br>
         </td>
-		
-        <td rowspan="1" ><br>
-        <textarea name="foregroundpaste" cols="60" rows="10" id="foregroundpaste"></textarea><br>
-        </td>
-		
       </tr>
 	  
       <tr>
-        <td colspan="2" style="vertical-align: center;"> <input name="Submit1" value="Submit" style="color: Yellow" type="submit">  
-	<br><br>
-    <font color="Blue">Optional:</font> Email results to: <input value="xxx@yyy.com" name="email" id="email" size="30" type="text"> <input value="Job name" name="jobname" id="jobname" size="30" type="text">
-</td>
-        <td style="vertical-align: center;"><br>
-        </td>
+      	<td style="vertical-align: center;"> 
+			<input name="Submit1" value="Submit" style="color: Yellow" type="submit"><br>
+			<br>
+			<font color="Blue"> &nbsp;&nbsp;&nbsp;&nbsp;Optional:</font> Email results to: 
+			<input value="xxx@yyy.com" name="email" id="email" size="40" type="text" onfocus="if(this.value == 'xxx@yyy.com') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'xxx@yyy.com'; }" > 
+			<input value="Job name" name="jobname" id="jobname" size="40" type="text" onfocus="if(this.value == 'Job name') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Job name'; }">
+		</td>
       </tr>
 
       <tr>
-        <td rowspan="1" style="width: 40%;">
-        <font color="Blue">Optional:</font> Background sequences <a href="manual.html#upload"><img src="info.gif" alt="help"></a> <br><br> 
-        <label> <input name="MAX_FILE_SIZE" value="1000000" type="hidden">Select a file (1MB max)</label>
-		<br>
-		<input name="backgroundfile" type="file">
-		<br>
-        <br>
-			Or paste on the right<br>
+        <td rowspan="1" style="vertical-align: center;width:100%;" ><br>
+        	<font color="Blue">Optional:</font> Background sequences: paste below or upload here (<2MB): 
+			<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /> 
+			<input name="backgroundfile" type="file" style="vertical-align: bottom;">
+			<a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
+			<textarea name="backgroundpaste" cols="100" rows="8" id="backgroundpaste"></textarea>
         </td>
-		
-        <td rowspan="1" ><br>
-        <textarea name="backgroundpaste" cols="60" rows="10" id="backgroundpaste"></textarea><br>
-        </td>
-		
       </tr>
-	  
 	  
     </tbody>
 	
@@ -145,7 +143,7 @@ max) </label> <br>
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -166,14 +164,14 @@ max) </label> <br>
 			          <option value="dna" selected="selected">DNA/RNA</option>
 			          <option value="protein">Protein</option>
 			          <option value="other">Other</option>
-			  	</select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed symbols here" type="text">
+			  	</select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed symbols here" type="text" onfocus="if(this.value == 'Other: enter all allowed symbols here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed symbols here'; }" >
 	          </td>
 	        </tr>
 	  
 	  
       <tr>
-        <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Kmer length </strong> <a href="manual.html#kmer"><img src="info.gif" alt="help"></a><br>
+        <td colspan="1" style="vertical-align: center;">
+        <div style="text-align: right;vertical-align: center;"><strong>K-mer length </strong> <a href="manual.html#K-mer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;">
@@ -183,9 +181,13 @@ max) </label> <br>
         <option value="-k 2">2</option>
         <option value="-k 3">3</option>
         <option value="-k 4">4</option>
-        <option value="-max_k 2">1, 2</option>
-        <option value="-max_k 3">1, 2, 3</option>
-        <option value="-max_k 4" selected="selected">1, 2, 3, 4</option>
+        <option value="-k 5">5</option>
+        <option value="-k 6">6</option>
+        <option value="-max_k 2">1,2</option>
+        <option value="-max_k 3">1,2,3</option>
+        <option value="-max_k 4" selected="selected">1,2,3,4</option>
+        <option value="-max_k 5">1,2,3,4,5</option>
+        <option value="-max_k 6">1,2,3,4,5,6</option>		
 	</select> (to use larger k, please install PKA locally)<br>
        </td>
       </tr>
@@ -196,7 +198,23 @@ max) </label> <br>
 shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><br>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
-        <input name="shift" id="shift" size="4" value="0" type="text"> (by default no positional shift allowed) </td>
+        <select name="shift" id="shift">
+	    <option value="-shift 0" selected="selected">0</option>
+        <option value="-shift 1">1</option>
+        <option value="-shift 2">2</option>
+        <option value="-shift 3">3</option>
+        <option value="-shift 4">4</option>
+        <option value="-shift 5">5</option>
+        <option value="-shift 6">6</option>       
+	    <option value="-max_shift 1">0,1</option>
+        <option value="-max_shift 2">0,1,2</option>
+        <option value="-max_shift 3">0,1,2,3</option>
+        <option value="-max_shift 4">0,1,2,3,4</option>
+        <option value="-max_shift 5">0,1,2,3,4,5</option>
+        <option value="-max_shift 6">0,1,2,3,4,5,6</option>		
+	</select> (by default no positional shift allowed)<br>
+	
+	 </td>
       </tr>
 	  
 	  
@@ -208,10 +226,10 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
         <td colspan="1" rowspan="1" style="vertical-align: center;">
 	   <select name="degenerate" id="degenerate">
           <option value="-degenerate all">all IUPAC nucleotide symbols: ACGTRYMKWSBDHVN</option>
-	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped kmer</option>
+	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped K-mer</option>
 	          <option value="">ACGT only (no degenerate symbols)</option>
 	          <option value="other">Other</option>
-	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed symbols here" type="text"> 
+	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed symbols here" type="text" onfocus="if(this.value == 'Other: enter all allowed symbols here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed symbols here'; }"> 
         </td>
       </tr>
 	  

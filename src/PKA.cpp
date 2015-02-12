@@ -144,8 +144,30 @@ int main(int argc, char* argv[]) {
     colors['G'] = "1 0.75 0";
     colors['T'] = "1 0 0";
     colors['N'] = "0.5 0.5 0.5";
-	
-    map<char,string> colorblind_colors;
+    colors['Y'] = "1 1 0";
+    colors['R'] = "0 1 1";
+    colors['D'] = "0 0.5 0.5";
+    colors['E'] = "0 0 0.5";
+    colors['F'] = "0 0.5 0";
+    colors['H'] = "0.5 0 0";
+    colors['I'] = "1 0.5 0.5";
+    colors['J'] = "0.5 1 0.5";
+    colors['K'] = "0.5 0.5 1";
+    colors['L'] = "1 0 0.5";
+    colors['M'] = "0 1 0.5";
+    colors['O'] = "0 0.5 1";
+    colors['P'] = "1 0.5 0";
+    colors['Q'] = "0.5 1 0";
+    colors['S'] = "0.5 0 1";   
+	colors['U'] = "1 0.5 1";
+    colors['V'] = "0.5 0.75 1";
+    colors['W'] = "1 0 1"; 
+    colors['X'] = "0.5 0 0.5";
+    colors['Z'] = "0.5 0.5 0";
+    colors['B'] = "0.5 0.5 0.75";
+
+
+    map<char,string> colorblind_colors = colors;
     colorblind_colors['A'] = "0 0.620 0.451";
     colorblind_colors['C'] = "0 0.450 0.698";
     colorblind_colors['G'] = "0.941 0.894 0.259";

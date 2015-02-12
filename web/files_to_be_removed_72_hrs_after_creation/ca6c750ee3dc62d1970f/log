@@ -1,0 +1,21 @@
+[Mon Feb  9 18:40:21 2015] Summary: 
+[Mon Feb  9 18:40:21 2015]    Input       :   pka.input.txt
+[Mon Feb  9 18:40:21 2015]    Background  :   local
+[Mon Feb  9 18:40:21 2015]    Output      :   pka.output.*
+[Mon Feb  9 18:40:21 2015]    alphabet    :   ACGT
+[Mon Feb  9 18:40:21 2015]    min_kmer    :   1
+[Mon Feb  9 18:40:21 2015]    max_kmer    :   4
+[Mon Feb  9 18:40:21 2015]    min_shift   :   0
+[Mon Feb  9 18:40:21 2015]    max_shift   :   0
+[Mon Feb  9 18:40:21 2015]    degenerate  :   ACGTN
+[Mon Feb  9 18:40:21 2015]    p           :   1.010000
+[Mon Feb  9 18:40:21 2015]    start at    :   1
+[Mon Feb  9 18:40:21 2015] Input file is FASTA format
+[Mon Feb  9 18:40:21 2015] 186 sequences loaded from pka.input.txt
+[Mon Feb  9 18:40:21 2015] 340 exact kmers to be tested
+[Mon Feb  9 18:40:21 2015] 500 k-mers allowing degenerate bases
+[Mon Feb  9 18:40:21 2015] 28624 tests (kmer x position x shifts) will be performed
+[Mon Feb  9 18:40:22 2015] 5180 significant positional kmers identified in total
+[Mon Feb  9 18:40:22 2015] plotting the most significant kmer at each position...
+[Mon Feb  9 18:40:22 2015] plotting single nucleotide profile...
+[Mon Feb  9 18:40:26 2015] Done!
