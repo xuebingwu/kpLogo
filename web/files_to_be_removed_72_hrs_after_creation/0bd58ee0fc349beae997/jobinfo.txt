@@ -1,5 +1,0 @@
-
-wuxb07@gmail.com
-ssd sdfs
-PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
-PKA-24
