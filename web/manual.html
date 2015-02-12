@@ -84,13 +84,13 @@ color: #fff;
         <form action="./submit.html"> <input value="Server" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 0px;">
-        <form action="./code.html"> <input value="Code" type="submit"></form>
+        <form action="./manual.html#installation"> <input value="Code" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 69px;">
         <form action="./manual.html"> <input value="Manual" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 69px;">
-        <form action="./examples.html"> <input value="Examples" type="submit"></form>
+        <form action="./manual.html#examples"> <input value="Examples" type="submit"></form>
         </td>
   	  <td style="vertical-align: top; width: 0px;">
   	  <form action="./feedback.html"> <input value="Feedback" type="submit"></form>
@@ -100,22 +100,53 @@ color: #fff;
   </table>
 
 <div id="TOC" style="font-family: Helvetica,Arial,sans-serif; text-align: left;"><span style="font-weight: bold;"></span><br>
-<ul id="mozToc"><!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6--><li><a href="#mozTocId386465">What is PKA </a></li><li><a href="#mozTocId456008">Unique features of
-PKA </a></li><li><a href="#mozTocId312737">Using PKA</a><ul><li><a href="#mozTocId919810">Web server</a><ul><li><a href="#mozTocId414790">Usage</a></li><li><a href="#mozTocId408148">Limitations</a></li></ul></li><li><a href="#mozTocId578761">Install PKA locally</a><ul><li><a href="#mozTocId69639">Requirements</a></li><li><a href="#mozTocId897519">Installation</a></li><li><a href="#mozTocId191616">Test</a></li></ul></li></ul></li><li><a href="#mozTocId865459">How PKA works</a><ul><li><a href="#mozTocId597193">K-mer counting</a><ul><li><a href="#mozTocId999760">Degenerate letter</a></li><li><a href="#mozTocId985216">Positional shift
-
-</a></li></ul></li><li><a href="#mozTocId571584">Statistical models</a><ul><li><a href="#mozTocId415790">Weighted</a></li><li><a href="#mozTocId147993">Ranked</a></li><li><a href="#mozTocId453062">Unranked (default)</a><ul><li><a href="#mozTocId937955">Background sequences</a></li><li><a href="#mozTocId937334">Shuffle input sequences</a></li><li><a href="#mozTocId247451">Markov model from input sequences</a></li><li><a href="#mozTocId45559">Markov model from background sequences</a></li><li><a href="#mozTocId26092">Average across all positions (default)
-</a></li></ul></li></ul></li></ul></li><li><a href="#mozTocId961880">Input format</a><ul><li><a href="#mozTocId484249">Tabular / Column file</a></li><li><a href="#mozTocId49568">FASTA</a></li></ul></li><li><a href="#mozTocId249397">Output format</a><ul><li><a href="#mozTocId829932">Logo plots</a></li><li><a href="#mozTocId523734">Tabular data file</a></li></ul></li><li><a href="#mozTocId195604">Examples</a></li><li><a href="#mozTocId553839">Command Line Options</a></li><li><a href="#mozTocId929970">Author</a></li><li><a href="#mozTocId274592">Acknowledgements</a></li><li><a href="#mozTocId318834">Reference</a></li></ul>
+<ul id="mozToc"><!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6-->
+	<li><a href="#What-is-PKA">What is PKA </a></li>
+	<li><a href="#unique-featues-of-pka">Unique features of PKA </a></li>
+	<li><a href="#using-pka">Using PKA</a><ul>
+		<li><a href="#web-server">Web server</a><ul>
+			<li><a href="#usage">Usage</a></li>
+			<li><a href="#limitations">Limitations</a></li></ul></li>
+		<li><a href="#install-pka-locally">Install PKA locally</a><ul>
+				<li><a href="#requirements">Requirements</a></li>
+				<li><a href="#installation">Installation</a></li>
+				<li><a href="#test">Test</a></li></ul></li></ul></li>
+	<li><a href="#how-pka-works">How PKA works</a><ul>
+		<li><a href="#k-mer-counting">K-mer counting</a><ul>
+			<li><a href="#degenerate-letter">Degenerate letter</a></li>
+			<li><a href="#positional-shift">Positional shift</a></li></ul></li>
+	<li><a href="#statistical-models">Statistical models</a><ul>
+		<li><a href="#weighted">Weighted</a></li>
+		<li><a href="#ranked">Ranked</a></li>
+		<li><a href="#unranked">Unranked (default)</a><ul>
+			<li><a href="#background-sequences">Background sequences</a></li>
+			<li><a href="#shuffle-input-sequences">Shuffle input sequences</a></li>
+			<li><a href="#markov-model-from-input">Markov model from input sequences</a></li>
+			<li><a href="#markov-model-from-background">Markov model from background sequences</a></li>
+			<li><a href="#average-across-all-positions">Average across all positions (default)</a></li></ul></li></ul></li></ul></li>
+	<li><a href="#input-format">Input format</a><ul>
+		<li><a href="#tabular">Tabular / Column file</a></li>
+		<li><a href="#fasta">FASTA</a></li></ul></li>
+	<li><a href="#output-format">Output format</a><ul>
+		<li><a href="#logo-plots">Logo plots</a></li>
+		<li><a href="#tabular-data-file">Tabular data file</a></li></ul></li>
+	<li><a href="#examples">Examples</a></li>
+	<li><a href="#command-line-options">Command Line Options</a></li>
+	<li><a href="#copyright">Copyright</a></li>
+	<li><a href="#author">Author</a></li>
+	<li><a href="#acknowlegements">Acknowledgements</a></li>
+	<li><a href="#reference">Reference</a></li></ul>
 <br>
 </div>
 
 <div style="font-family: Helvetica,Arial,sans-serif; text-align: left;">
-<h1><a class="mozTocH1" name="mozTocId386465"></a>What is PKA </h1>
+<h1><a class="mozTocH1" name="What-is-PKA"></a>What is PKA </h1>
 <font color="Blue">Positional K-mer Analysis (PKA)</font> is a
 computational tool for the identification and visualization of
 positionally enriched or depleted k-mers (subsequences of length k)
 from a set of aligned sequences, typically nucleic acids (DNA or RNA)
 or amino acids (protein).
-<h1><a class="mozTocH1" name="mozTocId456008"></a>Unique features of
+<h1><a class="mozTocH1" name="unique-featues-of-pka"></a>Unique features of
 PKA </h1>
 Compare to existing sequence logo tools, the two most prominant
 features of PKA is the detection and visualization of motifs longer
@@ -132,13 +163,13 @@ sequence logo generating tools, PKA is unique in several ways:<br>
 5. allow degenerate nucleotides<br>
 6. logos can be generated with colorblind friendly colors<br>
 7. allow users to score new sequenes using the learned positional sequence features <br>
-<h1><a class="mozTocH1" name="mozTocId312737"></a>Using PKA</h1>
+<h1><a class="mozTocH1" name="using-pka"></a>Using PKA</h1>
 PKA can be accessed as an online tool at: <a href="http://pka.wi.mit.edu">http://pka.wi.mit.edu</a>. In addition,
 the C++ source code as well as the php/html web code can be downloaded
 and installed locally. <br>
-<h2><a class="mozTocH2" name="mozTocId919810"></a>Web server</h2>
+<h2><a class="mozTocH2" name="web-server"></a>Web server</h2>
 To use PKA online, please visit <a href="http://pka.wi.mit.edu/">http://pka.wi.mit.edu</a><br>
-<h3><a class="mozTocH3" name="mozTocId414790"></a>Usage</h3>
+<h3><a class="mozTocH3" name="usage"></a>Usage</h3>
 Users paste or upload sequences to the server and the job will run on
 the background. Once submitted, users are redirected to the result page
 which displays PKA screen output and refreshes every second. Users are
@@ -152,7 +183,7 @@ after the job is finished. Please download the data as soon as it is
 available. It is recommended user to provide an email address to
 receive a notification.<br>
 <br>
-<h3><a class="mozTocH3" name="mozTocId408148"></a>Limitations</h3>
+<h3><a class="mozTocH3" name="limitations"></a>Limitations</h3>
 The web server implements most functionality of PKA, and should be
 sufficient for most users. However, for simplicity and to avoid excess
 demand of server resources, a few restricitons have been imposed on the
@@ -171,8 +202,8 @@ set of sequences using the sequence bias learned from the input. The
 web version does not support this functionality at this moment.<br>
   </li>
 </ol>
-<h2><a class="mozTocH2" name="mozTocId578761"></a>Install PKA locally</h2>
-<h3><a class="mozTocH3" name="mozTocId69639"></a>Requirements</h3>
+<h2><a class="mozTocH2" name="install-pka-locally"></a>Install PKA locally</h2>
+<h3><a class="mozTocH3" name="requirements"></a>Requirements</h3>
 PKA has been successfully tested on Linux and Mac.<br>
 <br>
 <span style="font-weight: bold;">To compile: GCC</span><br>
@@ -188,7 +219,7 @@ in package <span style="color: rgb(51, 51, 255);">ImageMagick</span>.
 In addition, <span style="color: rgb(51, 51, 255);">Ghostscript</span>
 is used to convert postscript files to PDF files.<br>
 <br>
-<h3><a class="mozTocH3" name="mozTocId897519"></a>Installation</h3>
+<h3><a class="mozTocH3" name="installation"></a>Installation</h3>
 The PKA source code (including web code) is hosted on GitHub: <a href="https://github.com/xuebingwu/PKA">https://github.com/xuebingwu/PKA</a><br>
 <br>
 To clone the latest (may not be stable) version:<br>
@@ -212,7 +243,7 @@ then type 'make': <br>
 The compiled programs are in the folder 'bin'.<br>
 To recompile, type 'make clean' then 'make'.<br>
 <br>
-<h3><a class="mozTocH3" name="mozTocId191616"></a>Test</h3>
+<h3><a class="mozTocH3" name="test"></a>Test</h3>
 Go to the folder 'bin', and run the following examples:<br>
 <br>
 1. Unweighted sequences in fasta, default background (relative to other
@@ -229,13 +260,13 @@ positions)<br>
 If PKA works then the screen should output no errors. Please refer to
 the manual for other examples and explanation of the output files.<br>
 <br>
-<h1><a class="mozTocH1" name="mozTocId865459"></a>How PKA works</h1>
+<h1><a class="mozTocH1" name="how-pka-works"></a>How PKA works</h1>
 For a given value of k, PKA enumerates all possible kmers (allowing
 degenerate letters when specified), determine their presence / absence at
 every possible positions in all input sequences, and report their
 enrichment / depletion using statistical models specified by users.<br>
-<h2><a class="mozTocH2" name="mozTocId597193"></a>K-mer counting</h2>
-<h3><a class="mozTocH3" name="mozTocId999760"></a>Degenerate letter</h3>
+<h2><a class="mozTocH2" name="k-mer-counting"></a>K-mer counting</h2>
+<h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate letter</h3>
 Currently PKA only supports degenerate letters for DNA/RNA sequences, and specifically those in the <a href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below).  <br>
 <br>
 By default, degenerate letters are not allowed. To allow, use '<span style="color: rgb(51, 51, 255);">-degenerate</span>' to specify all allowed letters, <span style="color: red;">including non-degenerate letters</span>. For example, to include R and Y in addition to ACGT in DNA sequences, use '<span style="color: rgb(51, 51, 255);">-degenerate ACGTRY</span>' instead of '<span style="color: rgb(51, 51, 255);">-degenerate RY</span>'. <br>
@@ -359,13 +390,13 @@ Two special cases: 1) to allow all IUPAC letters, use '<span style="color: rgb(5
 </table>
 
 <br>
-<h3><a class="mozTocH3" name="mozTocId985216"></a>Positional shift<br>
+<h3><a class="mozTocH3" name="positional-shift"></a>Positional shift<br>
 
 </h3>
 
 shift to the right, example<br>
-<h2><a class="mozTocH2" name="mozTocId571584"></a>Statistical models</h2>
-<h3><a class="mozTocH3" name="mozTocId415790"></a>Weighted</h3>When turned on by '<span style="color: rgb(102, 51, 255);">-weighted</span>',
+<h2><a class="mozTocH2" name="statistical-models"></a>Statistical models</h2>
+<h3><a class="mozTocH3" name="weighted"></a>Weighted</h3>When turned on by '<span style="color: rgb(102, 51, 255);">-weighted</span>',
 PKA searches for kmers at certain positions whose presence / absence in
 a sequence is associated with higher / lower weight, respectively. For
 each kmer at each position, all input sequences are divided into two
@@ -382,7 +413,7 @@ with this kmer at this position have larger weight) or depletion.<br>
 <br>
 Note that the input sequences need not to be sorted by weight.<br>
 
-<h3><a class="mozTocH3" name="mozTocId147993"></a>Ranked</h3>When
+<h3><a class="mozTocH3" name="ranked"></a>Ranked</h3>When
 turned on (by '-ranked'), PKA assumes the input sequences (FASTA or
 Tabular) are ranked, and enrichment / depletion of a kmer at a position
 means sequences with this kmer at this position tend to be ranked at
@@ -402,7 +433,7 @@ Note that this model is activated by the option '-ranked', which will
 ignore '-weight' if specified. Also note that sequences need to be
 sorted prior to PKA analysis. <br>
 
-<h3><a class="mozTocH3" name="mozTocId453062"></a>Unranked (default)</h3>When neither '-ranked' nor '-weighted' is specified, PKA assumes the input is unranked. PKA uses <span style="color: rgb(102, 51, 255);">one-sided Binomial test</span>
+<h3><a class="mozTocH3" name="unranked"></a>Unranked (default)</h3>When neither '-ranked' nor '-weighted' is specified, PKA assumes the input is unranked. PKA uses <span style="color: rgb(102, 51, 255);">one-sided Binomial test</span>
 to determine the significance of a kmer at a position. Specifically,
 the number of trials is the total nubmer of sequences, and the number
 of success is the number of sequences containing this kmer at this
@@ -415,7 +446,7 @@ or depletion.<br>
 <br>
 The hypothesized probability of success can be calculated in five different ways:<br>
 
-<h4><a class="mozTocH4" name="mozTocId937955"></a>Background sequences</h4>
+<h4><a class="mozTocH4" name="background-sequences"></a>Background sequences</h4>
 Users can provide a set of background sequences ('<span style="color: rgb(102, 51, 255);">-bgfile</span>')
 that can be aligned in the same way. In this case, the expected
 probability of a sequence with a particular kmer at a particular
@@ -431,7 +462,7 @@ lead to noisy output, especially for longer kmers.<br>
 
 
 
-<h4><a class="mozTocH4" name="mozTocId937334"></a>Shuffle input sequences</h4>
+<h4><a class="mozTocH4" name="shuffle-input-sequences"></a>Shuffle input sequences</h4>
 This is implemented in the option '<span style="color: rgb(102, 51, 255);">-shuffle n,m'</span> (shuffle each sequence n times preserving m-letter frequency). PKA uses the <a href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
 code to shuffle input sequences while preserving the frequency of all
 possible letter combinations of length specified by users. For example,
@@ -442,7 +473,7 @@ background probability of sequence containing the kmer at a particular
 position. However, this will lead to a linear increase in run time. In
 addition, for relatively short sequences, it is impossible to preserve
 even dinucleotide frequencies. <br>
-<h4><a class="mozTocH4" name="mozTocId247451"></a>Markov model from input sequences</h4>
+<h4><a class="mozTocH4" name="markov-model-from-input"></a>Markov model from input sequences</h4>
 This is activated by '<span style="color: rgb(102, 51, 255);">-markov</span>'
 specifying the order of the Markov model, which summarizes letter
 frequency and dependence between neighboring letters in input
@@ -491,9 +522,9 @@ accurately handle positional shifts and degenerate nucleotides (email
 authors for details), and does not support higher order Markov models. Please choose other background models when either
 positional shift or degenerate letters is used. <br>
 
-<h4><a class="mozTocH4" name="mozTocId45559"></a>Markov model from background sequences</h4>
+<h4><a class="mozTocH4" name="markov-model-from-background"></a>Markov model from background sequences</h4>
 This is activated when both '<span style="color: rgb(51, 51, 255);">-markov</span>' and '<span style="color: rgb(51, 51, 255);">-bgfile</span>' are specified. The only difference from '<span style="color: rgb(51, 51, 255);">-markov</span>' alone is that the Markov model is learned from background sequences specified by  '<span style="color: rgb(51, 51, 255);">-bgfile</span>'. 
-<h4><a class="mozTocH4" name="mozTocId26092"></a>Average across all positions (default)<br>
+<h4><a class="mozTocH4" name="average-across-all-positions"></a>Average across all positions (default)<br>
 </h4>
 This is activated by default if none of the above model is specified (<span style="color: rgb(51, 51, 255);">-bgfile, -shuffle, -markov</span>).
 It is preferred because it is fast, less noisy, handles both positional
@@ -502,9 +533,9 @@ probability of a sequence with a certain kmer at a certain position is
 the average observed success rate (fraction of input sequences
 containing this kmer at a given position) averaged over all positions. <br>
 <br>
-<h1><a class="mozTocH1" name="mozTocId961880"></a>Input format</h1>
+<h1><a class="mozTocH1" name="input-format"></a>Input format</h1>
 <a>PKA currently supports both FASTA format and Tabular format. </a>
-<h2><a class="mozTocH2" name="mozTocId484249"></a>Tabular / Column file</h2>
+<h2><a class="mozTocH2" name="tabular"></a>Tabular / Column file</h2>
 <a>Tabular files are tab-delimited text files. Currently PKA does NOT
 support other delimiters (space, comma, etc). <br>
 <br>
@@ -545,7 +576,7 @@ and '-last') <br>
 position needs to be specified by '-seq' and '-weight'. For example
 '-seq 2 -weight 3' for example 3 above. </a><br>
 <br>
-<h2><a class="mozTocH2" name="mozTocId49568"></a>FASTA</h2>
+<h2><a class="mozTocH2" name="fasta"></a>FASTA</h2>
 <a>Here is an example of a FASTA file: <br>
 </a><a><br>
 </a>
@@ -568,10 +599,10 @@ Notes on FASTA file format: <br>
 and '-last') <br>
 5. Can be treated as ranked (see option '-ranked') but not weighted
 (need to use tabular format) </a>
-<h1><a class="mozTocH1" name="mozTocId249397"></a>Output format</h1>
+<h1><a class="mozTocH1" name="output-format"></a>Output format</h1>
 
-<h2><a class="mozTocH2" name="mozTocId829932"></a>Logo plots</h2>
-<h2><a class="mozTocH2" name="mozTocId523734"></a>Tabular data file</h2>Regardless the type of input (unranked/ranked/weighted), the first six columns of the output data file are always the same:<br>
+<h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
+<h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data file</h2>Regardless the type of input (unranked/ranked/weighted), the first six columns of the output data file are always the same:<br>
 <ol>
   <li>kmer</li>
   <li>position: first nucleotide of the kmer in the sequence.</li>
@@ -607,12 +638,38 @@ have this kmer at this position when allowing this amount of shift. </li>
   <li>standard deviation of weight for sample 2 sequences.</li>
 </ol>
 
-<h1><a class="mozTocH1" name="mozTocId195604"></a>Examples</h1>
-<h1><a class="mozTocH1" name="mozTocId553839"></a>Command Line Options</h1>
+<h1><a class="mozTocH1" name="examples"></a>Examples</h1>
+<p>coming soon</p>
+<h1><a class="mozTocH1" name="command-line-options"></a>Command Line Options</h1>
+<p>coming soon</p>
+<h1><a class="mozTocH1" name="copyright"></a>Copyright</h1>
 
-<h1><a class="mozTocH1" name="mozTocId929970"></a>Author</h1>
-<h1><a class="mozTocH1" name="mozTocId274592"></a>Acknowledgements</h1>
-<h1><a class="mozTocH1" name="mozTocId318834"></a>Reference</h1>
+<p>Copyright (c) 2014 Xuebing Wu. </p>
+
+<p>PKA reuses the following library/code:<br>
+- <a href="http://www.boost.org/">Boost</a> library (version 1.57.0)<br>
+- The <a href="http://digital.cs.usu.edu/~mjiang/ushuffle/">ushuffle</a> code written by Minghui Jiang <br>
+</p>
+
+
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><p><b>License</b><br><br>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></a></div>
+
+
+<h1><a class="mozTocH1" name="author"></a>Author</h1>
+<p>PKA is developed and maintained by Xuebing Wu in the Bartel lab at Whitehead Institute.</p>
+
+<h1><a class="mozTocH1" name="acknowlegements"></a>Acknowledgements</h1>
+<p>coming soon</p>
+
+<h1><a class="mozTocH1" name="reference"></a>Reference</h1>
+<p>coming soon</p>
+
 </div>
 
 </body></html>
