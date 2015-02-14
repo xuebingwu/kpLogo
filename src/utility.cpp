@@ -37,7 +37,7 @@ string random_string( size_t length )
 */
 
 /**/
-string random_string(const int len) {
+string random_string( int len) {
 	string s;
     static const char alphanum[] =
         "0123456789"

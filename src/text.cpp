@@ -268,14 +268,18 @@ void mergeTab(string file1, string file2, string outputfile, unsigned col1/*=0*/
     f1.close();      
 	out.close();     
 }
+
+
 		
 void remove_duplicates(string input, string output, int col, int max, string sort_opts="")
 {
+	string tmp = random_string(10);
+
     if (sort_opts.size()>0)
     {
-        string cmd = "sort "+sort_opts+" "+input+" > xxx.tmp";
+        string cmd = "sort "+sort_opts+" "+input+" > " + tmp;
         system(cmd.c_str());
-        input="xxx.tmp";
+        input=tmp;
     }
 
 
@@ -309,7 +313,7 @@ void remove_duplicates(string input, string output, int col, int max, string sor
         }
     }
 
-    if(sort_opts.size()>0) system("rm xxx.tmp");
+    if(sort_opts.size()>0) system_run("rm "+tmp);
 
 }
 
@@ -329,10 +333,11 @@ int count_lines(string filename)
 // find lines the key column is unique
 int find_unique_lines(string input, string output, int col)
 {
-    string cmd = "sort -k"+to_string(col)+","+to_string(col)+ " "+input+" > xxx.tmp";
+	string tmp = random_string(10);
+    string cmd = "sort -k"+to_string(col)+","+to_string(col)+ " "+input+" > " + tmp;
 	//message("sort input file: "+ cmd);
     system(cmd.c_str());
-    input="xxx.tmp";
+    input=tmp;
 
     col = col - 1;
     ifstream fin;
@@ -372,9 +377,19 @@ int find_unique_lines(string input, string output, int col)
     }
 
 	
-   	system("rm xxx.tmp");
+   	system_run("rm "+tmp);
 
 	return n;
+}
+
+void insert_header(string filename, string header)
+{
+	string tmp = random_string(10);
+	ofstream fout(tmp.c_str());
+	fout << header << endl; 
+	fout.close();
+	system_run("cat "+filename+" >> "+tmp);
+	system_run("mv "+tmp +" "+ filename);
 }
 
 

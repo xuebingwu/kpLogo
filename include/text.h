@@ -4,8 +4,11 @@
 
 #include <string>
 #include <vector>
+#include "utility.h"
 
 using namespace std;
+
+void insert_header(string filename, string header);
 
 int count_lines(string filename);
 

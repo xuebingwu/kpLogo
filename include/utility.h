@@ -17,7 +17,7 @@ using namespace std;
 
 
 // generate a random string of letters and numbers of certain length
-string random_string( size_t length );
+string random_string( int length );
 
 string to_upper(string str);
 

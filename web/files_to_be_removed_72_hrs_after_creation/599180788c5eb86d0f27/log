@@ -1,0 +1,26 @@
+[Fri Feb 13 20:41:35 2015] Summary: 
+[Fri Feb 13 20:41:35 2015]    Input       :   pka.input.txt
+[Fri Feb 13 20:41:35 2015]    Background  :   pka.background.txt
+[Fri Feb 13 20:41:35 2015]    Output      :   pka.output.*
+[Fri Feb 13 20:41:35 2015]    alphabet    :   ACGT
+[Fri Feb 13 20:41:35 2015]    min_kmer    :   1
+[Fri Feb 13 20:41:35 2015]    max_kmer    :   1
+[Fri Feb 13 20:41:35 2015]    min_shift   :   0
+[Fri Feb 13 20:41:35 2015]    max_shift   :   0
+[Fri Feb 13 20:41:35 2015]    degenerate  :   ACGTN
+[Fri Feb 13 20:41:35 2015]    p           :   1.010000
+[Fri Feb 13 20:41:35 2015]    start at    :   1
+[Fri Feb 13 20:41:35 2015] 43 sequences loaded from pka.input.txt
+[Fri Feb 13 20:41:35 2015] 4097 sequences loaded from pka.background.txt
+[Fri Feb 13 20:41:35 2015] 4 exact kmers to be tested
+[Fri Feb 13 20:41:35 2015] 4 k-mers allowing degenerate bases
+[Fri Feb 13 20:41:35 2015] 24 tests (kmer x position x shifts) will be performed
+[Fri Feb 13 20:41:35 2015] counting exact kmers in foreground sequences...shift=0
+[Fri Feb 13 20:41:35 2015] counting exact kmers in background sequences...shift=0
+[Fri Feb 13 20:41:35 2015] computing p-values for exact kmers...
+[Fri Feb 13 20:41:35 2015] 24 significant exact kmers identified
+[Fri Feb 13 20:41:35 2015] computing p-values for degenerate kmers...
+[Fri Feb 13 20:41:35 2015] 24 significant positional kmers identified in total
+[Fri Feb 13 20:41:36 2015] plotting the most significant kmer at each position...
+[Fri Feb 13 20:41:36 2015] plotting single nucleotide profile...
+[Fri Feb 13 20:41:38 2015] Done!

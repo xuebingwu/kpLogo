@@ -89,41 +89,41 @@ color: #fff;
 <div style="font-family: Helvetica,Arial,sans-serif;" align="left">
 <form action="./submit.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
 
-  <table style="text-align: center; margin-left: auto; margin-right: auto; width: 1000px; height: 412px;" border="0" cellspacing="1">
-    <tbody>
+  <table style="text-align: center; margin-left: auto; margin-right: auto;" border="0" cellpadding="0" cellspacing="20" border-spacing="10" border-collapse="collapse" display="block"> 
+   <tbody>
 		
       <tr>
-	    <td rowspan="1" style="vertical-align: center;" ><br>
-        	<h4>Paste input sequences below -- <font color="Blue">OR</font> -- Upload input sequences in a file (<2MB)
+	    <td style="vertical-align: top;" ><br>
+        	<strong>Upload input sequences in a file (<2MB): </strong> <br><br>
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
            	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
 				<a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
-			</h4> 
-	        <textarea name="foregroundpaste" cols="100" rows="8" id="foregroundpaste"></textarea>
-			<br>
+			<br><br> Or paste sequences below:<br>
+	        <textarea name="foregroundpaste" cols="40" rows="8" id="foregroundpaste"></textarea>
         </td>
+
+        <td style="vertical-align: top;" ><br>
+            <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB): </strong> <br><br>
+                <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
+                <input name="backgroundfile" type="file" style="vertical-align: top;">
+                <a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
+            <br><br> Or paste sequences below:<br>
+            <textarea name="backgroundpaste" cols="40" rows="8" id="backgroundpaste"></textarea>
+        </td>
+
       </tr>
-	  
+	 
+ 
       <tr>
-      	<td style="vertical-align: center;"> 
+      	<td colspan="2" style="vertical-align: top;"> 
 			<input name="Submit1" value="Submit" style="color: Yellow" type="submit"><br>
 			<br>
-			<font color="Blue"> &nbsp;&nbsp;&nbsp;&nbsp;Optional:</font> Email results to: 
+			<font color="Blue"> Optional:</font> Email results to: 
 			<input value="xxx@yyy.com" name="email" id="email" size="40" type="text" onfocus="if(this.value == 'xxx@yyy.com') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'xxx@yyy.com'; }" > 
 			<input value="Job name" name="jobname" id="jobname" size="40" type="text" onfocus="if(this.value == 'Job name') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Job name'; }">
 		</td>
       </tr>
 
-      <tr>
-        <td rowspan="1" style="vertical-align: center;width:100%;" ><br>
-        	<font color="Blue">Optional:</font> Background sequences: paste below or upload here (<2MB): 
-			<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /> 
-			<input name="backgroundfile" type="file" style="vertical-align: bottom;">
-			<a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
-			<textarea name="backgroundpaste" cols="100" rows="8" id="backgroundpaste"></textarea>
-        </td>
-      </tr>
-	  
     </tbody>
 	
   </table>
@@ -153,6 +153,17 @@ color: #fff;
         <option value="-weighted">weighted</option>
 	</select> (for tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> )</td>
       </tr>
+
+
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Subsequence </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+		From position <input value="1" name="sub_first" id="sub_first" size="5" type="text"> to position <input value="0" name="sub_last" id="sub_last" size="5" type="text"> (0 or negative numbers interpreted as distance from the end) </td>
+      </tr>
+
 
 
       <tr>

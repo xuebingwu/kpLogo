@@ -112,6 +112,7 @@ color: #fff;
 				<li><a href="#installation">Installation</a></li>
 				<li><a href="#test">Test</a></li></ul></li></ul></li>
 	<li><a href="#how-pka-works">How PKA works</a><ul>
+        <li><a href="#input-preprocessing">Input preprocessing</a></li>
 		<li><a href="#k-mer-counting">K-mer counting</a><ul>
 			<li><a href="#degenerate-letter">Degenerate letter</a></li>
 			<li><a href="#positional-shift">Positional shift</a></li></ul></li>
@@ -268,6 +269,14 @@ For a given value of k, PKA enumerates all possible kmers (allowing
 degenerate letters when specified), determine their presence / absence at
 every possible positions in all input sequences, and report their
 enrichment / depletion using statistical models specified by users.<br>
+
+<h2><a class="mozTocH2" name="input-preprocessing"></a>Input preprocessing</h2>
+<p>For DNA/RNA sequences (-alphabet ACGT or -alphabet ACGU), U will be converted to T</p>
+
+<p>All sequences will be converted to upper case.</p>
+
+<p>Subsequences: use -sub option to specify the sub-region to be analyzed. Specifically, -sub n1,n2 specifies two numbers, n1, and n2, where n1 is the position of the first letter to be included, and n2 is the position of the last letter to be included. For example, -sub 1,20 tells PKA to analyze the first 20 letters. This option allows one to analyze sequences of different length. In addition, n1 and n2 can take non-positive integers, which PKA interpreted as the distance from the end. For example, the default setting -sub 1,0 means take the entire sequence without trimming. Another example is -sub -9,0, which tells PKA to analyze the last 10 letters.</p>
+
 <h2><a class="mozTocH2" name="k-mer-counting"></a>K-mer counting</h2>
 <h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate letter</h3>
 Currently PKA only supports degenerate letters for DNA/RNA sequences, and specifically those in the <a href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below).  <br>

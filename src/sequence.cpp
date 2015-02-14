@@ -501,10 +501,10 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	                nSig++;
 					double f1 = float(counts[x])/nSeq;
 	                double z = (counts[x] - expected) / sqrt(expected*(1-f2));
-	                double local_r = f1/f2;
+	                double local_r = f1 / ((f2 * nSeq - f1)/(nSeq-1));// double(counts[x])/(total_counts-counts[x])*(nSeq-1);
 					int position = x-startPos+2;
 					if (position < 1) position -= 1;
-	                outstream << kmers[i] << "\t" << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << local_r << "\t"  << local_r << endl;
+	                outstream << kmers[i] << "\t" << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
 	            }
 			}
 		}

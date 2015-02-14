@@ -75,6 +75,9 @@ if($alphabet == "other")
 	$alphabet = $other_alphabet;
 }
 
+$sub_first=$_POST['sub_first'];
+$sub_last=$_POST['sub_last'];
+
 $mincount = $_POST['mincount'];
 if($mincount < 0)
 {
@@ -169,21 +172,21 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 	}
 	else 
 	{
-		$file2 = $FILES['backgroundfile'];
+		$file2 = $_FILES['backgroundfile'];
 		if(move_uploaded_file($file2['tmp_name'], "pka.background.txt"))
 		{
 		}
 		else 
 		{
-			//echo "<font color='red'>Please paste or upload your background!</font>";
-			//exit();
+			echo "<font color='red'>Fail to upload background file!</font>";
+			exit();
 		}
 	}
 }
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -sub $sub_first,$sub_last";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);

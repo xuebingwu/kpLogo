@@ -1,0 +1,15 @@
+[Fri Feb 13 21:04:32 2015] Summary: 
+[Fri Feb 13 21:04:32 2015]    Input       :   pka.input.txt
+[Fri Feb 13 21:04:32 2015]    Background  :   local
+[Fri Feb 13 21:04:32 2015]    Output      :   pka.output.*
+[Fri Feb 13 21:04:32 2015]    alphabet    :   ACGT
+[Fri Feb 13 21:04:32 2015]    min_kmer    :   1
+[Fri Feb 13 21:04:32 2015]    max_kmer    :   4
+[Fri Feb 13 21:04:32 2015]    min_shift   :   0
+[Fri Feb 13 21:04:32 2015]    max_shift   :   0
+[Fri Feb 13 21:04:32 2015]    degenerate  :   ACGTN
+[Fri Feb 13 21:04:32 2015]    p           :   1.010000
+[Fri Feb 13 21:04:32 2015]    start at    :   1
+[Fri Feb 13 21:04:32 2015] Input file is FASTA format
+[Fri Feb 13 21:04:32 2015] 186 sequences loaded from pka.input.txt
+[Fri Feb 13 21:04:32 2015] ERROR: less than 2 input sequences left after filtering by size

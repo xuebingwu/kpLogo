@@ -725,6 +725,7 @@ WriteFasta(seqs1,"implanted.fa");
     // tmp output file for significnt kmers' frequency, for B significant kmers
     string output_freq = output+".Bonferroni.significant.frequency.txt";
 
+    string header = "#kmer\tposition\tshift\tstatistics\tp-value\tcorrected.p";
 
 	if(analysis != "default")
 	{
@@ -737,8 +738,9 @@ WriteFasta(seqs1,"implanted.fa");
 			else nSig = find_significant_kmer_from_ranked_sequences(
 				seqs1, kmers,outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift,startPos,minCount);
 		}
-		else 
+		else // weighted sequecnes 
 		{
+			header += "\tn1\tmean1\tstd1\tn2\tmean2\tstd2";
 			if(degenerate) nSig = find_significant_kmer_from_weighted_sequences(
 				seqs1, weights, dkmers, outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift, startPos,minCount);
 			else nSig = find_significant_kmer_from_weighted_sequences(
@@ -773,16 +775,7 @@ WriteFasta(seqs1,"implanted.fa");
 	}
 	else
 	{
-	    // prepare output files
-	    ofstream fout;
-	    fout.open(out.c_str());
-	    // data format
-	    fout.precision(3);
-	    // header
-	    string header = "kmer\tposition\tshift\tz_score\tp\tBonferroni\tfrac1\tfrac2\tratio\tlocal_r\tFDR";
-	    fout << header << endl;
-	    fout.close();
-    
+        header += "\tfrac.obs\tfrac.exp\tobs/exp\tlocal.r";
 		if(local)
 		{
 			if(degenerate) nSig = find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
@@ -897,7 +890,9 @@ WriteFasta(seqs1,"implanted.fa");
 	system_run("convert "+output+".ps "+output+".png");
 	system_run("convert "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.png");
 	
-	
+	// add header to data file
+	insert_header(out,header);
+	insert_header(output+".most.significant.each.position.txt",header);
     message("Done!");
 
 	// send email once done
