@@ -2828,7 +2828,45 @@ vector<string> last_n_bases(vector<string> seqs,int n){
     return res;
 }
 
+// start from position a and ends at b
+// if a or b < 1: distance from end
+// examples
+// from position 10 to the end: a=10, b=0
+// the last 10 letters except the last one: a=-10,b=-1
+// first 10: a=1;b=10
+// last 10: a=-9,b=0;
+vector<string> sub_sequences(vector<string> seqs, int a, int b)
+{
+	if ( a >= b ) 
+    {
+		message("Error: sub_sequences: start needs to be smaller than end:"+to_string(a)+" >= "+to_string(b));
+		exit(1);
+	}
 
+    vector<string> res;
+    int start,end;
+    for (int i=0;i<seqs.size();i++)
+    {  
+		int L = seqs[i].size();
+		if (a>0) start = a;
+        else start = L + a -1;
+		if (b>0) end = b;
+		else end = L + b - 1;  
+
+		if( (a > 0 && a < L) && (b>0 && b < L))      	
+        {  
+            res.push_back(seqs[i].substr(start-1,end-start+1));
+        }
+    }
+
+	if(res.size()<1)
+	{
+		message("ERROR: sub_sequences: no sequences survive the triming!");
+		exit(1);
+	}
+
+    return res;
+}
 // convert fasta file to a letter matrix
 void fasta_to_letter_matrix(string input, string output){
 	ofstream out(output.c_str());

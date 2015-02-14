@@ -269,6 +269,7 @@ vector<string> first_n_bases(vector<string> seqs,int n);
 
 vector<string> last_n_bases(vector<string> seqs,int n);
 
+vector<string> sub_sequences(vector<string> seqs, int a, int b);
 
 void mismatches(map<string,string>& mutant,map<string,int>& dist, string motif, int n, set<char> alphabet);
 
