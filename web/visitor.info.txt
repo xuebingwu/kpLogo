@@ -34,3 +34,138 @@
 10.9.9.94	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 6 -shift 0  -startPos 1 -gapped 
 10.9.9.99	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
 10.9.9.99	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 6 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 9 -alphabet dna  -max_k 4 -shift -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 9 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 3 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped 
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 3
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 3
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 3
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 3
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 1 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 1 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 1 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 1 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 0
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 0
+10.9.9.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1   -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -markov 1  -startPos 1   -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1   -minCount 1
+10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 6 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 3 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 3 -shift 0  -bgfile pka.background.txt  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 1  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 1  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 2 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 3 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.61.67	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -startPos 1 -degenerate all  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 30 -gapped  -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1   -minCount 1
+10.9.9.72	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1
+10.9.9.75	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 1 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1

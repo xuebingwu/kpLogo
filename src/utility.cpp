@@ -51,6 +51,7 @@ string random_string(const int len) {
 }
 /**/
 
+
 string to_string(vector<string> str, string del/*="\t"*/)
 {
 	string res = str[0];
@@ -83,6 +84,7 @@ set<string> set_subtract(set<string> s1, set<string> s2)
 	return res;
 }
 
+/*
 // split string
 vector<string>  string_split(string str, string separator){
     size_t found;
@@ -99,6 +101,13 @@ vector<string>  string_split(string str, string separator){
         results.push_back(str);
     }
     return results;
+}
+*/
+
+vector<string>  string_split(string str, string separator/*="\t,| "*/){
+	vector<string> parts;
+	boost::split(parts, str, boost::is_any_of(separator));
+	return parts;
 }
 
 string to_upper(string strToConvert)

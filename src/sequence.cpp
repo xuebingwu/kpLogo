@@ -88,7 +88,9 @@ void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<d
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+		line.erase(line.find_last_not_of(" \n\r\t")+1);
+
+        flds = string_split(to_upper(line));
 		if (flds.size() < nCol) message("too few columns in line: "+line);
 		else
 		{
@@ -128,7 +130,7 @@ void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, v
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		if (flds.size() < nCol) message("too few columns in line: "+line);
 		else
 		{
@@ -176,7 +178,7 @@ vector<string> load_ranked_sequences_to_vectors(string filename, int skip/*=0*/,
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		if (flds.size() < cSeq+1) message("skip lines with not enough columns: "+line);
 		else seqs.push_back(flds[cSeq]);
 	}
@@ -892,7 +894,7 @@ vector<positional_kmer> build_model_from_PKA_output(string filename, int startPo
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		
 		double weight = stof(flds[cWeight]);
 				
@@ -979,7 +981,7 @@ vector<paired_kmer> build_paired_kmer_model(string filename)
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		
 		string kmer = flds[cKmer];
 		int pos = stoi(flds[cStart]);
@@ -1026,7 +1028,7 @@ vector<positional_kmer> load_model_from_file(string filename)
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		positional_kmer x(flds[0],stoi(flds[1]),stoi(flds[2]),stof(flds[3]),stoi(flds[4]));
 		ranked_kmers.push_back(x);
 	}
@@ -1138,7 +1140,7 @@ void score_tabular_using_PKA_model(string tabfile, int col, string outputfile, v
     {
 		getline(fin,line);
 		if(line.length() == 0) continue;
-		flds = string_split(line,"\t");
+		flds = string_split(line);
      	double score = score_sequence_using_PKA_model(ranked_kmers, flds[col]);
   		fout << line << "\t" << score << endl;		
     }
@@ -1234,7 +1236,7 @@ void read_significant_positional_kmer_from_file(string inputfile, vector<string>
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		
 		kmers.push_back(flds[0]);
 		positions.push_back(stoi(flds[2]));
@@ -1259,7 +1261,7 @@ void read_significant_positional_kmer_from_PKA2_output(string inputfile, vector<
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
 		
 		kmers.push_back(flds[0]);
 		positions.push_back(stoi(flds[1]));
@@ -1413,7 +1415,7 @@ int non_overlapping_sig_motifs(string inputfile, string outputfile)
         if (line.length() == 0)
             continue;
 
-        flds = string_split(line,"\t");
+        flds = string_split(line);
         length.push_back(flds[0].size());
         position.push_back(stoi(flds[2]));
         removed.push_back(false);
@@ -1683,7 +1685,7 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 	{
 		getline(fin,line);
 		if(line.length() == 0) continue;
-		flds = string_split(line,"\t");
+		flds = string_split(line);
 		if(flds[cSeq] == "A" || flds[cSeq] == "C" || flds[cSeq] == "G" || flds[cSeq] == "T")
 		{
 			double score = stof(flds[cScore]);
@@ -1713,7 +1715,7 @@ string postscript_text(string text, double x, double y, double width, double hei
     "  "+to_string(x)+" "+to_string(y)+" moveto \n"
     "  "+to_string(width) +" "+to_string(height) + " scale \n "
 	"  "+to_string(rotate)+ " rotate\n"
-    "  "+color + " setrgbcolor ("+text+") show  \n"
+    "  "+color + " setrgbcolor ("+text+") dup stringwidth pop 2 div neg 0 rmoveto show  \n"
     "grestore \n"
 	"\n";	
 	
@@ -1732,7 +1734,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 	return res;
 }
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content, double max_scale)
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content, double max_scale)
 {
 	// fontsize
 	//int fontsize = 20;
@@ -1819,25 +1821,23 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	ofstream out(filename.c_str());
 	out << header << endl;
 	
-	// draw y axis, +
-	out << postscript_line(x0-xstep, y0+coord_size,  x0-xstep, y0 + coord_size + int(height_pos) * ystep);
-	out << postscript_text("0", x0-xstep*1.5, y0+coord_size, 0.5, 0.5, "0 0 0", 0);
-	int y_max = int(floor(height_pos * absmax / max_scale+0.5));
-	if(y_max < 10)
-	out << postscript_text(to_string(y_max), x0 - xstep * 1.5, y0+coord_size + int(height_pos) * ystep, 0.5, 0.5, "0 0 0", 0);
-	else out << postscript_text(to_string(y_max), x0-xstep*2,y0+coord_size + int(height_pos)  * ystep , 0.5, 0.5, "0 0 0", 0);
-	// draw y axis, -
-	if(minv < 0)
-	{
-		out << postscript_line(x0-xstep, y0,  x0-xstep, y0 - int(height_neg) * ystep);
-		out << postscript_text("0", x0-xstep*1.5, y0-ystep/2, 0.5, 0.5, "0 0 0", 0);
-		int ymax = max(1,int(floor(height_neg* absmax / max_scale+0.5)));
-		if(ymax < 10)
-			out << postscript_text(to_string(ymax), x0-xstep*1.5, y0-max(1,int(height_neg)) * ystep , 0.5, 0.5, "0 0 0", 0);
-		else out << postscript_text(to_string(ymax), x0-xstep*2, y0-int(height_neg) * ystep , 0.5, 0.5, "0 0 0", 0);
-	}
-	// yaxis label
-	out << postscript_text(y_label, x0-xstep*2.5, y0+(height_pos - height_neg)*ystep/2, 0.5, 0.5, "0 0 0", 90);
+    // draw y axis, +
+    out << postscript_line(x0-xstep*1.5, y0+coord_size,  x0-xstep*1.5, y0 + coord_size + height_pos * ystep);
+    //  out << postscript_text("0", x0-xstep, y0+ystep/2, 0.6,0.6, "0 0 0", 0);
+    double y_max = height_pos * absmax / max_scale;
+    out << postscript_text(to_string_with_precision(y_max), x0 - xstep*1.5 , y0+coord_size + (height_pos+0.4) * ystep, 0.6,0.6, "0 0 0", 0);
+    // draw y axis, -
+    if(minv < 0)
+    {
+        out << postscript_line(x0-xstep*1.5, y0,  x0-xstep*1.5, y0 - height_neg * ystep);
+        //out << postscript_text("0", x0-xstep*1.5, y0-ystep/2, 1, 1, "0 0 0", 0);
+        double ymax = height_neg* absmax / max_scale;
+        out << postscript_text(to_string_with_precision(ymax), x0-xstep*1.5, y0-(height_neg+1) * ystep , 0.6,0.6, "0 0 0", 0);
+        out << postscript_text(y_label, x0-xstep*3, y0+coord_size/2+(height_pos - height_neg)*ystep/2, 0.6, 0.6, "0 0 0", 90);
+    }
+    // yaxis label
+	else out << postscript_text(y_label, x0-xstep*3, y0+coord_size+(height_pos - height_neg)*ystep/2, 0.6, 0.6, "0 0 0", 90);
+
 	
 	// x axis
 	for(int i = 0 ; i < L; i++) 
@@ -1846,11 +1846,8 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		if (pos < 1) pos -= 1;
 		string color_sig = "0.5 0.5 0.5";
 		if (significant[i]) color_sig = "1 0 0";
-		out << postscript_text(to_string(pos),x0 + xstep * (i+0.75) ,y0+ystep/2,0.6,0.6,color_sig,90);
+		out << postscript_text(to_string(pos),x0 + xstep * (i+0.3) ,y0+ystep,0.6,0.6,color_sig,90);
 	}
-	
-	//array<char,5> letters = {'A','C','G','T','N'};
-	string letters="ACGTN";
 	
 	// plot logo at each position
 	for (int i=0;i<L; i++)
@@ -1862,30 +1859,30 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 
 		// sort and return index, ascending order
 		vector<double> w;
-		for(int j=0;j<4;j++) w.push_back(pwm(j,i));
+		for(int j=0;j<alphabet.size();j++) w.push_back(pwm(j,i));
 		vector<size_t> idx = sort_indexes(w);
 		//for(int j=0;j<4;j++) cout << i << "\t" << letters[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
 		
-		for(int j=0;j<4;j++)
+		for(int j=0;j<alphabet.size();j++)
 		{
 			if (w[idx[j]] > 0)
 			{		
                 string color;
-                if (colors.find(letters[idx[j]]) != colors.end()) {color = colors[letters[idx[j]]];}
+                if (colors.find(alphabet[idx[j]]) != colors.end()) {color = colors[alphabet[idx[j]]];}
                 else {color = "0.5 0.5 0.5";}
                  	
-				out << postscript_text(letters.substr(idx[j],1),x, y_pos, 1, w[idx[j]],color); 
+				out << postscript_text(alphabet.substr(idx[j],1),x, y_pos, 1, w[idx[j]],color); 
 				y_pos += w[idx[j]] * ystep ;
 			}
 		}
-		for(int j=3;j>=0;j--)		
+		for(int j=alphabet.size()-1;j>=0;j--)		
 		{
 			if (w[idx[j]] < 0)
 			{
 				y_neg += w[idx[j]] * fontsize * scaley;
                 string color;
-                if (colors.find(letters[idx[j]]) != colors.end()) {color = colors[letters[idx[j]]];}else {color = "0.5 0.5 0.5";}
-				out << postscript_text(letters.substr(idx[j],1), x, y_neg, 1, -w[idx[j]],color); 
+                if (colors.find(alphabet[idx[j]]) != colors.end()) {color = colors[alphabet[idx[j]]];}else {color = "0.5 0.5 0.5";}
+				out << postscript_text(alphabet.substr(idx[j],1), x, y_neg, 1, -w[idx[j]],color); 
 				//y_neg += w[idx[j]] * ystep * 0.05;
 			}
 		}
@@ -1930,7 +1927,7 @@ string postscript_kmer(string seq, double x, double y, int fontsize, double scal
     	 "  "+to_string(x)+" "+to_string(y + fontsize * scaley * (L-i-1) * height)+" moveto \n"
          "  "+to_string(width) +" "+to_string(height*0.95) + " scale \n "
 	     "  "+to_string(rotate)+ " rotate\n"
-         "  "+color + " setrgbcolor ("+seq[i]+") show  \n"
+         "  "+color + " setrgbcolor ("+seq[i]+") dup stringwidth pop 2 div neg 0 rmoveto show  \n"
          "grestore \n"
 	     "\n";
 	}	
@@ -1960,7 +1957,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	{
 		getline(fin,line);
 		if(line.length() == 0) continue;
-		flds = string_split(line,"\t");
+		flds = string_split(line);
 		double score = stof(flds[cScore]);
 		int pos = stoi(flds[cPos]);
 		if (pos < 0) pos += 1;
@@ -2000,7 +1997,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	
 	// origin in the plot: left, center
 	int x0 = 5 * xstep;
-	int y0 = (height_neg + 1) * ystep;
+	int y0 = (height_neg + 1.5) * ystep;
 	
 	// ps file header, define plot window
 	string header = ""
@@ -2019,25 +2016,22 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	out << header << endl;
 	
 	// draw y axis, +
-	out << postscript_line(x0-xstep, y0+coord_size,  x0-xstep, y0 + coord_size + int(height_pos) * ystep);
-	out << postscript_text("0", x0-xstep*1.5, y0+coord_size, 0.5, 0.5, "0 0 0", 0);
-	int y_max = int(floor(height_pos * absmax / max_scale+0.5));
-	if(y_max < 10)
-	out << postscript_text(to_string(y_max), x0 - xstep * 1.5, y0+coord_size + int(height_pos) * ystep, 0.5, 0.5, "0 0 0", 0);
-	else out << postscript_text(to_string(y_max), x0-xstep*2,y0+coord_size + int(height_pos)  * ystep , 0.5, 0.5, "0 0 0", 0);
+	out << postscript_line(x0-xstep*1.5, y0+coord_size,  x0-xstep*1.5, y0 + coord_size + height_pos * ystep);
+    //	out << postscript_text("0", x0-xstep, y0+ystep/2, 0.6,0.6, "0 0 0", 0);
+	double y_max = height_pos * absmax / max_scale;
+	out << postscript_text(to_string_with_precision(y_max), x0 - xstep*1.5 , y0+coord_size + (0.4+height_pos) * ystep, 0.6,0.6, "0 0 0", 0);
 	// draw y axis, -
 	if(minv < 0)
 	{
-		out << postscript_line(x0-xstep, y0,  x0-xstep, y0 - int(height_neg) * ystep);
-		out << postscript_text("0", x0-xstep*1.5, y0-ystep/2, 0.5, 0.5, "0 0 0", 0);
-		int ymax = max(1,int(floor(height_neg* absmax / max_scale+0.5)));
-		if(ymax < 10)
-			out << postscript_text(to_string(ymax), x0-xstep*1.5, y0-max(1,int(height_neg)) * ystep , 0.5, 0.5, "0 0 0", 0);
-		else out << postscript_text(to_string(ymax), x0-xstep*2, y0-int(height_neg) * ystep , 0.5, 0.5, "0 0 0", 0);
+		out << postscript_line(x0-xstep*1.5, y0,  x0-xstep*1.5, y0 - height_neg * ystep);
+		//out << postscript_text("0", x0-xstep*1.5, y0-ystep/2, 1, 1, "0 0 0", 0);
+		double ymax = height_neg* absmax / max_scale;
+	    out << postscript_text(to_string_with_precision(ymax), x0-xstep*1.5, y0-(height_neg+1) * ystep , 0.6,0.6, "0 0 0", 0);
+	    out << postscript_text(y_label, x0-xstep*3, y0+coord_size/2+(height_pos - height_neg)*ystep/2, 0.6, 0.6, "0 0 0", 90);
 	}
 	// yaxis label
-	out << postscript_text(y_label, x0-xstep*2.5, y0+(height_pos - height_neg)*ystep/2, 0.5, 0.5, "0 0 0", 90);
-	
+	else out << postscript_text(y_label, x0-xstep*3, y0+coord_size+(height_pos - height_neg)*ystep/2, 0.6, 0.6, "0 0 0", 90);
+
 	// x axis
 	for(int i = 0 ; i < L; i++) 
 	{
@@ -2045,7 +2039,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 		if (pos < 1) pos -= 1;
 		string color_sig = "0.5 0.5 0.5";
 		if (significant[i]) color_sig = "1 0 0";
-		out << postscript_text(to_string(pos),x0 + xstep * (i+0.75) ,y0+ystep/2,0.6,0.6,color_sig,90);
+		out << postscript_text(to_string(pos),x0 + xstep * (i+0.3) ,y0+ystep,0.6,0.6,color_sig,90);
 	}
 	
 	
@@ -2054,7 +2048,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	{
 		getline(fin,line);
 		if(line.length() == 0) continue;
-		flds = string_split(line,"\t");
+		flds = string_split(line);
 		double score = stof(flds[cScore]) ; 
 		if(stof(flds[cStat]) < 0 ) 
 		{
@@ -2245,7 +2239,7 @@ void create_logo_for_topN_sig_kmer_per_position(vector<string> seqs, string file
         getline(fin,line);
         if (line.length() == 0)
             continue;
-        flds = string_split(line,"\t");
+        flds = string_split(line);
         //cout << flds[9] <<","<< pCutoff << endl;
         if(stod(flds[9]) < pCutoff)
         {
@@ -2611,9 +2605,9 @@ int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>s
 	                // local enrichment
 	                double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 					
-	                outstream << it->first << "\t"  << m-startPos << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+	                outstream << it->first << "\t"  << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
 	               
-	                    outcounts << it->first << ":" << m-startPos;
+	                    outcounts << it->first << ":" << m-startPos +2;
 	                    for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                    outcounts << endl;
 	               
@@ -2681,8 +2675,8 @@ int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>s
 	                    double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 						
 						
-	                    outstream  << dkmers[i] << "\t" << m-startPos << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r  << endl;
-	                        outcounts << dkmers[i] << ":" << m-startPos;
+	                    outstream  << dkmers[i] << "\t" << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r  << endl;
+	                        outcounts << dkmers[i] << ":" << m-startPos + 2;
 	                        for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                        outcounts << endl;
 
@@ -2874,7 +2868,7 @@ void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max,
 	{
 		getline(in,line);
 		if(line.length()==0) continue;
-		flds = string_split(line,"\t");
+		flds = string_split(line);
 		// output other columns first
 		for (int i=0;i<flds.size();i++) 
 		{
@@ -3088,7 +3082,7 @@ int tab2bed_galaxy(string infile, string outfile){
     getline(fin,line);
     if (line.length() == 0)
       continue;
-    flds = string_split(line,"\t");
+    flds = string_split(line);
     pos = string_split(flds[0],"_");
     if (pos.size() < 5)
     {
@@ -3156,7 +3150,7 @@ int tab2bed_bedtools(string infile, string outfile){
     getline(fin,line);
     if (line.length() == 0)
       continue;
-    flds = string_split(line,"\t");
+    flds = string_split(line);
     flds0 = string_split(flds[0],":");
     chr = flds0[0];
     strand = "+";

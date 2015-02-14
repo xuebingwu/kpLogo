@@ -6,6 +6,11 @@
 #include <vector>
 #include <set>
 
+#include <sstream>
+#include <iomanip> // setprecision
+
+#include <boost/algorithm/string.hpp>
+
 
 using namespace std;
 
@@ -19,9 +24,17 @@ string to_upper(string str);
 string to_string(vector<string> str, string del="\t");
 string to_string(set<string> str, string del="\t");
 
+template <typename T>
+string to_string_with_precision(const T a_value, const int n = 3)
+{
+    ostringstream out;
+    out << setprecision(n) << a_value;
+    return out.str();
+}
+
 
 // split string
-vector<string>  string_split(string str, string separator);
+vector<string>  string_split(string str, string separator="\t,| ");
 
 vector<string> set_overlap(set<string> first, set<string> second);
 

@@ -23,11 +23,11 @@ height:30px;
 
 h2 {
 font-family: Verdana;
-color: DarkSlateBlue  ;
+color: SteelBlue  ;
 }
 h3 {
 font-family: Verdana;
-color: SlateBlue  ;
+color: SteelBlue  ;
 }
 h4 {
 font-family: Verdana;
@@ -84,7 +84,7 @@ color: #fff;
         <form action="./submit.html"> <input value="Server" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 0px;">
-        <form action="./manual.html#installation"> <input value="Code" type="submit"></form>
+        <form action="./manual.html#install-pka-locally"> <input value="Code" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 69px;">
         <form action="./manual.html"> <input value="Manual" type="submit"></form>
@@ -203,6 +203,9 @@ web version does not support this functionality at this moment.<br>
   </li>
 </ol>
 <h2><a class="mozTocH2" name="install-pka-locally"></a>Install PKA locally</h2>
+
+<p>PKA is a open-source project and users can download the source code, compile and install locally to enable all functionality.</p>
+
 <h3><a class="mozTocH3" name="requirements"></a>Requirements</h3>
 PKA has been successfully tested on Linux and Mac.<br>
 <br>
@@ -534,38 +537,37 @@ the average observed success rate (fraction of input sequences
 containing this kmer at a given position) averaged over all positions. <br>
 <br>
 <h1><a class="mozTocH1" name="input-format"></a>Input format</h1>
-<a>PKA currently supports both FASTA format and Tabular format. </a>
+<a>PKA currently supports both FASTA format and Tabular format. <font color="red">Note that all sequences will be converted to upper case by default</font>. </a>
 <h2><a class="mozTocH2" name="tabular"></a>Tabular / Column file</h2>
-<a>Tabular files are tab-delimited text files. Currently PKA does NOT
-support other delimiters (space, comma, etc). <br>
+<a>PKA will treat <font color="red">ANY</font> of the following characters as delimiter: <strong> "\t", ",", "|", " "</strong>. <br>
 <br>
 Example 1: minimal ranked or unranked tabular input <br>
 <br>
 </a>
-<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a>CGTAGCTAGCTACGTAGCTA<br>
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><small>CGTAGCTAGCTACGTAGCTA<br>
 CGTACGTAGCTAGCTAGCTA<br>
 GCTGTGATCGTAGCTAGCTG<br>
-...</a></div>
+...</small></a></div>
 <a><br>
 Example 2: minimal weighted input <br>
 <br>
 </a>
-<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a>CGTAGCTAGCTACGTAGCTA
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><small>CGTAGCTAGCTACGTAGCTA
 3.4<br>
 CGTACGTAGCTAGCTAGCTA 8.7<br>
 GCTGTGATCGTAGCTAGCTG 1.2<br>
-...</a></div>
-<a><br>
-</a><a>Example 3: additional columns in input (require '-seq 2 -weight
+...</small></a></div>
+<br>
+	<a>Example 3: additional columns in input (require '-seq 2 -weight
 3' in
 this example) <br>
 </a><a><br>
 </a>
-<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a>seq1
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><small>seq1
 CGTAGCTAGCTACGTAGCTA 3.4<br>
 seq2 CGTACGGAGCTAGCTAGCTA 8.7<br>
 seq3 GCTGTGAGCGTAGCTAGCTG 1.2<br>
-...</a></div>
+...</small></a></div>
 <a><br>
 Notes: <br>
 1. Each line is a sequence <br>
@@ -580,7 +582,7 @@ position needs to be specified by '-seq' and '-weight'. For example
 <a>Here is an example of a FASTA file: <br>
 </a><a><br>
 </a>
-<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a>&gt;seq1
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><small>&gt;seq1
 <br>
 CGTAGCTAGCTAGCTAGCTA<br>
 &gt;seq2<br>
@@ -589,7 +591,7 @@ CGTAGCTAGCTAGCTAGCTA<br>
 CGTAGCTAGCTAGCTAGCTA<br>
 &gt;seq4<br>
 CGTAGCTAGCTAGCTAGCTA<br>
-...</a></div>
+...</small></a></div>
 <a><br>
 Notes on FASTA file format: <br>
 1. Each sequence include an ID line and a sequence line <br>
@@ -602,7 +604,11 @@ and '-last') <br>
 <h1><a class="mozTocH1" name="output-format"></a>Output format</h1>
 
 <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
-<h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data file</h2>Regardless the type of input (unranked/ranked/weighted), the first six columns of the output data file are always the same:<br>
+
+<h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data file</h2>
+<p>Regardless the type of input (unranked/ranked/weighted), the first six columns of the output data file are always the same:</p>
+
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><small>
 <ol>
   <li>kmer</li>
   <li>position: first nucleotide of the kmer in the sequence.</li>
@@ -611,23 +617,29 @@ and '-last') <br>
   <li>p.value (-log10)</li>
   <li>Bonferoni corrected p.value (-log10)</li>
 </ol>
-Unranked:<br>
+</small> </div>
+
+<p>Output from ranked input has no other columns other than the six above. Note the statistics and p-value in column 4 and 5 are based on normal approximation. See: </p>
+
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><small>
+Carine A. Bellera et al, Normal Approximations to the Distributions of the Wilcoxon Statistics: Accurate to What N? Graphical Insights, <strong>Journal of
+Statistics Education</strong>, Volume 18, Number 2, (2010) <a href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
+</small></div>
+
+<p>Unranked input will generate four additional columns in the output:</p>
+
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><small>
 <ol start="7">
   <li>observed fraction of input sequences have this kmer at this position allowing this amount of shift</li>
   <li>expected fraction of background sequences have this kmer at this position allowing this amount of shift</li>
   <li>ratio: column 7 divided by column 8</li>
   <li>column 7 divided by the average of other positions </li>
 </ol>
-Ranked:<br>
-<br>
-No other information is provided. The statistics and p-value in column
-4 and 5 are based on normal approximation. See: Carine A. Bellera et
-al, Normal Approximations to the Distributions of the Wilcoxon
-Statistics: Accurate to What N? Graphical Insights, Journal of
-Statistics Education, Volume 18, Number 2, (2010)
-http://www.amstat.org/publications/jse/v18n2/bellera.pdf&nbsp; <br>
-<br>
-Weighted:<br>
+</small> </div>
+
+</p>Weighted input will generate 6 more columns:</p>
+
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><small>
 <ol start="7">
   <li>sample size for sample 1, i.e. the number of sequences have this kmer at this position when allowing this amount of shift. </li>
   <li>mean of weight for sample 1 sequences.</li>
@@ -637,6 +649,7 @@ have this kmer at this position when allowing this amount of shift. </li>
   <li>mean of weight for sample 2 sequences.</li>
   <li>standard deviation of weight for sample 2 sequences.</li>
 </ol>
+</small> </div>
 
 <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
 <p>coming soon</p>
@@ -652,13 +665,13 @@ have this kmer at this position when allowing this amount of shift. </li>
 </p>
 
 
-<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><p><b>License</b><br><br>
+<div style="border: 0px solid ; padding: 10px 40px; background: rgb(221, 221, 221) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-family: Monaco;"><a><p><b>License</b><br><br><small>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 
 <p>
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></a></div>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</small></p></a></div>
 
 
 <h1><a class="mozTocH1" name="author"></a>Author</h1>

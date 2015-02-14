@@ -30,7 +30,7 @@ string postscript_line(double x1, double y1, double x2, double y2);
 
 string postscript_text(string text, double x, double y, double width, double height, string color, double rotate=0);
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", bool info_content=false, double max_scale=6.0);
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", bool info_content=false, double max_scale=6.0);
 
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs);
 

@@ -75,6 +75,12 @@ if($alphabet == "other")
 	$alphabet = $other_alphabet;
 }
 
+$mincount = $_POST['mincount'];
+if($mincount < 0)
+{
+	$mincount = 0;
+}
+
 $kmer_length = $_POST['kmer_length'];
 
 $shift = $_POST['shift'];
@@ -154,7 +160,7 @@ else
 }
 
 // background
-if ($background == "bgfile" || $background == "markov_background") {
+if ($background == " -bgfile pka.background.txt " || $background == " -markov $markov_background_order -bgfile pka.background.txt ") {
 	if (strlen($backgroundpaste) > 0) // sequence pasted, save to file
 	{
 		$hb = fopen("pka.background.txt", 'w');
@@ -177,7 +183,7 @@ if ($background == "bgfile" || $background == "markov_background") {
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length -shift $shift $background -startPos $startPos $degenerate $colorblind";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);

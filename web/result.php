@@ -98,18 +98,18 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 
     echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" border-spacing=\"0\" border-collapse=\"collapse\" display=\"block\" >";
     echo "<tr>";
-	echo "<td>Frequency Logo</td><td><a href=\"./pka.output.freq.png\"> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"750\"> </a></td>";
+	echo "<td>Frequency Logo</td><td><a href=\"./pka.output.freq.png\"> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
     echo "<tr>";
-	echo "<td>Information Content Logo</td><td><a href=\"./pka.output.info.png\"> <img src=\"./pka.output.info.png\" width=\"750\" style=\"display:block\" > </figure> </a></td> ";
+	echo "<td>Information Content Logo</td><td><a href=\"./pka.output.info.png\"> <img src=\"./pka.output.info.png\" width=\"100%\" style=\"display:block\" > </figure> </a></td> ";
     echo "</tr>";
 	if (file_exists('./pka.output.png')) {
     echo "<tr>";
-		echo "<td>Probability Logo</td><td><a href=\"./pka.output.png\"> <img src=\"./pka.output.png\" width=\"750\" style=\"display:block\" ></a></td>";
+		echo "<td>Probability Logo</td><td><a href=\"./pka.output.png\"> <img src=\"./pka.output.png\" width=\"100%\" style=\"display:block\" ></a></td>";
     echo "</tr>";
 	}
     echo "<tr>";
-	echo "<td>K-mer Logo</td><td><a href=\"./pka.output.most.significant.each.position.png\"> <img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"750\"> </a></td>";
+	echo "<td>K-mer Logo</td><td><a href=\"./pka.output.most.significant.each.position.png\"> <img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
     echo "</table>";
 	echo "</div>";

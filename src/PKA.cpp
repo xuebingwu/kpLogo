@@ -4,7 +4,6 @@
 #include "utility.h"
 #include "text.h"
 
-#include <boost/algorithm/string.hpp>
 
 void print_help()
 {
@@ -359,6 +358,11 @@ int main(int argc, char* argv[]) {
 		max_shift = shift;
 	}
 	
+    if(analysis != "weighted")
+		{
+			cWeight = -1;
+		}
+	
 	// both shift and degenerate for unranked unweighted
 	if(analysis == "default" && degenerate == true && max_shift > 0 && local == false) 
 	{
@@ -482,14 +486,6 @@ int main(int argc, char* argv[]) {
 	        {
 	            // shuffle sequence preserving m-let frequency, m specified by -preserve
 	            seqs2 = shuffle_seqs_preserving_k_let(seqs1,shuffle_N,preserve);
-			    // replace U with T
-			    if (alphabet == "ACGT")
-			    {
-			        for (int i=0;i<seqs2.size();i++)
-			        {
-			            replace(seqs2[i].begin(),seqs2[i].end(),'U','T');
-			        }
-			    }
 
 	            message(to_string(seqs2.size()) + " shuffled sequences generated, " + to_string( shuffle_N ) + " from each input sequence");
 
@@ -509,6 +505,15 @@ int main(int argc, char* argv[]) {
 			if(is_fasta(seqfile2)) ReadFastaToVectors(seqfile2, names, seqs2);
 			else load_sequences_from_tabular(seqfile2,seqs2,weights,skip,cSeq,cWeight);
 	
+		    // replace U with T
+		    if (alphabet == "ACGT")
+		    {
+		        for (int i=0;i<seqs2.size();i++)
+		        {
+		            replace(seqs2[i].begin(),seqs2[i].end(),'U','T');
+		        }
+		    }
+			
 	        if (seqs2.size() == 0)
 	        {
 	            message("No sequence present in file: " + seqfile2);
@@ -852,7 +857,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)",8);
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)",4);
 	
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -861,15 +866,15 @@ WriteFasta(seqs1,"implanted.fa");
 		//plot_nucleotide_profile( out,  output+".nucleotide.profile.pdf",  seq_len1, cScore, startPos);
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out, seq_len1, startPos, cScore);
-	    generate_ps_logo_from_pwm(pwm, output+".ps",colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)",false,8);
+	    generate_ps_logo_from_pwm(pwm, output+".ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)",false,4);
 		
 	}
 	
 	// plot frequency
 	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1);
 	//print_matrix(pwm2);
-	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Frequency",false,4);
-	generate_ps_logo_from_pwm(pwm2, output+".info.ps",colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true,4);
+	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Frequency",false,2);
+	generate_ps_logo_from_pwm(pwm2, output+".info.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true,2);
 	
 	// convert ps to pdf
 	system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");
