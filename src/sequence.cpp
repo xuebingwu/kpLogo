@@ -2837,12 +2837,6 @@ vector<string> last_n_bases(vector<string> seqs,int n){
 // last 10: a=-9,b=0;
 vector<string> sub_sequences(vector<string> seqs, int a, int b)
 {
-	if ( a >= b ) 
-    {
-		message("Error: sub_sequences: start needs to be smaller than end:"+to_string(a)+" >= "+to_string(b));
-		exit(1);
-	}
-
     vector<string> res;
     int start,end;
     for (int i=0;i<seqs.size();i++)
@@ -2853,7 +2847,7 @@ vector<string> sub_sequences(vector<string> seqs, int a, int b)
 		if (b>0) end = b;
 		else end = L + b - 1;  
 
-		if( (a > 0 && a < L) && (b>0 && b < L))      	
+		if( (start > 0 && start <= end) && (end>0 && end < L))      	
         {  
             res.push_back(seqs[i].substr(start-1,end-start+1));
         }

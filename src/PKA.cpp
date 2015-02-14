@@ -39,7 +39,7 @@ void print_help()
 	"   -seq INT             for tabular input: sequences are in column INT. Default 1\n"
 	"   -weight INT          for tabular input: weights are in column INT. Default 2\n"
 	"   -skip INT            for tabular input: skip the first INT lines, such as headers. Defaut 0\n"  
-    "   -sub n1,n2           only consider subsequences from position n1 to (start at 1). \n"
+    "   -sub n1,n2           only consider subsequences from position n1 to n2 (start at 1). \n"
     "                        non-positive numbers interpreted as distance from the end\n"
     "Kmer counting\n"
     "   -k INT               use fixed kmer length INT\n"
@@ -72,7 +72,7 @@ void print_help()
     "                        N=0,1,or 2. Default N=1: first order captures upto di-nucleotide bias\n"
     "   -shuffle N,M         shuffle input N times, preserving M-nucleotide frequency\n"
     "   -save FILE           save shuffled sequences or the learned markov model to a file\n"
-    "   -no_bg_trim          no background sequence trimming (-first/last). valid with -markov and -bgfile\n"
+    "   -no_bg_trim          no background sequence trimming (-sub). valid with -markov and -bgfile\n"
 	"   -plot STR            which statistics to plot: p: raw p-value (default), b: Bonferroni corrected p, f: FDR, s: statisitcs\n"
     "\n\n";
 	cout << txt;
@@ -121,8 +121,8 @@ int main(int argc, char* argv[]) {
 	int cSeq=0; // -seq, sequence in this column, first column is 0
 	int cWeight = -1; // -weight, -1 means no weight
 	int skip=0; // skip this number of lines at the beginning
-    int first=-1; //    no 3' trim
-    int last=-1; //     no 5' trim
+    int first=1; //    no 3' trim
+    int last=0; //     no 5' trim
     bool no_bg_trim = false;    // only valid when -b and -markov used
 	
 	// statistics
@@ -271,12 +271,6 @@ int main(int argc, char* argv[]) {
 			} else if (str == "-skip") {
 				skip = atoi(argv[i + 1]);
 				i=i+1;
-            } else if (str == "-first") {
-                first = atoi(argv[i + 1]);
-                i=i+1;
-            } else if (str == "-last") {
-                last = atoi(argv[i + 1]);
-                i=i+1;
             } else if (str == "-no_bg_trim") {
                 no_bg_trim = true;
             } else if (str == "-pseudo") {
@@ -305,6 +299,12 @@ int main(int argc, char* argv[]) {
                 shuffle_N = atoi(ss[0].c_str());
                 preserve = atoi(ss[1].c_str());
 				local = false;
+                i=i+1;
+            } else if (str == "-sub") {
+                string s(argv[i+1]);
+                vector<string> ss = string_split(s,",");
+                first = atoi(ss[0].c_str());
+                last = atoi(ss[1].c_str());
                 i=i+1;
             } else if (str == "-minCount") {
                 minCount = atof(argv[i + 1]);
@@ -390,13 +390,10 @@ int main(int argc, char* argv[]) {
     // print out parameters used
         message("Summary: ");
         message("   Input       :   " + seqfile1);
-    if(first>0)
+    if(first != 1 || last != 0)
 	{
-    	message("                   take " + to_string(first) + " bases from 5' end");
-    } else if (last >0)
-    {
-    	message("                   take " + to_string( last) + " bases from 3' end");
-    }
+    	message("   Subsequence :   " + to_string(first) + ","+to_string(last));
+    } 
     if(local)
 	{
 		message("   Background  :   local");
@@ -456,11 +453,12 @@ int main(int argc, char* argv[]) {
     message(to_string(seqs1.size()) + " sequences loaded from " + seqfile1);
 
     // trim if -first or -last specified, note that too short sequences will be discarded
-    if (first >  0) seqs1 = first_n_bases(seqs1,first);
-    else if (last > 0) seqs1 = last_n_bases(seqs1,last);
-	if (first >0 || last > 0) message(to_string(seqs1.size()) + 
-		" sequences remain after trimming back to " + 
-			to_string( seqs1[0].size() ) + " bases ");
+    if (first != 1 || last != 0) 
+	{
+		seqs1 = sub_sequences(seqs1,first,last);
+		message(to_string(seqs1.size()) + 
+		" sequences remain after trimming");
+	}
 
     //debug
     //WriteFasta(vector2map(seqs1),"trimmed.fa");
@@ -525,11 +523,12 @@ int main(int argc, char* argv[]) {
 	        if (no_bg_trim == false || markov_order < 0)
 	        {
 	            // trim if -first or -last specified, note that too short sequences will be discarded
-	            if (first >  0) seqs2 = first_n_bases(seqs2,first);
-	            else if (last > 0) seqs2 = last_n_bases(seqs2,last);
-	            if (first>0 || last>0) message( to_string(seqs2.size()) \
-					+ " background sequences trimmed back to " \
-						+ to_string(seqs2[0].size()) + " bases ");
+	            if (first != 1 || last != 0) 
+				{
+					seqs2 = sub_sequences(seqs2,first,last);
+	            	message( to_string(seqs2.size()) \
+					+ " background sequences remain after trimming");
+				}
 	        }
     
 	        if (markov_order > -1)
@@ -552,34 +551,39 @@ int main(int argc, char* argv[]) {
     int seq_len1 = seqs1[0].size();
     int seq_len2;
 
-    // make sure all sequences have the same size, only necessary when neither -first nor -last is used
-    if (first < 0 && last < 0)
-    { 
-        // sequences in foreground
-		vector<int> removed = filter_sequences_by_size(seqs1);
-		nSeq1 = seqs1.size();
-		if (removed.size() > 0) 
+    // make sure all sequences have the same size
+    // sequences in foreground
+	vector<int> removed = filter_sequences_by_size(seqs1);
+	nSeq1 = seqs1.size();
+	if (removed.size() > 0) 
+	{
+		message(to_string(nSeq1)+" sequences left after filtering by size");
+		if(analysis == "weighted")
 		{
-			message(to_string(nSeq1)+" sequences left after filtering by size");
-			if(analysis == "weighted")
+			for(int i=0;i<removed.size();i++)
 			{
-				for(int i=0;i<removed.size();i++)
-				{
-					weights.erase(weights.begin()+removed[i]);
-				}
-				// save the data
-				//ofstream tmpout("tmp.txt");
-				//for(int i=0;i<seqs1.size();i++)
-				//	tmpout << seqs1[i] << "\t" << weights[i] << endl;
-				//tmpout.close();
+				weights.erase(weights.begin()+removed[i]);
 			}
+			// save the data
+			//ofstream tmpout("tmp.txt");
+			//for(int i=0;i<seqs1.size();i++)
+			//	tmpout << seqs1[i] << "\t" << weights[i] << endl;
+			//tmpout.close();
 		}
+	}
         
-        if (seqfile2.size()>0 && markov_order <0) // only check other sequences in background if not genrated by shuffling
-        {
-            filter_sequences_by_size(seqs2,seqs1[0].size());
-        }  
-    }
+	if(seqs1.size()>1) filter_sequences_by_size(seqs2,seqs1[0].size());
+    else
+	{
+		message("ERROR: less than 2 input sequences left after filtering by size");
+		exit(1);
+	}
+	if(seqs2.size()<2)
+	{
+		message("ERROR: less than 2 background sequences left after filtering by size");
+		exit(1);
+	}
+   
 
 
 ///////////////////////////////////////////////////////////////
