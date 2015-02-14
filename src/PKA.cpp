@@ -567,17 +567,21 @@ int main(int argc, char* argv[]) {
 		}
 	}
         
-	if(seqs1.size()>1) filter_sequences_by_size(seqs2,seqs1[0].size());
+	if(seqs1.size()>1 & seqs2.size()>1) 
+	{
+		filter_sequences_by_size(seqs2,seqs1[0].size());
+		if(seqs2.size()<2)
+		{
+			message("ERROR: less than 2 background sequences left after filtering by size");
+			exit(1);
+		}
+	}
     else
 	{
 		message("ERROR: less than 2 input sequences left after filtering by size");
 		exit(1);
 	}
-	if(seqs2.size()<2)
-	{
-		message("ERROR: less than 2 background sequences left after filtering by size");
-		exit(1);
-	}
+
    
 
 
