@@ -68,7 +68,7 @@ void pairwise_sequence_similarity_matrix(vector<string> seqs, string filename)
 // load weighted sequence file into two vectors: seqs and weights
 // the first three columns should be: id, seq, weight (tab-delimited)
 // if cWeight < 0, load unweighted sequences
-void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<double> &weights,int skip/*=0*/, int cSeq/*=1*/, int cWeight/*=2*/) {
+void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<double> &weights, int cSeq/*=1*/, int cWeight/*=2*/) {
 	// minimum number of columns in input
 	int nCol = max(cSeq,cWeight)+1;
 	
@@ -77,18 +77,16 @@ void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<d
 
     string line;
     vector<string> flds;
-
-	// skip header lines
-	int i=0;
-	while(i<skip) getline(fin,line);
 	
     while(fin)
     {
         getline(fin,line);
         if (line.length() == 0)
             continue;
-
+		
 		line.erase(line.find_last_not_of(" \n\r\t")+1);
+		
+		if(line[0] == '#') continue;
 
         flds = string_split(to_upper(line));
 		if (flds.size() < nCol) message("too few columns in line: "+line);
@@ -110,7 +108,7 @@ map<string,string> vector2map(vector<string> seqs)
 
 // load weighted sequence file into two vectors: seqs and weights
 // the first three columns should be: id, seq, weight (tab-delimited)
-void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, vector<double> &weights,int skip/*=0*/, int cSeq/*=1*/, int cWeight/*=2*/) {
+void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, vector<double> &weights, int cSeq/*=1*/, int cWeight/*=2*/) {
 	// minimum number of columns in input
 	int nCol = max(cSeq,cWeight)+1;
 	
@@ -120,15 +118,13 @@ void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, v
     string line;
     vector<string> flds;
 
-	// skip header lines
-	int i=0;
-	while(i<skip) getline(fin,line);
-	
     while(fin)
     {
         getline(fin,line);
         if (line.length() == 0)
             continue;
+
+		if(line[0] == '#') continue;
 
         flds = string_split(line);
 		if (flds.size() < nCol) message("too few columns in line: "+line);
@@ -143,9 +139,8 @@ void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, v
 
 // load ranked sequences to vectors
 // default: no header, first column is id, second column is sequence
-// r: number of header lines to skip.
 // c: column for sequence, 0-based, i.e. first column is 0
-vector<string> load_ranked_sequences_to_vectors(string filename, int skip/*=0*/, int cSeq/*=1*/){
+vector<string> load_ranked_sequences_to_vectors(string filename, int cSeq/*=1*/){
 	vector<string> seqs;
 	
 	ifstream fin;
@@ -161,15 +156,14 @@ vector<string> load_ranked_sequences_to_vectors(string filename, int skip/*=0*/,
 	        getline(fin,line);
 	        if (line.length() == 0)
 	            continue;
+			if(line[0] == '#') continue;
+			
 			if(line[0] != '>') seqs.push_back(line);
 		}
 		fin.close();
 		return seqs;	
 	}
 	
-	// skip header lines
-	int i=0;
-	while(i<skip) getline(fin,line);
 
 	// read sequences into a vector
     while(fin)
@@ -177,6 +171,8 @@ vector<string> load_ranked_sequences_to_vectors(string filename, int skip/*=0*/,
         getline(fin,line);
         if (line.length() == 0)
             continue;
+		
+		if(line[0] == '#') continue;
 
         flds = string_split(line);
 		if (flds.size() < cSeq+1) message("skip lines with not enough columns: "+line);
@@ -861,7 +857,6 @@ int paired_kmer::gap()
 // note input should be sorted by weight
 vector<positional_kmer> build_model_from_PKA_output(string filename, int startPos)
 {
-	int skip = 0;
 	int cKmer = 0;
 	int cStart = 1;
 	int cShift = 2;
@@ -883,9 +878,6 @@ vector<positional_kmer> build_model_from_PKA_output(string filename, int startPo
 	
 	string line;
 	vector<string> flds;
-	// skip header lines
-	int i=0;
-	while(fin && i++ < skip) getline(fin,line);
 
 	int group = 0;
     while(fin)
@@ -894,6 +886,8 @@ vector<positional_kmer> build_model_from_PKA_output(string filename, int startPo
         if (line.length() == 0)
             continue;
 
+		if(line[0] == '#') continue;
+		
         flds = string_split(line);
 		
 		double weight = stof(flds[cWeight]);
@@ -957,7 +951,6 @@ vector<positional_kmer> build_model_from_PKA_output(string filename, int startPo
 // no degenerate nucleotides
 vector<paired_kmer> build_paired_kmer_model(string filename)
 {
-	int skip = 0; // no header
 	int cKmer = 0; // first column is kmer
 	int cStart = 1; // second column is start 
 	int cStat = 3; // statistics, tells you sign of signficance
@@ -971,9 +964,6 @@ vector<paired_kmer> build_paired_kmer_model(string filename)
 	string line;
 	vector<string> flds;
 	
-	// skip header lines
-	int i=0;
-	while(fin && i++ < skip) getline(fin,line);
 
     while(fin)
     {
@@ -981,6 +971,7 @@ vector<paired_kmer> build_paired_kmer_model(string filename)
         if (line.length() == 0)
             continue;
 
+		if(line[0] == '#') continue;
         flds = string_split(line);
 		
 		string kmer = flds[cKmer];
@@ -1227,14 +1218,13 @@ void read_significant_positional_kmer_from_file(string inputfile, vector<string>
 	
 	string line;
 	vector<string> flds;
-	// skip header lines
-	getline(fin,line);
 
     while(fin)
     {
         getline(fin,line);
         if (line.length() == 0)
             continue;
+		if(line[0] == '#') continue;
 
         flds = string_split(line);
 		
@@ -1252,14 +1242,14 @@ void read_significant_positional_kmer_from_PKA2_output(string inputfile, vector<
 	
 	string line;
 	vector<string> flds;
-	// skip header lines
-	getline(fin,line);
 
     while(fin)
     {
         getline(fin,line);
         if (line.length() == 0)
             continue;
+		
+		if(line[0]=='#') continue;
 
         flds = string_split(line);
 		
@@ -1406,14 +1396,13 @@ int non_overlapping_sig_motifs(string inputfile, string outputfile)
     string line;
     vector<string> flds;
 
-    // skip header;
-    getline(fin,line);
-
     while(fin)
     {  
         getline(fin,line);
         if (line.length() == 0)
             continue;
+		
+		if(line[0]=='#') continue;
 
         flds = string_split(line);
         length.push_back(flds[0].size());
@@ -2231,14 +2220,14 @@ void create_logo_for_topN_sig_kmer_per_position(vector<string> seqs, string file
 
     map<char,string> iupac = define_IUPAC();
 
-    // skip header;
-    getline(fin,line);
 
     while(fin)
     {  
         getline(fin,line);
         if (line.length() == 0)
             continue;
+		
+		if(line[0] == '#') continue;
         flds = string_split(line);
         //cout << flds[9] <<","<< pCutoff << endl;
         if(stod(flds[9]) < pCutoff)
@@ -2884,7 +2873,7 @@ void fasta_to_letter_matrix(string input, string output){
 }
 
 // convert fasta file to a letter matrix, no header
-void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col, int skip){
+void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col){
 	col = col - 1;
 		
 	ifstream in(input.c_str());
@@ -2892,14 +2881,12 @@ void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max,
 
 	string line;
 	vector<string> flds;
-
-	int i = 0;
-	while(in.good() && i++ < skip) getline(in,line);
 	
 	while(in.good())
 	{
 		getline(in,line);
 		if(line.length()==0) continue;
+		if(line[0] == '#') continue;
 		flds = string_split(line);
 		// output other columns first
 		for (int i=0;i<flds.size();i++) 

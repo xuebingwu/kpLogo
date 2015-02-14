@@ -127,9 +127,9 @@ void plot_nucleotide_profile(string infile, string outfile, int lSeq, int col, i
 
 void plot_most_significant_kmers(string infile, string outfile, int lSeq, int column, int startPos);
 
-void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, vector<double> &weights,int skip=0, int cSeq=1,int cWeight=2);
+void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, vector<double> &weights,int cSeq=1,int cWeight=2);
 
-vector<string> load_ranked_sequences_to_vectors(string filename, int skip=0, int cSeq=1);
+vector<string> load_ranked_sequences_to_vectors(string filename, int cSeq=1);
 
 int find_significant_kmer_from_ranked_sequences(vector<string> seqs, vector<string> kmers, string outfile, int nTest, double pCutoff=0.05,bool Bonferroni=true,int min_shift=0, int max_shift=0, int startPos=0, int minCount=5 );
 
@@ -153,7 +153,7 @@ vector<int> filter_sequences_by_size(vector<string> &seqs, int lSeq=0);
 void fasta_to_letter_matrix(string input, string output);
 
 // convert fasta file to a letter matrix, no header
-void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col, int skip);
+void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col);
 
 // PKA: remove overlapping motifs
 // input: all significant motifs
@@ -255,7 +255,7 @@ void WriteFasta(map<string,string> seqs, string filename);
 
 map<string,string> vector2map(vector<string> seqs);
 
-void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<double> &weights,int skip=0, int cSeq=1, int cWeight=2);
+void load_sequences_from_tabular(string filename, vector<string> &seqs, vector<double> &weights, int cSeq=1, int cWeight=2);
 
 //uShuffle
 //http://digital.cs.usu.edu/~mjiang/ushuffle/

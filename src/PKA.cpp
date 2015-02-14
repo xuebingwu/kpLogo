@@ -38,7 +38,6 @@ void print_help()
 	"                              'protein' is equivalent to 'ACDEFGHIJKLMNOPQRSTUVWY'\n"
 	"   -seq INT             for tabular input: sequences are in column INT. Default 1\n"
 	"   -weight INT          for tabular input: weights are in column INT. Default 2\n"
-	"   -skip INT            for tabular input: skip the first INT lines, such as headers. Defaut 0\n"  
     "   -sub n1,n2           only consider subsequences from position n1 to n2 (start at 1). \n"
     "                        non-positive numbers interpreted as distance from the end\n"
     "Kmer counting\n"
@@ -120,7 +119,6 @@ int main(int argc, char* argv[]) {
 	// tabular input format
 	int cSeq=0; // -seq, sequence in this column, first column is 0
 	int cWeight = -1; // -weight, -1 means no weight
-	int skip=0; // skip this number of lines at the beginning
     int first=1; //    no 3' trim
     int last=0; //     no 5' trim
     bool no_bg_trim = false;    // only valid when -b and -markov used
@@ -267,9 +265,6 @@ int main(int argc, char* argv[]) {
 				i=i+1;
 			} else if (str == "-seq") {
 				cSeq = atoi(argv[i + 1]) - 1;
-				i=i+1;
-			} else if (str == "-skip") {
-				skip = atoi(argv[i + 1]);
 				i=i+1;
             } else if (str == "-no_bg_trim") {
                 no_bg_trim = true;
@@ -441,7 +436,7 @@ int main(int argc, char* argv[]) {
 	}
 	else 
 	{
-		load_sequences_from_tabular(seqfile1,seqs1,weights,skip,cSeq,cWeight);
+		load_sequences_from_tabular(seqfile1,seqs1,weights,cSeq,cWeight);
 	}
 
     if (seqs1.size() == 0)
@@ -501,7 +496,7 @@ int main(int argc, char* argv[]) {
 	    else 
 	    {
 			if(is_fasta(seqfile2)) ReadFastaToVectors(seqfile2, names, seqs2);
-			else load_sequences_from_tabular(seqfile2,seqs2,weights,skip,cSeq,cWeight);
+			else load_sequences_from_tabular(seqfile2,seqs2,weights,cSeq,cWeight);
 	
 		    // replace U with T
 		    if (alphabet == "ACGT")
@@ -605,7 +600,7 @@ int main(int argc, char* argv[]) {
 		message("scoring input sequences using the model...");
 		string scoreFile = prefix+".score";
 	    ofstream out1(scoreFile.c_str());
-		//load_weighted_sequences_to_vectors(inputfile,seqs,weights,skip,cSeq,cWeight);
+		//load_weighted_sequences_to_vectors(inputfile,seqs,weights,cSeq,cWeight);
 		for (int i=0;i<seqs1.size();i++)
 		{
 			//cout << i << seqs1[i] << endl;
