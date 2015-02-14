@@ -894,7 +894,8 @@ WriteFasta(seqs1,"implanted.fa");
 	
     message("Done!");
 
-    system_run("echo '"+content+"' | mailx -s '"+subject+"' "+email);
+	// send email once done
+	if(email.size()>1) system_run("echo '"+content+"' | mailx -s '"+subject+"' "+email);
 
     return 0;
 } 
