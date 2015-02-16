@@ -6,6 +6,7 @@
 #include <set>
 #include <map>
 #include <array>        // std::array
+#include <algorithm>
 
 //#include <boost/regex.hpp>
 
@@ -200,6 +201,44 @@ vector<int> filter_sequences_by_size(vector<string> &seqs, int lSeq/*=0*/)
 		}
 	}
 	return removed;
+}
+
+
+// any of a list positional kmer is present in sequence
+bool seq_has_any_of_positional_kmer(string seq, vector<positional_kmer> pkmers)
+{
+	//cout << pkmers.size() << endl;
+
+	for (int i=0;i<pkmers.size();i++)
+	{
+		//cout << pkmers[i].as_string() << endl;
+		if (pkmers[i].is_present_in(seq))
+		    return true;
+	}
+	return false;
+}
+
+// filter sequence by positional kmer
+// seqs: original sequence and negative after filering
+// positives: positive after filtering
+// value: bool vector indicating positives
+vector<bool> filter_sequences_by_kmer(vector<string> &seqs, vector<string> &positives, vector<positional_kmer> pkmers)
+{
+    vector<bool> is_positive;
+
+    for(int i=seqs.size()-1;i>=0;i--)
+    {  
+        if(seq_has_any_of_positional_kmer(seqs[i],pkmers))
+        {  
+			positives.push_back(seqs[i]);
+            seqs.erase(seqs.begin()+i);
+            is_positive.push_back(true);
+        }
+		else is_positive.push_back(false);
+    }
+	// note that the order needs to be reversed
+    reverse(is_positive.begin(),is_positive.end());
+	return is_positive;
 }
 
 
@@ -729,61 +768,6 @@ void plot_most_significant_kmers(string infile, string outfile, int lSeq, int co
 	R_run(script);
 }
 
-
-positional_kmer::positional_kmer(string seq1, int pos1, int size1, double weight1, int group1){
-	seq = seq1;
-	pos = pos1;
-	size = size1;
-	weight = weight1;
-	group = group1;
-}
-
-positional_kmer::positional_kmer() 
-{
-  // allocate variables
-	seq = "";
-	pos = -1;
-	size = -1;
-	weight = -1.0;
-	group = -1;
-}
-
-positional_kmer::positional_kmer(const positional_kmer &a) 
-{
-  // allocate variables
-  positional_kmer();
-  // copy values
-  operator = (a);
-}
-
-bool positional_kmer::equals(positional_kmer a)
-{
-	return seq == a.seq && pos == a.pos && size == a.size;
-}
-
-bool positional_kmer::is_part_of(positional_kmer a)
-{
-	// only if a is part of this at the same position
-	if (pos >= a.pos && ( (pos + seq.size()) <= (a.pos + a.seq.size()) ) && seq.size() != a.seq.size())
-		if (a.seq.substr(pos - a.pos, seq.size()) == seq)
-			return true;
-	return false;
-}
-
-const positional_kmer &positional_kmer::operator = (const positional_kmer &a)
-{
-	seq = a.seq;
-	pos = a.pos;
-	size = a.size;
-	weight = a.weight;
-	group = a.group;
-	return *this;
-}
-
-string positional_kmer::as_string(string del/*="_"*/)
-{
-	return seq+del+to_string(pos)+del+to_string(size)+del+to_string(weight)+del+to_string(group);
-}
 
 
 paired_kmer::paired_kmer(string seqa, string seqb, int distance, int offset, int position, double score)
@@ -1623,6 +1607,7 @@ vector<string> expand_degenerate_kmer(string seq, map<char,string> iupac)
     }
     return res;
 }
+
 
 // implant a motif to a set of sequences
 // motif can contain degenerate nucleotides

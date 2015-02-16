@@ -20,6 +20,8 @@
 #include <stdlib.h>
 #include <algorithm>
 
+#include "positional_kmer.h"
+
 extern "C"{
 #include "ushuffle.h"
 }
@@ -43,26 +45,9 @@ string postscript_kmer(string text, double x, double y, int fontsize, double sca
 bool is_fasta(string filename);
 void ReadFastaToVectors(string filename, vector<string> &names, vector<string> &seqs);
 
-// build a model that can be used to score sequences
-// skip some lines
-// specify column number (0-based) of kmer, start, end
-class positional_kmer
-{
-public:
-	string seq; // sequence, IUPAC code
-	int pos;
-	int size;
-	double weight;
-	int group; // if part of another, will have the same group number
-	positional_kmer();
-	positional_kmer(const positional_kmer &a);
-	positional_kmer(string seq, int pos, int size, double weight, int group);
-	bool equals(positional_kmer a);  
-	bool is_part_of(positional_kmer a);
-	const positional_kmer &operator=(const positional_kmer &a);
-	string as_string(string del="_");
-};
 
+vector<bool> filter_sequences_by_kmer(vector<string> &seqs, vector<string> &positives, vector<positional_kmer> pkmers);
+bool seq_has_any_of_positional_kmer(string seq, vector<positional_kmer> pkmers);
 
 vector<positional_kmer> build_model_from_PKA2_output(string filename, double pCutoff);
 vector<positional_kmer> build_model_from_PKA_output(string filename, int startPos);

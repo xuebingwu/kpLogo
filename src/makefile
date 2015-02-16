@@ -22,7 +22,7 @@ INCLUDES = -I../include
 
 all: $(PROGS) install
 
-PKA: sequence.o markov.o container.o utility.o text.o stat.o ushuffle.o PKA.o
+PKA: sequence.o markov.o positional_kmer.o container.o utility.o text.o stat.o ushuffle.o PKA.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 

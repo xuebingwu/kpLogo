@@ -1,0 +1,133 @@
+positional_kmer.cpp: In function ‘std::vector<positional_kmer> positional_kmer_vector_from_string(std::string)’:
+positional_kmer.cpp:22:43: error: ‘string_split’ was not declared in this scope
+positional_kmer.cpp:26:85: error: no match for ‘operator+’ in ‘std::stoi((*(const string*)tmps.std::vector<_Tp, _Alloc>::operator[]<std::basic_string<char>, std::allocator<std::basic_string<char> > >(2ul)), 0u, 10) + tmps.std::vector<_Tp, _Alloc>::operator[]<std::basic_string<char>, std::allocator<std::basic_string<char> > >(0ul)’
+positional_kmer.cpp:26:85: note: candidates are:
+In file included from /usr/include/c++/4.7/bits/stl_algobase.h:68:0,
+                 from /usr/include/c++/4.7/bits/char_traits.h:41,
+                 from /usr/include/c++/4.7/string:42,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/stl_iterator.h:335:5: note: template<class _Iterator> std::reverse_iterator<_Iterator> std::operator+(typename std::reverse_iterator<_Iterator>::difference_type, const std::reverse_iterator<_Iterator>&)
+/usr/include/c++/4.7/bits/stl_iterator.h:335:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+In file included from /usr/include/c++/4.7/bits/stl_algobase.h:68:0,
+                 from /usr/include/c++/4.7/bits/char_traits.h:41,
+                 from /usr/include/c++/4.7/string:42,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/stl_iterator.h:1120:5: note: template<class _Iterator> std::move_iterator<_Iterator> std::operator+(typename std::move_iterator<_Iterator>::difference_type, const std::move_iterator<_Iterator>&)
+/usr/include/c++/4.7/bits/stl_iterator.h:1120:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ is not derived from ‘const std::move_iterator<_Iterator>’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2362:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/4.7/bits/basic_string.h:2362:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:55:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.tcc:694:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, const std::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/4.7/bits/basic_string.tcc:694:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const _CharT*’ and ‘int’
+In file included from /usr/include/c++/4.7/string:55:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.tcc:710:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(_CharT, const std::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/4.7/bits/basic_string.tcc:710:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   deduced conflicting types for parameter ‘_CharT’ (‘int’ and ‘char’)
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2399:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
+/usr/include/c++/4.7/bits/basic_string.h:2399:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2415:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, _CharT)
+/usr/include/c++/4.7/bits/basic_string.h:2415:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2427:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/4.7/bits/basic_string.h:2427:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2433:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const std::basic_string<_CharT, _Traits, _Alloc>&, std::basic_string<_CharT, _Traits, _Alloc>&&)
+/usr/include/c++/4.7/bits/basic_string.h:2433:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2439:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, std::basic_string<_CharT, _Traits, _Alloc>&&)
+/usr/include/c++/4.7/bits/basic_string.h:2439:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2451:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, std::basic_string<_CharT, _Traits, _Alloc>&&)
+/usr/include/c++/4.7/bits/basic_string.h:2451:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const _CharT*’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2457:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(_CharT, std::basic_string<_CharT, _Traits, _Alloc>&&)
+/usr/include/c++/4.7/bits/basic_string.h:2457:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   deduced conflicting types for parameter ‘_CharT’ (‘int’ and ‘char’)
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2463:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*)
+/usr/include/c++/4.7/bits/basic_string.h:2463:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/string:54:0,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/basic_string.h:2469:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::basic_string<_CharT, _Traits, _Alloc>&&, _CharT)
+/usr/include/c++/4.7/bits/basic_string.h:2469:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘std::basic_string<_CharT, _Traits, _Alloc>’ and ‘int’
+In file included from /usr/include/c++/4.7/vector:66:0,
+                 from positional_kmer.cpp:5:
+/usr/include/c++/4.7/bits/stl_bvector.h:268:3: note: std::_Bit_iterator std::operator+(std::ptrdiff_t, const std::_Bit_iterator&)
+/usr/include/c++/4.7/bits/stl_bvector.h:268:3: note:   no known conversion for argument 2 from ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ to ‘const std::_Bit_iterator&’
+/usr/include/c++/4.7/bits/stl_bvector.h:354:3: note: std::_Bit_const_iterator std::operator+(std::ptrdiff_t, const std::_Bit_const_iterator&)
+/usr/include/c++/4.7/bits/stl_bvector.h:354:3: note:   no known conversion for argument 2 from ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ to ‘const std::_Bit_const_iterator&’
+In file included from ../include/boost/numeric/ublas/traits.hpp:17:0,
+                 from ../include/boost/numeric/ublas/storage.hpp:26,
+                 from ../include/boost/numeric/ublas/vector.hpp:21,
+                 from ../include/boost/numeric/ublas/matrix.hpp:18,
+                 from ../include/sequence.h:17,
+                 from positional_kmer.cpp:15:
+/usr/include/c++/4.7/complex:319:5: note: template<class _Tp> std::complex<_Tp> std::operator+(const std::complex<_Tp>&, const std::complex<_Tp>&)
+/usr/include/c++/4.7/complex:319:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+In file included from ../include/boost/numeric/ublas/traits.hpp:17:0,
+                 from ../include/boost/numeric/ublas/storage.hpp:26,
+                 from ../include/boost/numeric/ublas/vector.hpp:21,
+                 from ../include/boost/numeric/ublas/matrix.hpp:18,
+                 from ../include/sequence.h:17,
+                 from positional_kmer.cpp:15:
+/usr/include/c++/4.7/complex:328:5: note: template<class _Tp> std::complex<_Tp> std::operator+(const std::complex<_Tp>&, const _Tp&)
+/usr/include/c++/4.7/complex:328:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+In file included from ../include/boost/numeric/ublas/traits.hpp:17:0,
+                 from ../include/boost/numeric/ublas/storage.hpp:26,
+                 from ../include/boost/numeric/ublas/vector.hpp:21,
+                 from ../include/boost/numeric/ublas/matrix.hpp:18,
+                 from ../include/sequence.h:17,
+                 from positional_kmer.cpp:15:
+/usr/include/c++/4.7/complex:337:5: note: template<class _Tp> std::complex<_Tp> std::operator+(const _Tp&, const std::complex<_Tp>&)
+/usr/include/c++/4.7/complex:337:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ is not derived from ‘const std::complex<_Tp>’
+In file included from ../include/boost/numeric/ublas/traits.hpp:17:0,
+                 from ../include/boost/numeric/ublas/storage.hpp:26,
+                 from ../include/boost/numeric/ublas/vector.hpp:21,
+                 from ../include/boost/numeric/ublas/matrix.hpp:18,
+                 from ../include/sequence.h:17,
+                 from positional_kmer.cpp:15:
+/usr/include/c++/4.7/complex:438:5: note: template<class _Tp> std::complex<_Tp> std::operator+(const std::complex<_Tp>&)
+/usr/include/c++/4.7/complex:438:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+In file included from /usr/include/c++/4.7/bits/stl_algobase.h:68:0,
+                 from /usr/include/c++/4.7/bits/char_traits.h:41,
+                 from /usr/include/c++/4.7/string:42,
+                 from positional_kmer.cpp:1:
+/usr/include/c++/4.7/bits/stl_iterator.h:904:5: note: template<class _Iterator, class _Container> __gnu_cxx::__normal_iterator<_Iterator, _Container> __gnu_cxx::operator+(typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
+/usr/include/c++/4.7/bits/stl_iterator.h:904:5: note:   template argument deduction/substitution failed:
+positional_kmer.cpp:26:85: note:   ‘__gnu_cxx::__alloc_traits<std::allocator<std::basic_string<char> > >::value_type {aka std::basic_string<char>}’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’
+positional_kmer.cpp: In copy constructor ‘positional_kmer::positional_kmer(const positional_kmer&)’:
+positional_kmer.cpp:51:19: error: call of overloaded ‘positional_kmer()’ is ambiguous
+positional_kmer.cpp:51:19: note: candidates are:
+positional_kmer.cpp:30:1: note: positional_kmer::positional_kmer(std::string, int, int, double, int)
+positional_kmer.cpp:38:1: note: positional_kmer::positional_kmer()
+make: *** [positional_kmer.o] Error 1

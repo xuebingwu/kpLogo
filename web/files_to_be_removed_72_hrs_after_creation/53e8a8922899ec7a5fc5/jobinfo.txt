@@ -1,5 +1,0 @@
-
-xxx@yyy.com
-Job name
-PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -bgfile pka.background.txt  -startPos 1 -gapped  -minCount 1 -sub 1,0
-PKA-188

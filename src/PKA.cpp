@@ -38,8 +38,11 @@ void print_help()
 	"                              'protein' is equivalent to 'ACDEFGHIJKLMNOPQRSTUVWY'\n"
 	"   -seq INT             for tabular input: sequences are in column INT. Default 1\n"
 	"   -weight INT          for tabular input: weights are in column INT. Default 2\n"
-    "   -sub n1,n2           only consider subsequences from position n1 to n2 (start at 1). \n"
+    "   -region n1,n2        only consider subsequences from position n1 to n2 (start at 1). \n"
     "                        non-positive numbers interpreted as distance from the end\n"
+    "   -select a,b,c,...    keep sequences contain any of specified kmers a, b, c, etc\n"
+    "                        kmer format: seq:position:shift, e.g. CNNC:47:0 \n"
+    "   -remove a,b,c,...    remove sequences contain any of specified kmers.\n"  
     "Kmer counting\n"
     "   -k INT               use fixed kmer length INT\n"
 	"   -max_k INT           consider all kmers of length 1,2,...,INT. default=4 \n"
@@ -71,7 +74,7 @@ void print_help()
     "                        N=0,1,or 2. Default N=1: first order captures upto di-nucleotide bias\n"
     "   -shuffle N,M         shuffle input N times, preserving M-nucleotide frequency\n"
     "   -save FILE           save shuffled sequences or the learned markov model to a file\n"
-    "   -no_bg_trim          no background sequence trimming (-sub). valid with -markov and -bgfile\n"
+    "   -no_bg_trim          no background sequence trimming (-region). valid with -markov and -bgfile\n"
 	"   -plot STR            which statistics to plot: p: raw p-value (default), b: Bonferroni corrected p, f: FDR, s: statisitcs\n"
     "\n\n";
 	cout << txt;
@@ -121,6 +124,8 @@ int main(int argc, char* argv[]) {
 	int cWeight = -1; // -weight, -1 means no weight
     int first=1; //    no 3' trim
     int last=0; //     no 5' trim
+    string select_pkmers;  // select sequences with some pkmers 
+    string remove_pkmers;  // remove sequences with some pkmers
     bool no_bg_trim = false;    // only valid when -b and -markov used
 	
 	// statistics
@@ -268,6 +273,12 @@ int main(int argc, char* argv[]) {
 				i=i+1;
             } else if (str == "-no_bg_trim") {
                 no_bg_trim = true;
+            } else if (str == "-select") { 
+                select_pkmers = argv[i + 1];
+                i=i+1;
+            } else if (str == "-remove") {   
+                remove_pkmers = argv[i + 1];
+                i=i+1; 
             } else if (str == "-pseudo") {
                 pseudo = atof(argv[i + 1]);
                 i=i+1;
@@ -295,7 +306,7 @@ int main(int argc, char* argv[]) {
                 preserve = atoi(ss[1].c_str());
 				local = false;
                 i=i+1;
-            } else if (str == "-sub") {
+            } else if (str == "-region") {
                 string s(argv[i+1]);
                 vector<string> ss = string_split(s,",");
                 first = atoi(ss[0].c_str());
@@ -585,7 +596,46 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-   
+  // filter sequences
+	if (select_pkmers.size()>0)
+	{
+		message("selecting sequences with positional kmers: "+select_pkmers);
+		vector<positional_kmer> select_pkmers_vector = positional_kmer_vector_from_string(select_pkmers,define_IUPAC());
+		vector<string> positives;
+    	vector<bool> is_positive = filter_sequences_by_kmer(seqs1, positives, select_pkmers_vector);
+		if(seqs1.size()>0) // some sequene was removed
+		{
+			// remove weight
+			if(analysis == "weighted")
+			{
+				for(int i=is_positive.size()-1;i>=0;i--)
+				{
+					if(is_positive[i] == false) weights.erase(weights.begin()+i);
+				}
+			}
+		}
+        seqs1 = positives;
+        message(to_string(seqs1.size())+" sequences left after filtering by kmer");
+	}
+    if (remove_pkmers.size()>0)
+    {
+        message("removing sequences with positional kmers: "+remove_pkmers);
+        vector<positional_kmer> remove_pkmers_vector = positional_kmer_vector_from_string(remove_pkmers,define_IUPAC());
+        vector<string> positives;
+        vector<bool> is_positive = filter_sequences_by_kmer(seqs1, positives, remove_pkmers_vector);
+        if(positives.size()>0) // some sequene was removed
+        {   
+            // remove weight
+            if(analysis == "weighted")
+            {   
+                for(int i=is_positive.size()-1;i>=0;i--)
+                {  
+                    if(is_positive[i] == true) weights.erase(weights.begin()+i);
+                }
+            }
+        }
+        message(to_string(seqs1.size())+" sequences left after filtering by kmer");
+    }
 
 
 ///////////////////////////////////////////////////////////////

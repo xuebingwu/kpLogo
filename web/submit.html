@@ -157,14 +157,25 @@ color: #fff;
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Subsequence </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Sub-region </strong> <a href="manual.html#subregion"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
-		From position <input value="1" name="sub_first" id="sub_first" size="5" type="text"> to position <input value="0" name="sub_last" id="sub_last" size="5" type="text"> (0 or negative numbers interpreted as distance from the end) </td>
+		From position <input value="1" name="region_first" id="region_first" size="5" type="text"> to position <input value="0" name="region_last" id="region_last" size="5" type="text"> (0 or negative numbers interpreted as distance from the end) </td>
       </tr>
 
-
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Filter by k-mers </strong> <a href="manual.html#filter-by-kmer"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td colspan="1" style="vertical-align: center;"> 
+		Keep sequences containing any of these kmers:
+        <input value="" name="select_pkmers" id="select_pkmers" size="40" type="text"><br>
+        Remove sequences containing any of these kmers:
+        <input value="" name="remove_pkmers" id="remove_pkmers" size="40" type="text">
+		</td>
+      </tr>
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">

@@ -66,6 +66,16 @@ $inputtype=$_POST['inputtype']; // (none), -ranked, -weighted
 $col_seq=$_POST['col_seq'];
 $col_weight=$_POST['col_weight'];
 
+$select_pkmers=$_POST['select_pkmers'];
+if($select_pkmers != "")
+{
+	$select_pkmers = " -select ". $select_pkmers;
+}
+$remove_pkmers=$_POST['remove_pkmers'];
+if($remove_pkmers != "")
+{
+    $remove_pkmers = " -remove ". $remove_pkmers;
+}
 
 
 $alphabet=$_POST['alphabet'];		// alphabet: DNA, protein, other
@@ -75,8 +85,8 @@ if($alphabet == "other")
 	$alphabet = $other_alphabet;
 }
 
-$sub_first=$_POST['sub_first'];
-$sub_last=$_POST['sub_last'];
+$region_first=$_POST['region_first'];
+$region_last=$_POST['region_last'];
 
 $mincount = $_POST['mincount'];
 if($mincount < 0)
@@ -186,7 +196,7 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -sub $sub_first,$sub_last";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -region $region_first,$region_last $select_pkmers $remove_pkmers";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
