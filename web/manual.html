@@ -375,40 +375,45 @@ href="#download">Download</a></li>
 
       <h2><a class="mozTocH2" name="positional-kmer"></a>Positional k-mer with shift and degeneracy</h2>
 
-		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer is represented in the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>. The position of the first letter is used as the position of the kmer. In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by positional shift. For example, the polyadenylation signal  TATA box is typically located 25 or 26 bases upstream of transcription start site, and thus may be represented as <code>TATAA:-26:1</code>, i.e. TATAA starting at position -26 allowing one base shift, thus can also start at position -25.  </p>
+		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer has the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first letter is used as the position of the kmer. </p>
+		
+        <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift</h3>
+
+  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first letter in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right.  
+        
 
       <h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate
         letter</h3>
-      Currently PKA only supports degenerate letters for DNA/RNA
-      sequences, and specifically those in the <a
+		
+		Biological sequence signals can also tolerate some mismatches, leading to degeneracy in the motif. For example, in addition to AAUAAA, AUUAAA is also used as a polyadenylatoin signal. Therefore a more general form of the polyadenylation signal is <code>AWUAAA:-23:5</code>, where W is either A or U. PKA supports all degenerate codes defined in the <a
         href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below). <br>
       <br>
-      By default, degenerate letters are not allowed. To allow, use <code>-degenerate</code> to specify
+      In default mode, PKA does not report kmers with degenerate letters. To enable kmer with degeneracy, use <code>-degenerate</code> to specify
       all allowed letters, <span style="color: red;">including
         non-degenerate letters</span>. For example, to include R and Y
       in addition to ACGT in DNA sequences, use <code>-degenerate ACGTRY</code> instead of <code>-degenerate RY</code>. <br>
       <br>
       Two special cases: 1) to allow all IUPAC letters, use <code>-degenerate all</code>. 2) to
-      allow kmers with gaps, use <code>-degenerate ACGTN</code> or simply <code>-gapped</code>.<br>
+      allow kmers with gaps, use <code>-degenerate ACGTN</code> or simply <code>-gapped</code>. Note that the letter <code>N</code> can not be the first letter or the last letter.<br>
       <br>
-      <table style="width: 420px; height: 470px;" border="1"
+      <table style="width: 445px; height: 470px;" border="1"
         cellpadding="2" cellspacing="2">
         <tbody>
           <tr>
-            <td style="font-weight: bold; width: 57px; text-align:
+            <td style="font-weight: bold; width: 60px; text-align:
               center;">Symbol </td>
-            <td style="font-weight: bold; width: 203px; text-align:
+            <td style="font-weight: bold; width: 200px; text-align:
               center;">Description </td>
-            <td style="font-weight: bold; width: 18px; text-align:
+            <td style="font-weight: bold; width: 25px; text-align:
               center;" colspan="5" rowspan="1">Bases represented</td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">A </td>
-            <td style="width: 203px; text-align: center;">Adenine </td>
+            <td style="width: 60px; text-align: center;">A </td>
+            <td style="width: 200px; text-align: center;">Adenine </td>
             <td style="width: 25px; text-align: center;">A </td>
-            <td style="width: 22px; text-align: center;"><br>
+            <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
@@ -418,68 +423,68 @@ href="#download">Download</a></li>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">C </td>
-            <td style="width: 203px; text-align: center;">Cytosine </td>
+            <td style="width: 60px; text-align: center;">C </td>
+            <td style="width: 200px; text-align: center;">Cytosine </td>
             <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 22px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;">C<br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">G </td>
-            <td style="width: 203px; text-align: center;">Guanine </td>
+            <td style="width: 60px; text-align: center;">G </td>
+            <td style="width: 200px; text-align: center;">Guanine </td>
             <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 22px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;">G<br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">T </td>
-            <td style="width: 203px; text-align: center;">Thymine </td>
+            <td style="width: 60px; text-align: center;">T </td>
+            <td style="width: 200px; text-align: center;">Thymine </td>
             <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 22px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;">T<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">U </td>
-            <td style="width: 203px; text-align: center;">Uracil </td>
+            <td style="width: 60px; text-align: center;">U </td>
+            <td style="width: 200px; text-align: center;">Uracil </td>
             <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 22px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;">U<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">W </td>
-            <td style="width: 203px; text-align: center;">Weak </td>
+            <td style="width: 60px; text-align: center;">W </td>
+            <td style="width: 200px; text-align: center;">Weak </td>
             <td style="width: 25px; text-align: center;">A </td>
-            <td style="width: 22px; text-align: center;"> <br>
+            <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 18px; text-align: center;"><br>
+            <td style="width: 25px; text-align: center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;">T<br>
             </td>
@@ -488,77 +493,77 @@ href="#download">Download</a></li>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">S </td>
-            <td style="width: 203px; text-align: center;">Strong </td>
+            <td style="width: 60px; text-align: center;">S </td>
+            <td style="width: 200px; text-align: center;">Strong </td>
             <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 22px; text-align: center;">C<br>
+            <td style="width: 25px; text-align: center;">C<br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;">G<br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">M </td>
-            <td style="width: 203px; text-align: center;">aMino </td>
+            <td style="width: 60px; text-align: center;">M </td>
+            <td style="width: 200px; text-align: center;">aMino </td>
             <td style="width: 25px; text-align: center;">A </td>
-            <td style="width: 22px; text-align: center;">C</td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="width: 25px; text-align: center;">C</td>
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">K </td>
-            <td style="width: 203px; text-align: center;">Keto </td>
+            <td style="width: 60px; text-align: center;">K </td>
+            <td style="width: 200px; text-align: center;">Keto </td>
             <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 22px; text-align: center;"><br>
+            <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;">G<br>
             </td>
             <td style="vertical-align: top; text-align: center;">T<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">R </td>
-            <td style="width: 203px; text-align: center;">puRine </td>
+            <td style="width: 60px; text-align: center;">R </td>
+            <td style="width: 200px; text-align: center;">puRine </td>
             <td style="width: 25px; text-align: center;">A </td>
-            <td style="width: 22px; text-align: center;"><br>
+            <td style="width: 25px; text-align: center;"><br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;">G<br>
             </td>
             <td style="vertical-align: top; text-align: center;"><br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">Y </td>
-            <td style="width: 203px; text-align: center;">pYrimidine </td>
+            <td style="width: 60px; text-align: center;">Y </td>
+            <td style="width: 200px; text-align: center;">pYrimidine </td>
             <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 22px; text-align: center;">C<br>
+            <td style="width: 25px; text-align: center;">C<br>
             </td>
-            <td style="vertical-align: top; width: 18px; text-align:
+            <td style="vertical-align: top; width: 25px; text-align:
               center;"><br>
             </td>
             <td style="vertical-align: top; text-align: center;">T<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">B </td>
-            <td style="width: 203px; text-align: center;">not A (B comes
+            <td style="width: 60px; text-align: center;">B </td>
+            <td style="width: 200px; text-align: center;">not A (B comes
               after A)<br>
             </td>
             <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 22px; text-align: center;"> C<br>
+            <td style="width: 25px; text-align: center;"> C<br>
             </td>
-            <td style="width: 18px; text-align: center;"> G<br>
+            <td style="width: 25px; text-align: center;"> G<br>
             </td>
             <td style="text-align: center;"> T<br>
             </td>
@@ -566,56 +571,56 @@ href="#download">Download</a></li>
               colspan="1" rowspan="4">3</td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">D </td>
-            <td style="width: 203px; text-align: center;">not C (D comes
+            <td style="width: 60px; text-align: center;">D </td>
+            <td style="width: 200px; text-align: center;">not C (D comes
               after C) <br>
             </td>
             <td style="width: 25px; text-align: center;"> A<br>
             </td>
-            <td style="width: 22px; text-align: center;"> <br>
+            <td style="width: 25px; text-align: center;"> <br>
             </td>
-            <td style="width: 18px; text-align: center;"> G<br>
+            <td style="width: 25px; text-align: center;"> G<br>
             </td>
             <td style="text-align: center;"> T<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">H </td>
-            <td style="width: 203px; text-align: center;">not G (H comes
+            <td style="width: 60px; text-align: center;">H </td>
+            <td style="width: 200px; text-align: center;">not G (H comes
               after G) <br>
             </td>
             <td style="width: 25px; text-align: center;"> A<br>
             </td>
-            <td style="width: 22px; text-align: center;"> C<br>
+            <td style="width: 25px; text-align: center;"> C<br>
             </td>
-            <td style="width: 18px; text-align: center;"> <br>
+            <td style="width: 25px; text-align: center;"> <br>
             </td>
             <td style="text-align: center;"> T<br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">V </td>
-            <td style="width: 203px; text-align: center;">not T (V comes
+            <td style="width: 60px; text-align: center;">V </td>
+            <td style="width: 200px; text-align: center;">not T (V comes
               after T and U) <br>
             </td>
             <td style="width: 25px; text-align: center;"> A<br>
             </td>
-            <td style="width: 22px; text-align: center;"> C<br>
+            <td style="width: 25px; text-align: center;"> C<br>
             </td>
-            <td style="width: 18px; text-align: center;"> G<br>
+            <td style="width: 25px; text-align: center;"> G<br>
             </td>
             <td style="text-align: center;"> <br>
             </td>
           </tr>
           <tr>
-            <td style="width: 57px; text-align: center;">N </td>
-            <td style="width: 203px; text-align: center;">No idea <br>
+            <td style="width: 60px; text-align: center;">N </td>
+            <td style="width: 200px; text-align: center;">No idea <br>
             </td>
             <td style="width: 25px; text-align: center;"> A<br>
             </td>
-            <td style="width: 22px; text-align: center;"> C<br>
+            <td style="width: 25px; text-align: center;"> C<br>
             </td>
-            <td style="width: 18px; text-align: center;"> G<br>
+            <td style="width: 25px; text-align: center;"> G<br>
             </td>
             <td style="text-align: center;"> T<br>
             </td>
@@ -625,11 +630,7 @@ href="#download">Download</a></li>
         </tbody>
       </table>
       <br>
-      <h3><a class="mozTocH3" name="positional-shift"></a>Positional
-        shift<br>
-      </h3>
-
-      shift to the right, example
+  
 
 
 
@@ -830,7 +831,12 @@ PKA
       <h2><a class="mozTocH2" name="input-type"></a>Sequence type</h2>
 		PKA is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences via the option <code>-alphabet</code>.
       <h3><a class="mozTocH3" name="input-type-dna"></a>DNA/RNA</h3>
-      <h3><a class="mozTocH3" name="input-type-protein"></a>Protein/Other</h3>
+	  When <code>-alphabet</code> is not specified by users, PKA use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>. 
+      <h3><a class="mozTocH3" name="input-type-protein"></a>Protein/Other</h3> 
+	  <p> To run PKA on protein sequences, please set <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>. </p>
+	  
+	  <p> Similarly, to run PKA on other types of sequences, use <code>-alphabet </code> to specify all allowed letters.</p>
+ 	  
       <h2><a class="mozTocH2" name="input-format"></a>Format</h2>
       <a>PKA currently supports both FASTA format and Tabular format. <font
           color="red">Note that all sequences will be converted to upper
