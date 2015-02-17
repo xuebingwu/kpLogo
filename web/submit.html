@@ -32,7 +32,14 @@ border-radius: 10px;
 font-size:1em;
 height:30px;
 }
-
+input[type="reset"]{
+/* change these properties to whatever you want */
+background-color: #555;
+color: #fff;
+border-radius: 10px;
+font-size:1em;
+height:30px;
+}
 input[type="file"]{
 /* change these properties to whatever you want */
 background-color: #aaa;
@@ -116,7 +123,9 @@ color: #fff;
  
       <tr>
       	<td colspan="2" style="vertical-align: top;"> 
-			<input name="Submit1" value="Submit" style="color: Yellow" type="submit"><br>
+			<input name="Submit1" value="Submit" style="color: GreenYellow" type="submit">
+            <input name="Reset1" value="Reset" style="color: Yellow" type="reset">
+			<br>
 			<br>
 			<font color="Blue"> Optional:</font> Email results to: 
 			<input value="xxx@yyy.com" name="email" id="email" size="40" type="text" onfocus="if(this.value == 'xxx@yyy.com') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'xxx@yyy.com'; }" > 
@@ -140,18 +149,35 @@ color: #fff;
         </td>
       </tr>
       
-	  
+
+	<tr>
+		<td colspan="2" style="vertical-align: center; text-align: left;">
+		<div style="text-align: left;"><big><font color="Blue">Input </font></big> 
+        </div>
+		</td>
+	</tr>	  
+
+            <tr>
+              <td colspan="1" style="vertical-align: center; text-align: center;">
+              <div style="text-align: right;"><strong>Sequence type </strong><a href="manual.html#input-type"><img src="info.gif" alt="help"></a><br>
+              </div>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: center;">
+               <select name="alphabet" id="alphabet">
+                      <option value="dna" selected="selected">DNA/RNA</option>
+                      <option value="protein">Protein</option>
+                      <option value="other">Other</option>
+                </select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }" >
+              </td>
+            </tr>
+
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Format </strong> <a href="manual.html#input-format"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
-        <select name="inputtype" id="inputtype" style="vertical-align: center;">
-        <option value="" selected="selected">unranked</option>
-        <option value="-ranked">ranked</option>
-        <option value="-weighted">weighted</option>
-	</select> (for tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> )</td>
+	For tabular input: sequence is in column <input value="1" name="col_seq" id="col_seq" size="5" type="text"> and weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> </td>
       </tr>
 
 
@@ -171,35 +197,19 @@ color: #fff;
         </td>
         <td colspan="1" style="vertical-align: center;"> 
 		Keep sequences containing any of these kmers:
-        <input value="" name="select_pkmers" id="select_pkmers" size="40" type="text"><br>
+        <input value="" name="select_pkmers" id="select_pkmers" size="40" type="text">e.g. G:5:0,C:8:1<br>
         Remove sequences containing any of these kmers:
         <input value="" name="remove_pkmers" id="remove_pkmers" size="40" type="text">
 		</td>
       </tr>
 
-      <tr>
-        <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Minimum count </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+
+    <tr>
+        <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue">K-mer </font></big> 
         </div>
         </td>
-        <td rowspan="1" colspan="1" style="vertical-align: center;">
-        <input value="1" name="mincount" id="mincount" size="5" type="text"></td>
-      </tr>
+    </tr>     
 
-	        <tr>
-	          <td colspan="1" style="vertical-align: center; text-align: center;">
-	          <div style="text-align: right;"><strong>Sequence type </strong><a href="manual.html#inputtype"><img src="info.gif" alt="help"></a><br>
-	          </div>
-	          </td>
-	          <td colspan="1" rowspan="1" style="vertical-align: center;">
-			   <select name="alphabet" id="alphabet">
-			          <option value="dna" selected="selected">DNA/RNA</option>
-			          <option value="protein">Protein</option>
-			          <option value="other">Other</option>
-			  	</select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed symbols here" type="text" onfocus="if(this.value == 'Other: enter all allowed symbols here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed symbols here'; }" >
-	          </td>
-	        </tr>
-	  
 	  
       <tr>
         <td colspan="1" style="vertical-align: center;">
@@ -207,7 +217,7 @@ color: #fff;
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;">
-			K = 
+			k = 
         <select name="kmer_length" id="kmer_length">
         <option value="-k 1">1</option>
         <option value="-k 2">2</option>
@@ -252,24 +262,41 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Degenerate symbols </strong><a href="manual.html#upload"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Degenerate letter </strong><a href="manual.html#upload"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
 	   <select name="degenerate" id="degenerate">
-          <option value="-degenerate all">all IUPAC nucleotide symbols: ACGTRYMKWSBDHVN</option>
+          <option value="-degenerate all">all IUPAC nucleotide letters: ACGTRYMKWSBDHVN</option>
 	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped K-mer</option>
-	          <option value="">ACGT only (no degenerate symbols)</option>
+	          <option value="">None (no degenerate letters)</option>
 	          <option value="other">Other</option>
-	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed symbols here" type="text" onfocus="if(this.value == 'Other: enter all allowed symbols here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed symbols here'; }"> 
+	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }"> 
         </td>
       </tr>
 	  
-	  
-	  
+	      <tr>
+        <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue">Statistical model </font></big> 
+        </div>
+        </td>
+    </tr>     
+
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#background"><img src="info.gif" alt="help"></a></div>
+        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        <select name="inputtype" id="inputtype" style="vertical-align: center;">
+        <option value="" selected="selected">unranked</option>
+        <option value="-ranked">ranked</option>
+        <option value="-weighted">weighted</option>
+    </select> </td>
+      </tr>	 
+ 
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#background"><img src="info.gif" alt="help"></a><br>(unranked input only)</div>
         </td>
         <td colspan="1" style="vertical-align: center; ">
 		
@@ -310,15 +337,38 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
          </select> order Markov model from background sequences (need background sequences) </label> 
  		 <br>
       </tr>
-	  
-	  
+	 
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Min presence/absence </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        <input value="1" name="mincount" id="mincount" size="5" type="text"> ignore kmers occur in too few or almost all sequences</td>
+      </tr> 
+
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Pseudo-count </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        <input value="1e-9" name="mincount" id="mincount" size="5" type="text"></td>
+      </tr>	
+  
+    <tr>
+        <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue">Output </font></big> 
+        </div>
+        </td>
+    </tr>     
+
         <tr>
           <td colspan="1" style="vertical-align: center; text-align: center;">
           <div style="text-align: right;"><strong>First position number </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
           </div>
           </td>
           <td rowspan="1" colspan="1" style="vertical-align: center;">
-          Set nucleotide <input value="1" name="startPos" id="startPos" size="5" type="text"> as position 1. The positions before it will be numbered as -1, -2, etc (no 0).</td>
+          Set the <input value="1" name="startPos" id="startPos" size="5" type="text">-th letter as position 1. The positions before it will be numbered as -1, -2, etc (no 0).</td>
         </tr>
 		
         <tr>

@@ -14,6 +14,11 @@ height:30px;
 
 }
 
+code {
+color: SteelBlue  ;
+font-size:0.9em;
+}
+
 
 h2 {
 font-family: Verdana;
@@ -122,13 +127,7 @@ href="#download">Download</a></li>
         </li>
         <li><a href="#how-pka-works">How PKA works</a>
           <ul>
-            <li><a href="#input-preprocessing">Input preprocessing</a></li>
-              <ul>
-                <li><a href="#default-formating">Default formating</a></li>
-                <li><a href="#subregion">Analyze a sub-region</a></li>
-                <li><a href="#filter-by-kmer">Filter by positional kmer</a></li>
-              </ul>
-            <li><a href="#k-mer-counting">K-mer counting</a>
+            <li><a href="#positional-kmer">Positional K-mer with shift and degeneracy</a>
               <ul>
                 <li><a href="#degenerate-letter">Degenerate letter</a></li>
                 <li><a href="#positional-shift">Positional shift</a></li>
@@ -151,10 +150,25 @@ href="#download">Download</a></li>
             </li>
           </ul>
         </li>
-        <li><a href="#input-format">Input format</a>
+        <li><a href="#input">Input</a>
           <ul>
-            <li><a href="#tabular">Tabular / Column file</a></li>
-            <li><a href="#fasta">FASTA</a></li>
+            <li><a href="#input-type">Sequence type</a></li>
+                <ul>
+                <li><a href="#input-type-dna">DNA/RNA</a></li>
+                <li><a href="#input-type-protein">Protein/Other</a></li>
+                </ul>
+			<li><a href="#input-format">Format</a></li>
+				<ul>
+				<li><a href="#tabular">Tabular / Column file</a></li>
+				<li><a href="#fasta">FASTA</a></li>
+				</ul>
+            <li><a href="#preprocessing">Preprocessing</a></li>
+              <ul>
+                <li><a href="#default-formating">Default formating</a></li>
+                <li><a href="#subregion">Analyze a sub-region</a></li>
+                <li><a href="#filter-by-kmer">Filter by positional kmer</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li><a href="#output-format">Output format</a>
@@ -274,7 +288,7 @@ href="#download">Download</a></li>
       locally, one should have a recent version of <a
         href="https://gcc.gnu.org/">GCC</a> that is compatible with the
       g++
-      option '<span style="color: rgb(51, 51, 255);">-std=c++11</span>'.
+      option <code>-std=c++11</code>.
       <br>
       <br>
       <span style="font-weight: bold;">To generate PNG and PDF files:
@@ -296,9 +310,9 @@ href="#download">Download</a></li>
         rgb(221, 221, 221) none repeat scroll 0% 50%;
         -moz-background-clip: -moz-initial; -moz-background-origin:
         -moz-initial; -moz-background-inline-policy: -moz-initial;
-        font-family: Monaco;"><small><code>git
+        font-family: Monaco;"><small>git
             clone
-            https://github.com/xuebingwu/PKA.git</code></small></div>
+            https://github.com/xuebingwu/PKA.git</small></div>
       <br>
       <br>
       To download stable releases of PKA: <a
@@ -308,24 +322,24 @@ href="#download">Download</a></li>
       <h3><a class="mozTocH3" name="installation"></a>Installation</h3>
       <br>
       Once download finished, Unzip if necessary, enter the subfolder
-      'src',
-      then type 'make': <br>
+      <code>src</code>,
+      then type <code>make</code>: <br>
       <br>
       <div style="border: 0px solid ; padding: 10px 40px; background:
         rgb(221, 221, 221) none repeat scroll 0% 50%;
         -moz-background-clip: -moz-initial; -moz-background-origin:
-        -moz-initial; -moz-background-inline-policy: -moz-initial;"><code><small><span
+        -moz-initial; -moz-background-inline-policy: -moz-initial;"><small><span
               style="font-family: Monaco;">cd src</span><br
               style="font-family: Monaco;">
             <span style="font-family: Monaco;">make</span></small>
           <br>
-        </code></div>
+        </div>
       <br>
-      The compiled programs are in the folder 'bin'.<br>
-      To recompile, type 'make clean' then 'make'.<br>
+      The compiled programs are in the folder <code>bin</code>.<br>
+      To recompile, type <code>make clean</code> then <code>make</code>.<br>
       <br>
       <h3><a class="mozTocH3" name="test"></a>Test</h3>
-      Go to the folder 'bin', and run the following examples:<br>
+      Go to the folder <code>bin</code>, and run the following examples:<br>
       <br>
       1. Unweighted sequences in fasta, default background (relative to
       other
@@ -354,71 +368,28 @@ href="#download">Download</a></li>
       to
       the manual for other examples and explanation of the output files.<br>
       <br>
-      <h1><a class="mozTocH1" name="how-pka-works"></a>How PKA works</h1>
-      For a given value of k, PKA enumerates all possible kmers
-      (allowing
-      degenerate letters when specified), determine their presence /
-      absence at
-      every possible positions in all input sequences, and report their
-      enrichment / depletion using statistical models specified by
-      users.<br>
+ 
+     <h1><a class="mozTocH1" name="how-pka-works"></a>How PKA works</h1>
 
-      <h2><a class="mozTocH2" name="input-preprocessing"></a>Input preprocessing</h2>
+	  <p>Below is a detailed description of PKA's concept and statistical models.</p>
 
-      <h3><a class="mozTocH3" name="default-formating"></a>Default formating</h3>
-      <p>For DNA/RNA sequences (-alphabet ACGT or -alphabet ACGU), U
-        will be converted to T</p>
-      <p>All sequences will be converted to upper case.</p>
+      <h2><a class="mozTocH2" name="positional-kmer"></a>Positional k-mer with shift and degeneracy</h2>
 
-      <h3><a class="mozTocH3" name="subregion"></a>Analyze a sub-region</h3>
-      <p>Use '-region' option to specify the sub-region to be
-        analyzed. Specifically, -region n1,n2 specifies two numbers, n1,
-        and n2, where n1 is the position of the first letter to be
-        included, and n2 is the position of the last letter to be
-        included. For example, -region 1,20 tells PKA to analyze the first
-        20 letters. This option allows one to analyze sequences of
-        different length. In addition, n1 and n2 can take non-positive
-        integers, which PKA interpreted as the distance from the end.
-        For example, the default setting -region 1,0 means take the entire
-        sequence without trimming. Another example is -region -9,0, which
-        tells PKA to analyze the last 10 letters.</p>
+		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer is represented in the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>. The position of the first letter is used as the position of the kmer. In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by positional shift. For example, the polyadenylation signal  TATA box is typically located 25 or 26 bases upstream of transcription start site, and thus may be represented as <code>TATAA:-26:1</code>, i.e. TATAA starting at position -26 allowing one base shift, thus can also start at position -25.  </p>
 
-      <h3><a class="mozTocH3" name="filter-by-kmer"></a>Filter by positional kmer</h3>
-		<p> PKA allows user to filter input sequences by the presence (-select) or absence (-remove) of a list of positional kmers. This feature enables one to study dependence between positional kmers (see examples ***).</p>
-
-		<p>A positional kmer is specified in the form of <strong>sequence:position:shift</strong>, such as GT:3:0, which means GT starting at position 3 with no shift. Note that sequence can contain degenerate DNA letters. Position coordinates start at 1 for the first letter in sequence. </p>
-
-		<p> If using multiple positional kmers, separate each by comma (,). For example, GT:3:0,ACT:11:0,GGG:45:0. Note that when multiple positional kmers specified, the presence of any positional kmer is defined as a match. <font color="red">DO NOT</font> leave a space before or after the comma! </p>
-
-		<p>Here are two more examples: </p>
-
-<p><code>-select G:35:3,CNC:47:0</code> </p>
-
-<p> Select (keep) sequences with G at position 35, 36, 37, or 38 (note shift=3), <strong>OR</strong> with CNC at position 47. Here N means any nucleotide, thus can be any of CAC, CGC, CTC, and CCC. This will remove sequences that contain none of these positional kmers.</p>
-
-<p><code>-remove G:35:0,CNC:47:0</code><p>
-
-<p> Remove sequences containing either G at position 35, or CNC at position 47. Sequences contain neither of these two kmers will be analyzed by PKA. </p>
-
-      <h2><a class="mozTocH2" name="k-mer-counting"></a>K-mer counting</h2>
       <h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate
         letter</h3>
       Currently PKA only supports degenerate letters for DNA/RNA
       sequences, and specifically those in the <a
         href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below). <br>
       <br>
-      By default, degenerate letters are not allowed. To allow, use '<span
-        style="color: rgb(51, 51, 255);">-degenerate</span>' to specify
+      By default, degenerate letters are not allowed. To allow, use <code>-degenerate</code> to specify
       all allowed letters, <span style="color: red;">including
         non-degenerate letters</span>. For example, to include R and Y
-      in addition to ACGT in DNA sequences, use '<span style="color:
-        rgb(51, 51, 255);">-degenerate ACGTRY</span>' instead of '<span
-        style="color: rgb(51, 51, 255);">-degenerate RY</span>'. <br>
+      in addition to ACGT in DNA sequences, use <code>-degenerate ACGTRY</code> instead of <code>-degenerate RY</code>. <br>
       <br>
-      Two special cases: 1) to allow all IUPAC letters, use '<span
-        style="color: rgb(51, 102, 255);">-degenerate all</span>'. 2) to
-      allow kmers with gaps, use '<span style="color: rgb(51, 51, 255);">-degenerate
-        ACGTN</span>' or simply '<span style="color: rgb(51, 51, 255);">-gapped</span>'.<br>
+      Two special cases: 1) to allow all IUPAC letters, use <code>-degenerate all</code>. 2) to
+      allow kmers with gaps, use <code>-degenerate ACGTN</code> or simply <code>-gapped</code>.<br>
       <br>
       <table style="width: 420px; height: 470px;" border="1"
         cellpadding="2" cellspacing="2">
@@ -657,11 +628,23 @@ href="#download">Download</a></li>
       <h3><a class="mozTocH3" name="positional-shift"></a>Positional
         shift<br>
       </h3>
-      shift to the right, example<br>
+
+      shift to the right, example
+
+
+
       <h2><a class="mozTocH2" name="statistical-models"></a>Statistical
         models</h2>
+
+		<p>
+      For a given value of k, PKA enumerates all possible kmers
+      (allowing degenerate letters when specified), determine their presence /
+      absence at every possible positions in all input sequences, and report their
+      enrichment / depletion using statistical models specified by
+      users.</p>
+
       <h3><a class="mozTocH3" name="weighted"></a>Weighted: two-sample t-test</h3>
-      When turned on by '<span style="color: rgb(102, 51, 255);">-weighted</span>',
+      When turned on by <code>-weighted</code>,
 PKA
       searches for kmers at certain positions whose presence / absence
       in
@@ -677,9 +660,7 @@ PKA
       2. negative sequences: all other sequences, i.e., sequences that
       do not contain this kmer at this position.<br>
       <br>
-      A <span style="color: rgb(102, 51, 255);">one-sided two-sample </span><span
-        style="font-style: italic; color: rgb(102, 51, 255);">Student's
-        t</span><span style="color: rgb(102, 51, 255);"> test</span>
+      A <code>one-sided two-sample Student's t test</code>
       is used to compare the weights of the two sets of sequences. The
       sign
       of the t statistics determines whether it is an enrichment
@@ -689,7 +670,7 @@ PKA
       Note that the input sequences need not to be sorted by weight.<br>
       <h3><a class="mozTocH3" name="ranked"></a>Ranked: rank-sum test</h3>
       When
-      turned on (by '-ranked'), PKA assumes the input sequences (FASTA
+      turned on (by <code>-ranked</code>), PKA assumes the input sequences (FASTA
       or
       Tabular) are ranked, and enrichment / depletion of a kmer at a
       position
@@ -700,26 +681,22 @@ PKA
       Similar to weighted sequences, ranked sequences are divided into a
       positive set and a negative set based on the presence / absence of
       a
-      kmer of interest. Instead of Student's t-test, the nonparametric <span
-        style="color: rgb(102, 51, 255);">Wilcoxon rank-sum test</span>,
-      also called the <span style="color: rgb(102, 51, 255);">Mann¨CWhitney
-        U test</span>,
+      kmer of interest. Instead of Student's t-test, the nonparametric <code>Wilcoxon rank-sum test</code>,
+      also called the <code>Mann-Whitney U test</code>,
       is used to determine the signficance of positional enrichment /
       depletion of a kmer. Assuming sample size larger than 8, the
-      distribution of the U statistics is approximated by a Normal&nbsp;
-      distribution. The resultant z-score and p-value from the Normal
+      distribution of the U statistics is approximated by a Normal distribution. The resultant z-score and p-value from the Normal
       approximation is reported in the output. Again the sign of the
       z-score
       determines enrichment or depletion.<br>
       <br>
-      Note that this model is activated by the option '-ranked', which
+      Note that this model is activated by the option <code>-ranked</code>, which
       will
-      ignore '-weight' if specified. Also note that sequences need to be
+      ignore <code>-weight</code> if specified. Also note that sequences need to be
       sorted prior to PKA analysis. <br>
       <h3><a class="mozTocH3" name="unranked"></a>Unranked (default): binomial test</h3>
-      When neither '-ranked' nor '-weighted' is specified, PKA assumes
-      the input is unranked. PKA uses <span style="color: rgb(102, 51,
-        255);">one-sided Binomial test</span>
+      When neither <code>-ranked</code> nor <code>-weighted</code> is specified, PKA assumes
+      the input is unranked. PKA uses <code>one-sided Binomial test</code>
       to determine the significance of a kmer at a position.
       Specifically,
       the number of trials is the total nubmer of sequences, and the
@@ -739,27 +716,21 @@ PKA
       different ways:<br>
       <h4><a class="mozTocH4" name="background-sequences"></a>Background
         sequences</h4>
-      Users can provide a set of background sequences ('<span
-        style="color: rgb(102, 51, 255);">-bgfile</span>')
+      <p>Users can provide a set of background sequences (<code>-bgfile</code>)
       that can be aligned in the same way. In this case, the expected
       probability of a sequence with a particular kmer at a particular
       position is estimated by the fraction of background sequences with
-      this
-      kmer at this position. <br>
-      <br>
+      this kmer at this position. </p>
+      <p>
       The potential advantage of using carefully selected background
       sequences is that it may enrich desired signals by normalizing out
       known or even unknown sequence bias. However, a background
-      sequence set
-      may not be available or not large enough to for reliable
-      estimation of
-      the expected probability of success. Small set of background
-      sequences
-      lead to noisy output, especially for longer kmers.<br>
+      sequence set may not be available or not large enough to for reliable
+      estimation of the expected probability of success. Small set of background
+      sequences lead to noisy output, especially for longer kmers. To avoid a zero estimation of expected probability, a pseudocount is added to kmer counts, which can be set using <code>-pseudo</code>. The defaut value of pseudocount is <code>1e-9</code>.</p>
       <h4><a class="mozTocH4" name="shuffle-input-sequences"></a>Shuffle
         input sequences</h4>
-      This is implemented in the option '<span style="color: rgb(102,
-        51, 255);">-shuffle n,m'</span> (shuffle each sequence n times
+      This is implemented in the option <code>-shuffle n,m</code> (shuffle each sequence n times
       preserving m-letter frequency). PKA uses the <a
         href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
       code to shuffle input sequences while preserving the frequency of
@@ -775,17 +746,16 @@ PKA
       time. In
       addition, for relatively short sequences, it is impossible to
       preserve
-      even dinucleotide frequencies. <br>
+      even dinucleotide frequencies. Similar to using background sequences, pseudocount is used to avoid zero estimation of expected probability.<br>
       <h4><a class="mozTocH4" name="markov-model-from-input"></a>Markov
         model from input sequences</h4>
-      This is activated by '<span style="color: rgb(102, 51, 255);">-markov</span>'
+      This is activated by <code>-markov</code>
       specifying the order of the Markov model, which summarizes letter
       frequency and dependence between neighboring letters in input
       sequences. Currently PKA supports zero, first, and second order
       Markov
       models. The hypothesized probability of a sequence containing a
-      particular kmer at a particular<span style="color: rgb(51, 51,
-        255);"></span> position is then determined by the Markov model.
+      particular kmer at a particular position is then determined by the Markov model.
       <br>
       <br>
       For example, the first-order Markov model learned from input
@@ -840,18 +810,13 @@ PKA
       positional shift or degenerate letters is used. <br>
       <h4><a class="mozTocH4" name="markov-model-from-background"></a>Markov
         model from background sequences</h4>
-      This is activated when both '<span style="color: rgb(51, 51,
-        255);">-markov</span>' and '<span style="color: rgb(51, 51,
-        255);">-bgfile</span>' are specified. The only difference from '<span
-        style="color: rgb(51, 51, 255);">-markov</span>' alone is that
-      the Markov model is learned from background sequences specified by
-      '<span style="color: rgb(51, 51, 255);">-bgfile</span>'.
+      This is activated when both <code>-markov</code> and <code>-bgfile</code> are specified. The only difference from <code>-markov</code> alone is that
+      the Markov model is learned from background sequences specified by <code>-bgfile</code>.
       <h4><a class="mozTocH4" name="average-across-all-positions"></a>Average
         across all positions (default)<br>
       </h4>
       This is activated by default if none of the above model is
-      specified (<span style="color: rgb(51, 51, 255);">-bgfile,
-        -shuffle, -markov</span>).
+      specified (<code>-bgfile, -shuffle, -markov</code>).
       It is preferred because it is fast, less noisy, handles both
       positional
       shift and degenerate letters. In this model, the hypothesized
@@ -861,12 +826,17 @@ PKA
       containing this kmer at a given position) averaged over all
       positions. <br>
       <br>
-      <h1><a class="mozTocH1" name="input-format"></a>Input format</h1>
+      <h1><a class="mozTocH1" name="input"></a>Input</h1>
+      <h2><a class="mozTocH2" name="input-type"></a>Sequence type</h2>
+		PKA is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences via the option <code>-alphabet</code>.
+      <h3><a class="mozTocH3" name="input-type-dna"></a>DNA/RNA</h3>
+      <h3><a class="mozTocH3" name="input-type-protein"></a>Protein/Other</h3>
+      <h2><a class="mozTocH2" name="input-format"></a>Format</h2>
       <a>PKA currently supports both FASTA format and Tabular format. <font
           color="red">Note that all sequences will be converted to upper
           case by default</font>. Lines start with <font color="blue">
           # </font> will be treated as comments and ignored.</a>
-      <h2><a class="mozTocH2" name="tabular"></a>Tabular / Column file</h2>
+      <h3><a class="mozTocH3" name="tabular"></a>Tabular / Column file</h3>
       <a>PKA will treat <font color="red">ANY</font> of the following
         characters as delimiter: tab ("\t"), comma (","), vertical bar ("|"), and space (" ").
         <br>
@@ -896,8 +866,8 @@ PKA
             GCTGTGATCGTAGCTAGCTG 1.2<br>
             ...</small></a></div>
       <br>
-      <a>Example 3: additional columns in input (require '-seq 2 -weight
-        3' in
+      <a>Example 3: additional columns in input (require <code>-seq 2 -weight
+        3</code> in
         this example) <br>
       </a><a><br>
       </a>
@@ -915,15 +885,15 @@ PKA
         1. Each line is a sequence <br>
         2. Weights do not need to be sorted<br>
         3. Sequences do NOT need to be of the same length (see option
-        '-first'
-        and '-last') <br>
+        <code>-first</code>
+        and <code>-last</code>) <br>
         4. If sequence is not in column 1 or weight not in column 2,
         then their
-        position needs to be specified by '-seq' and '-weight'. For
+        position needs to be specified by <code>-seq</code> and <code>-weight</code>. For
         example
-        '-seq 2 -weight 3' for example 3 above. </a><br>
+        <code>-seq 2 -weight 3</code> for example 3 above. </a><br>
       <br>
-      <h2><a class="mozTocH2" name="fasta"></a>FASTA</h2>
+      <h3><a class="mozTocH3" name="fasta"></a>FASTA</h3>
       <a>Here is an example of a FASTA file: <br>
       </a><a><br>
       </a>
@@ -947,11 +917,45 @@ PKA
         2. IDs always start with '&gt;' <br>
         3. IDs are not used by PKA and thus do not need to be unique <br>
         4. Sequences do not need to be of the same length (see option
-        '-first'
-        and '-last') <br>
-        5. Can be treated as ranked (see option '-ranked') but not
-        weighted
-        (need to use tabular format) </a>
+        <code>-first</code>
+        and <code>-last</code>) <br>
+        5. Can be treated as ranked (see option <code>-ranked</code>) but not
+        weighted (need to use tabular format) </a>
+
+      <h2><a class="mozTocH2" name="preprocessing"></a>Preprocessing</h2>
+
+      <h3><a class="mozTocH3" name="default-formating"></a>Default formating</h3>
+      <p>For DNA/RNA sequences (-alphabet ACGT or -alphabet ACGU), U
+        will be converted to T</p>
+      <p>All sequences will be converted to upper case.</p>
+      <h3><a class="mozTocH3" name="subregion"></a>Analyze a sub-region</h3>
+      <p>Use <code>-region</code> option to specify the sub-region to be
+        analyzed. Specifically, <code>-region n1,n2</code> specifies two numbers, <code>n1</code>,
+        and <code>n2</code>, where <code>n1</code> is the position of the first letter to be
+        included, and <code>n2</code> is the position of the last letter to be
+        included. For example, <code>-region 1,20</code> tells PKA to analyze the first
+        20 letters. This option allows one to analyze sequences of
+        different length. In addition, <code>n1</code> and <code>n2</code> can take non-positive
+        integers, which PKA interpreted as the distance from the end.
+        For example, the default setting <code>-region 1,0</code> means take the entire
+        sequence without trimming. Another example is <code>-region -9,0</code>, which
+        tells PKA to analyze the last 10 letters.</p>
+      <h3><a class="mozTocH3" name="filter-by-kmer"></a>Filter by positional kmer</h3>
+		<h4><a class="mozTocH4" name="filter-by-kmer-why"></a>Why</h4>
+        <p> PKA allows user to filter input sequences by the presence (<code>-select</code>) or absence (<code>-remove</code>) of a list of positional km
+ers. This feature enables one to study dependence between positional kmers (see examples ***).</p>
+                <h4><a class="mozTocH4" name="filter-by-kmer-format"></a>Format</h4>
+<p>A positional kmer is specified in the form of <strong>sequence:position:shift</strong>, such as GT:3:0, which means GT starting at position 3 with no shift. Note that sequence can contain degenerate DNA letters. Position coordinates start at 1
+ for the first letter in sequence. </p>
+        <p> If using multiple positional kmers, separate each by comma (,). For example, GT:3:0,ACT:11:0,GGG:45:0. Note that when multiple positional kmers specified, the presence of any positional kmer is defined as a match. <font color="red">DO NOT</font> leave a space before or after the comma! </p>
+        <h4><a class="mozTocH4" name="filter-by-kmer-example"></a>Examples</h4>
+        <p>Here are two more examples: </p>
+<p><code>-select G:35:3,CNC:47:0</code> </p>
+<p> Select (keep) sequences with G at position 35, 36, 37, or 38 (note shift=3), <strong>OR</strong> with CNC at position 47. Here N means any nucleotide, thus can be any of CAC, CGC, CTC, and CCC. This will remove sequences that contain none of these positional kmers.</p>
+<p><code>-remove G:35:0,CNC:47:0</code><p>
+<p> Remove sequences containing either G at position 35, or CNC at position 47. Sequences contain neither of these two kmers will be analyzed by PKA. </p>
+
+
       <h1><a class="mozTocH1" name="output-format"></a>Output format</h1>
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
@@ -1027,7 +1031,13 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download
           </ol>
         </small> </div>
       <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
-      <p>coming soon</p>
+		<h2><a class="mozTocH2" name="example1"></a>Example 1 (unranked): MicroRNA precursor / Drosha specificity </h2>
+
+		<p> </p>
+        <h2><a class="mozTocH2" name="example2"></a>Example 2 (weighted/ranked): CRISPR/Cas9 cutting efficiency </h2>
+        <p> </p>
+        <p> </p>
+
       <h1><a class="mozTocH1" name="command-line-options"></a>Command
         Line Options</h1>
       <p>coming soon</p>
@@ -1074,7 +1084,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download
       <p>PKA is developed and maintained by Xuebing Wu in the Bartel lab
         at Whitehead Institute.</p>
       <h1><a class="mozTocH1" name="acknowlegements"></a>Acknowledgements</h1>
-      <p>coming soon</p>
+      <p>I would like to thank Whitehead Institute IT system team (especially Paul McCabe, Andy Nutter-Upham, Craig Andrew, Alexan Mardigian) for help with the server setup. </p>
       <h1><a class="mozTocH1" name="reference"></a>Reference</h1>
       <p>coming soon</p>
     </div>

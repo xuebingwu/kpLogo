@@ -213,3 +213,12 @@
 10.9.9.100	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1 -region 1,0   -remove CNNC:47:1
 10.9.9.100	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1 -region 1,0   -remove CNNC:46:3
 10.9.9.100	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1 -region 1,0   -remove CNNC:47:1
+<<<<<<< HEAD
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1 -region 1,0  
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet ABCDEFGHIJKLMNOPQRSTUVWXYZ  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1e-9 -region 1,0  
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet ABCDEFGHIJKLMNOPQRSTUVWXYZ  -max_k 4 -shift 0  -startPos 1  -degenerate Other: enter all allowed letters here   -minCount 1e-9 -region 1,0  
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet ABCDEFGHIJKLMNOPQRSTUVWXYZ  -max_k 4 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0  
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet ABCDEFGHIJKLMNOPQRSTUVWXYZ  -k 1 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0  
+10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1e-9 -region 1,0  
+=======
+>>>>>>> b22a2bc2552e88bc4e8e6f213c0e57bf5dfacd36
