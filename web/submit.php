@@ -88,6 +88,9 @@ if($alphabet == "other")
 $region_first=$_POST['region_first'];
 $region_last=$_POST['region_last'];
 
+
+$plottype=$_POST['plottype'];
+
 $mincount = $_POST['mincount'];
 if($mincount < 0)
 {
@@ -111,6 +114,10 @@ if($degenerate == "other")
 	$degenerate = " -degenerate $degenerate_alphabet ";
 }
 
+if($alphabet != "DNA")
+{
+	$degenerate = "";
+}
 
 $background = $_POST['background']; // 
 $markov_foreground_order = $_POST['markov_foreground_order'];
@@ -196,7 +203,7 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -region $region_first,$region_last $select_pkmers $remove_pkmers";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);

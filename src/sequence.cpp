@@ -516,6 +516,9 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 			
 	        int total_counts = sum(counts);
 			
+            // if this kmer is not present anywhere, skip it
+            if (total_counts == 0) continue;
+
 			double expected = double(total_counts)/counts.size();
 			
 			// calculate background f2
@@ -1630,7 +1633,7 @@ void implant_motif(map<string,string> &seqs, int position, string motif, double 
 
 // build position weight matrix for a positional kmer, can include flanking sequence
 // haven't conder startPos, assume 1 start
-boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, int seqLen, int startPos, int cScore)
+boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos, int cScore)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -1638,7 +1641,7 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
  	cScore -= 1;
 	
 	// initialize an empty matrix
-    boost::numeric::ublas::matrix<double> pwm (4,seqLen);
+    boost::numeric::ublas::matrix<double> pwm (alphabet.size(),seqLen);
     for (int i = 0; i < pwm.size1(); ++ i)
         for (int j = 0; j < pwm.size2(); ++ j)
             pwm(i,j) = 0.0;
@@ -1647,10 +1650,10 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 
     // nucleotide to position
     map<string,int> letter2pos;
-    letter2pos["A"] = 0;
-    letter2pos["C"] = 1;
-    letter2pos["G"] = 2;
-    letter2pos["T"] = 3;
+	for(int i=0;i<alphabet.size();i++)
+	{
+		letter2pos[alphabet.substr(i,1)] = i;
+	}
  
  	ifstream fin(filename.c_str());
 	string line;
@@ -1660,7 +1663,7 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 		getline(fin,line);
 		if(line.length() == 0) continue;
 		flds = string_split(line);
-		if(flds[cSeq] == "A" || flds[cSeq] == "C" || flds[cSeq] == "G" || flds[cSeq] == "T")
+		if(letter2pos.find(flds[cSeq]) != letter2pos.end())
 		{
 			double score = stof(flds[cScore]);
 			if (stof(flds[cStat]) < 0) 
@@ -1710,6 +1713,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 
 void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content, double max_scale)
 {
+
 	// fontsize
 	//int fontsize = 20;
 	
@@ -1732,6 +1736,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	if (information_content) 
 	{
 		vector<double> info_content = matrix_column_information_content(pwm);
+
 		for (int i=0;i<pwm.size1();i++)
 		{
 			for (int j=0;j<pwm.size2();j++)
@@ -1741,11 +1746,15 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		}
 	}
 
+
 	double maxv = matrix_max(pwm);
 	double minv = matrix_min(pwm);
 	vector<double> col_max = matrix_column_max(pwm);
 	vector<double> col_min = matrix_column_min(pwm);
 		
+
+
+
 	vector<bool> significant;
 	for (int i=0;i<L;i++)
 	{
@@ -1774,7 +1783,6 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	//cout << height_neg << endl;
 	
 	
-	
 	// origin in the plot: left, center
 	int x0 = 5 * xstep;
 	int y0 = (height_neg + 2) * ystep;
@@ -1795,6 +1803,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	ofstream out(filename.c_str());
 	out << header << endl;
 	
+
     // draw y axis, +
     out << postscript_line(x0-xstep*1.5, y0+coord_size,  x0-xstep*1.5, y0 + coord_size + height_pos * ystep);
     //  out << postscript_text("0", x0-xstep, y0+ystep/2, 0.6,0.6, "0 0 0", 0);
@@ -1823,6 +1832,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		out << postscript_text(to_string(pos),x0 + xstep * (i+0.3) ,y0+ystep,0.6,0.6,color_sig,90);
 	}
 	
+
 	// plot logo at each position
 	for (int i=0;i<L; i++)
 	{
@@ -1833,6 +1843,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 
 		// sort and return index, ascending order
 		vector<double> w;
+
 		for(int j=0;j<alphabet.size();j++) w.push_back(pwm(j,i));
 		vector<size_t> idx = sort_indexes(w);
 		//for(int j=0;j<4;j++) cout << i << "\t" << letters[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
@@ -2075,15 +2086,15 @@ void write_pwm_in_meme_format(boost::numeric::ublas::matrix<double> pwm, string 
 
 
 // build position weight matrix from a set of sequences of the same length
-boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs)
+boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs,string alphabet)
 {
 
     // length of sequences
     int L = seqs[0].size();
 
     // initialize an empty matrix
-    boost::numeric::ublas::matrix<double> pwm (4,L);
-    for (int i = 0; i < 4; ++ i)
+    boost::numeric::ublas::matrix<double> pwm (alphabet.size(),L);
+    for (int i = 0; i < alphabet.size(); ++ i)
         for (int j = 0; j < pwm.size2(); ++ j)
             pwm(i,j) = 0.0;
   
@@ -2091,10 +2102,7 @@ boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(ve
 
     // nucleotide to position
     map<char,int> letter2pos;
-    letter2pos['A'] = 0;
-    letter2pos['C'] = 1;
-    letter2pos['G'] = 2;
-    letter2pos['T'] = 3;
+	for(int i=0;i<alphabet.size();i++) letter2pos[alphabet[i]] = i;
  
     for(int k=0;k<seqs.size();k++)
     {

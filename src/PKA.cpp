@@ -914,13 +914,16 @@ WriteFasta(seqs1,"implanted.fa");
 		message("plotting single nucleotide profile...");
 		//plot_nucleotide_profile( out,  output+".nucleotide.profile.pdf",  seq_len1, cScore, startPos);
 		
-		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out, seq_len1, startPos, cScore);
+		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out,alphabet, seq_len1, startPos, cScore);
+
+		//print_matrix(pwm);
+
 	    generate_ps_logo_from_pwm(pwm, output+".ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)",false,4);
 		
 	}
 	
 	// plot frequency
-	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1);
+	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
 	//print_matrix(pwm2);
 	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Frequency",false,2);
 	generate_ps_logo_from_pwm(pwm2, output+".info.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true,2);

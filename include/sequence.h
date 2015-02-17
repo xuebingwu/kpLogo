@@ -34,9 +34,9 @@ string postscript_text(string text, double x, double y, double width, double hei
 
 void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", bool info_content=false, double max_scale=6.0);
 
-boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs);
+boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs, string alphabet);
 
-boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, int seqLen, int startPos=1,int cScore=5);
+boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos=1,int cScore=5);
 
 void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
 
@@ -223,7 +223,7 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	int min_shift=0, 
 	int max_shift=2,
 	int startPos=0,
-	int minCount=5) ;
+	int minCount=5);
 
 void plot_frequency_for_significant_kmer(string inputfile, string outputfile);
    

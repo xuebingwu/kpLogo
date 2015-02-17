@@ -91,7 +91,7 @@ vector<double> matrix_column_information_content(boost::numeric::ublas::matrix<d
 	vector<double> res;
     for (int j = 0; j < x.size2(); ++ j)
 	{
-		res.push_back(2.0);
+		res.push_back(log2(x.size1()));
 		for (int i = 0; i < x.size1(); ++ i)
 		{
 			if( x(i,j) > 0 && x(i,j)<= 1) res[j] += x(i,j) * log2(x(i,j));
