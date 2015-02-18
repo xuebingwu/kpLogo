@@ -1,5 +1,0 @@
-
-xxx@yyy.com
-Job name
-PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet protein  -k 1 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0   -plot p
-PKA-224

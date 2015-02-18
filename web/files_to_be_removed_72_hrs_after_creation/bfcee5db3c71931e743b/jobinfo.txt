@@ -1,5 +1,0 @@
-
-xxx@yyy.com
-Job name
-PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -shuffle 1,2  -startPos 1   -minCount 1e-9 -region 1,0   -plot p
-PKA-224

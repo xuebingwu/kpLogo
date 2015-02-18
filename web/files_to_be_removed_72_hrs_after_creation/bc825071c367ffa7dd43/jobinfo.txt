@@ -1,5 +1,0 @@
-
-wuxb07@gmail.com
-unranked-3
-PKA pka.input.txt -o pka.output  -seq 2 -weight 2 -alphabet dna  -max_k 3 -shift 0  -startPos 1 -gapped  -minCount 1e-9 -region 1,0  
-PKA-224
