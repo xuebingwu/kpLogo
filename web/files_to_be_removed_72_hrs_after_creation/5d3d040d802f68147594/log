@@ -1,0 +1,50 @@
+[Tue Feb 17 22:42:06 2015] Summary: 
+[Tue Feb 17 22:42:06 2015]    Input       :   pka.input.txt
+[Tue Feb 17 22:42:06 2015]    Background  :   local
+[Tue Feb 17 22:42:06 2015]    Output      :   pka.output.*
+[Tue Feb 17 22:42:06 2015]    alphabet    :   ACGT
+[Tue Feb 17 22:42:06 2015]    min_kmer    :   1
+[Tue Feb 17 22:42:06 2015]    max_kmer    :   4
+[Tue Feb 17 22:42:06 2015]    min_shift   :   0
+[Tue Feb 17 22:42:06 2015]    max_shift   :   0
+[Tue Feb 17 22:42:06 2015]    p           :   1.010000
+[Tue Feb 17 22:42:06 2015]    start at    :   1
+[Tue Feb 17 22:42:06 2015] 1841 sequences loaded from pka.input.txt
+[Tue Feb 17 22:42:06 2015] 340 exact kmers to be tested
+[Tue Feb 17 22:42:06 2015] 9288 tests (kmer x position x shifts) will be performed
+[Tue Feb 17 22:42:08 2015] 7430 positional kmers with p <1.010000
+[Tue Feb 17 22:42:08 2015] plotting the most significant kmer at each position...
+[Tue Feb 17 22:42:08 2015] plotting single nucleotide profile...
+Error: /undefinedresult in --stringwidth--
+Operand stack:
+   (A)
+Execution stack:
+   %interp_exit   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   --nostringval--   false   1   %stopped_push   1910   1   3   %oparray_pop   1909   1   3   %oparray_pop   --nostringval--   1893   1   3   %oparray_pop   1787   1   3   %oparray_pop   --nostringval--   %errorexec_pop   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--
+Dictionary stack:
+   --dict:1165/1684(ro)(G)--   --dict:0/20(G)--   --dict:81/200(L)--
+Current allocation mode is local
+Current file position is 6339
+GPL Ghostscript 9.05: Unrecoverable error, exit code 1
+Error: /undefinedresult in --stringwidth--
+Operand stack:
+   (A)
+Execution stack:
+   %interp_exit   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   --nostringval--   false   1   %stopped_push   1910   1   3   %oparray_pop   1909   1   3   %oparray_pop   --nostringval--   1893   1   3   %oparray_pop   1787   1   3   %oparray_pop   --nostringval--   %errorexec_pop   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--
+Dictionary stack:
+   --dict:1166/1684(ro)(G)--   --dict:0/20(G)--   --dict:82/200(L)--
+Current allocation mode is local
+Current file position is 6339
+GPL Ghostscript 9.05: Unrecoverable error, exit code 1
+Error: /undefinedresult in --stringwidth--
+Operand stack:
+   (A)
+Execution stack:
+   %interp_exit   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--   --nostringval--   --nostringval--   false   1   %stopped_push   1910   1   3   %oparray_pop   1909   1   3   %oparray_pop   --nostringval--   1893   1   3   %oparray_pop   1787   1   3   %oparray_pop   --nostringval--   %errorexec_pop   .runexec2   --nostringval--   --nostringval--   --nostringval--   2   %stopped_push   --nostringval--
+Dictionary stack:
+   --dict:1166/1684(ro)(G)--   --dict:0/20(G)--   --dict:82/200(L)--
+Current allocation mode is local
+Current file position is 6339
+GPL Ghostscript 9.05: Unrecoverable error, exit code 1
+convert: Postscript delegate failed `pka.output.most.significant.each.position.ps':  @ error/ps.c/ReadPSImage/806.
+convert: missing an image filename `pka.output.most.significant.each.position.png' @ error/convert.c/ConvertImageCommand/3011.
+[Tue Feb 17 22:42:10 2015] Done!

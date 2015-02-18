@@ -364,7 +364,7 @@ int find_significant_kmer_from_weighted_sequences(
 	int lSeq = seqs[0].size(); // length of the first sequence, assume all have the same length
 	
 	//message(to_string(nSeq)+" sequences");
-	//message(to_string(lSeq)+" length");
+//	message(to_string(lSeq)+" length");
 	
 	// the number of significant positional kmers found
 	int nSig = 0;
@@ -431,6 +431,9 @@ int find_significant_kmer_from_weighted_sequences(
 				{
 					continue;
 				}
+
+				//cout << kmers[i] << "\t" << pos-startPos+2 << "\t" << weights1.size() << "," << weights2.size() << endl;
+
 				array<double,6> ttest = t_test(weights1,weights2,false);
 				if (ttest[1] < pCutoff)
 				{

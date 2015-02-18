@@ -222,3 +222,13 @@
 10.9.9.63	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1e-9 -region 1,0  
 =======
 >>>>>>> b22a2bc2552e88bc4e8e6f213c0e57bf5dfacd36
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 1 -pseudo 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 3 -pseudo 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 2 -pseudo 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 3 -pseudo 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 3 -pseudo 1e-9 -region 1,0   -plot p
+10.9.9.151	xxx@yyy.com	PKA pka.input.txt -o pka.output -ranked -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 2 -pseudo 1e-9 -region 1,0   -plot p
