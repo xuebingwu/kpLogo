@@ -114,7 +114,7 @@ if($degenerate == "other")
 	$degenerate = " -degenerate $degenerate_alphabet ";
 }
 
-if($alphabet != "DNA")
+if($alphabet != "dna")
 {
 	$degenerate = "";
 }
@@ -123,6 +123,7 @@ $background = $_POST['background']; //
 $markov_foreground_order = $_POST['markov_foreground_order'];
 $shuffle_n = $_POST['shuffle_n'];
 $shuffle_m = $_POST['shuffle_m'];
+$markov_string = $_POST['markov_string'];
 
 if($background == "markov_foreground"){
 	$background = " -markov $markov_foreground_order ";
@@ -132,7 +133,10 @@ if($background == "markov_foreground"){
 	$background = " -bgfile pka.background.txt ";
 } elseif ($background == "markov_background") {
 	$background = " -markov $markov_background_order -bgfile pka.background.txt ";
-} 
+} elseif ($background == "markov_string") 
+{
+	$background = " -markov $markov_string";
+}
 
 	
 $startPos = $_POST['startPos'];

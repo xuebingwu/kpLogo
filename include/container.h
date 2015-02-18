@@ -45,7 +45,7 @@ std::vector<T> &operator+=(std::vector<T> &A, const std::vector<T> &B)
 
 // sort return index
 template <typename T>
-vector<size_t> sort_indexes(const vector<T> &v) {
+vector<size_t> sort_indexes(const vector<T> &v, bool descending=false) {
 
   // initialize original index locations
   vector<size_t> idx(v.size());
@@ -54,6 +54,8 @@ vector<size_t> sort_indexes(const vector<T> &v) {
   // sort indexes based on comparing values in v
   sort(idx.begin(), idx.end(),
        [&v](size_t i1, size_t i2) {return v[i1] < v[i2];});
+
+  if(descending) reverse(idx.begin(),idx.end());
 
   return idx;
 }

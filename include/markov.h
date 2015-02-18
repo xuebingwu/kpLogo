@@ -19,6 +19,7 @@ class markov_model {
         map<string, map<char,double> > second_order; // f3/f2
         markov_model();
         markov_model(int,string,vector<string>);
+		markov_model(string,string);
         map<string,double> probs(vector<string>);
         void print(string);
 };

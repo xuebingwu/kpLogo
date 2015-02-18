@@ -1,5 +1,6 @@
 #include "markov.h"
 #include "sequence.h"
+#include "utility.h"
 
 using namespace std;
 
@@ -7,6 +8,153 @@ using namespace std;
 // empty constructor
 markov_model::markov_model()
 {
+}
+
+// construct a markov model from a string
+// string format: A:24,C:23,G:23,T:30,AC:2,AG:3,....
+markov_model::markov_model(string alphabet, string model)
+{
+	this->alphabet = alphabet;
+	vector<string> flds = string_split(model,",");
+
+	//determine the order of the model based on length
+	int n0 = alphabet.size();
+	int n1 = n0 + n0*n0;
+	int n2 = n1 + n0*n0*n0;
+
+	// at least specify frequency of each letter
+	if(flds.size() == n0) this->order = 0;
+	else if (flds.size() == n1) this->order = 1;
+	else if (flds.size() == n2) this->order = 2;
+	else
+	{
+		message("ERROR: markov model format error: order "+model);
+		exit(1);
+	}
+
+//	cout << model << endl;
+//	cout << this->order << endl;
+
+
+	// initialize the model
+	vector<string> di,tri;
+	for(int i=0;i<alphabet.size();i++) this->f1[alphabet[i]] = -1;
+	if(this->order >0)
+	{
+        di = generate_kmers(2,alphabet);
+        for (int i = 0;i<di.size();i++) this->f2[di[i]] = -1;
+	}
+    if(this->order >1)
+    {   
+        tri = generate_kmers(3,alphabet);
+        for (int i = 0;i<tri.size();i++) this->f3[tri[i]] = -1;
+    }
+
+	//
+	for(int i=0;i<flds.size();i++)
+	{
+		vector<string> tmp = string_split(flds[i],":");
+		if(tmp.size() != 2)
+		{ 
+			message("ERROR: : markov model format error: "+flds[i]);
+			exit(1);
+		}  
+		double freq = stof(tmp[1]);
+
+//		cout << flds[i] << "," << freq << endl;
+
+		if(freq < 0)
+		{
+			message("ERROR: markov model error: negative value: "+ tmp[1]);
+			exit(1);
+		}
+		if(tmp[0].size() == 1)
+		{
+			size_t found = alphabet.find(tmp[0]);
+			if(found == std::string::npos)
+			{ 
+				message("ERROR: : markov model format error: "+tmp[0]+" not in alphabet "+alphabet);
+				exit(1);
+			}  	
+			this->f1[alphabet[found]] = freq;
+			//cout << alphabet[found] << "->" << this->f1[alphabet[found]] << endl;
+		}
+		else if((tmp[0].size() == 2) && (this->order > 0))
+		{
+			if(this->f2.find(tmp[0]) == f2.end())
+            {   
+                message("ERROR: : markov model key error: "+tmp[0]+" is not two-letter of "+alphabet);
+                exit(1);
+            }
+			this->f2[tmp[0]] = freq;
+		}
+        else if((tmp[0].size() == 3) && (this->order > 1))
+        {
+            if(this->f3.find(tmp[0]) == f3.end())
+            {
+                message("ERROR: : markov model key error: "+tmp[0]+" is not three-letter of "+alphabet);
+                exit(1);
+            }
+            this->f3[tmp[0]] = freq;
+        }
+	}
+	
+	// normalization and build model
+	int L = alphabet.size(); // number of letters
+
+    // zero order
+    double total_letter_count = 0;
+    for (int i = 0;i<L;i++)
+    {
+        total_letter_count += this->f1[alphabet[i]];
+    }
+    // divide by total to get frequency
+    for (int i = 0;i<L;i++) this->f1[alphabet[i]] /= total_letter_count;
+
+    if(this->order>0)
+    {
+        // first order
+        double total_di_count = 0;
+		for (int i=0;i<di.size();i++)
+        {
+            total_di_count += this->f2[di[i]];
+        }
+        // prob of each di
+        for (int i = 0;i<di.size();i++) this->f2[di[i]] /= total_di_count;
+
+        //for (int i = 0;i<di.size();i++) cout << di[i] << "\t" << p2[di[i]] << endl;
+
+        // prob of each f2 given f1
+        for (int i =0;i<L;i++)
+        {
+            for(int j =0;j<L;j++)
+            {
+                this->first_order[alphabet[i]][alphabet[j]] = this->f2[string(1,alphabet[i])+string(1,alphabet[j])] / this->f1[alphabet[i]] ;
+                //cout << alphabet[i] << "->" << alphabet[j] << "\t" << first_order[alphabet[i]][alphabet[j]] << endl;
+            }
+        }
+
+        if(this->order == 2 )
+        {
+            // second order
+            double total_tri_count = 0; // note doesn't equal to total sequence length * 3, consider non-triplet sequences 
+            for (int i = 0;i<tri.size();i++)
+            {
+                total_tri_count += this->f3[tri[i]];
+            }
+            // prob of each tri
+            for (int i = 0;i<tri.size();i++) this->f3[tri[i]] /=  total_tri_count;
+
+            // prob of each f3 given f2
+            for (int i =0;i<di.size();i++)
+            {
+                for(int j =0;j<alphabet.size();j++)
+                {
+                    this->second_order[di[i]][alphabet[j]] = this->f3[di[i]+string(1,alphabet[j])] / this->f2[di[i]] ;
+                }
+            }
+        }
+    }	
 }
 
 // construct a n-th order markov model from sequences 

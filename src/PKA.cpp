@@ -182,6 +182,7 @@ int main(int argc, char* argv[]) {
     int shuffle_N = 0;  // shuffle N times of each input sequence
     int preserve = 2;   // preserving dinucleotide
     int markov_order = -1;  // order of markov model, -1 means not used
+	string mmmodel_str;
 	
 	double minCount = 5.0; // minimum number of sequences to have this kmer to be reported in output
 	
@@ -296,7 +297,13 @@ int main(int argc, char* argv[]) {
             } else if (str == "-colorblind") {
                 colorblind = true;
             } else if (str == "-markov") {
-                markov_order = atoi(argv[i + 1]);
+				str = argv[i+1];
+				if(str.find(',') == std::string::npos)
+				{
+					markov_order = atoi(argv[i + 1]);
+				} else {
+					mmmodel_str = str;
+				}
 				local = false;
                 i=i+1;
             } else if (str == "-shuffle") {
@@ -378,7 +385,7 @@ int main(int argc, char* argv[]) {
 
     // determine background model
     if(analysis == "default" && seqfile2.size()==0 && local == false){ // no file specified using -b
-        if (markov_order > -1) // markov model
+        if (markov_order > -1 || mmmodel_str.size()>0) // markov model
         {
             shuffle_N = 0; // ignore -shuffle
             if (markov_order>2)
@@ -486,7 +493,7 @@ int main(int argc, char* argv[]) {
 	    // if background not available, use markov model or shuffle the foreground
 	    if (seqfile2.size() == 0) // no background file specified using -b
 	    {
-	        if (markov_order < 0) // shuffle
+	        if (markov_order < 0 && mmmodel_str.size()==0) // shuffle
 	        {
 	            // shuffle sequence preserving m-let frequency, m specified by -preserve
 	            seqs2 = shuffle_seqs_preserving_k_let(seqs1,shuffle_N,preserve);
@@ -498,10 +505,12 @@ int main(int argc, char* argv[]) {
 	                WriteFasta(vector2map(seqs2),save_to_file);
 	                message("Shuffled sequences saved to: "+save_to_file);
 	            }
-	        } else // generate markov model from input
+	        } else if(markov_order > -1)// generate markov model from input
 	        {
 	            markov = markov_model(markov_order,alphabet,seqs1);
-	        }
+	        } else { // generate markov model from string
+				markov = markov_model(alphabet,mmmodel_str);
+			}
 	    }
 	    // else load background sequence
 	    else 
@@ -543,7 +552,7 @@ int main(int argc, char* argv[]) {
 	        }
 	    }
 
-	    if(markov_order > -1 && save_to_file.size()>0) 
+	    if( (markov_order > -1 || mmmodel_str.size()>0)  && save_to_file.size()>0) 
 	    {   
 	        markov.print(save_to_file);
 	        message("Markov model saved to: "+save_to_file);
@@ -833,7 +842,7 @@ WriteFasta(seqs1,"implanted.fa");
 			else nSig = find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 				seqs1, kmers,outtmp, nTest, pCutoff,Bonferroni, min_shift, max_shift,startPos,minCount);
 		}
-	    else if (markov_order < 0){
+	    else if (seqs2.size()>0){
 	        // find significant kmers by comparing two set of sequences
 	        nSig = find_significant_kmer_from_two_seq_sets(
 				seqs1,seqs2,kmers,dkmers,min_shift,max_shift,degenerate,

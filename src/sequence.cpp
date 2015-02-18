@@ -1845,7 +1845,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		vector<double> w;
 
 		for(int j=0;j<alphabet.size();j++) w.push_back(pwm(j,i));
-		vector<size_t> idx = sort_indexes(w);
+		vector<size_t> idx = sort_indexes(w,false);
 		//for(int j=0;j<4;j++) cout << i << "\t" << letters[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
 		
 		for(int j=0;j<alphabet.size();j++)
@@ -2445,8 +2445,8 @@ int find_significant_kmer_from_one_seq_set(
 	                // local enrichment
 	                double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 										
-	                outstream << it->first << "\t" << m-startPos << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
-	                outcounts << it->first << ":" << m-startPos;
+	                outstream << it->first << "\t" << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+	                outcounts << it->first << ":" << m-startPos + 2;
 	                for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                outcounts << endl;
 	            }
@@ -2475,7 +2475,7 @@ int find_significant_kmer_from_one_seq_set(
 	            vector<string> dkmersexp = expand_degenerate_kmer(dkmers[i],define_iupac);
 
 	            // for output only, also generate regex version of the degenerate kmer
-	            string dkmersexp_readable = degenerate_kmer_to_regex(dkmers[i],define_iupac);
+	            // string dkmersexp_readable = degenerate_kmer_to_regex(dkmers[i],define_iupac);
 
 	            // initialize the count at each position with the first element kmer
 	            vector<int> counts1  = data1[dkmersexp[0]];
@@ -2488,7 +2488,7 @@ int find_significant_kmer_from_one_seq_set(
 	            //f2 = f2 * (1+shift); // can't have shift on degenerate kmers
 
 	            // for output only
-	            string regex_format = degenerate_kmer_to_regex(dkmers[i],define_iupac);
+	            //string regex_format = degenerate_kmer_to_regex(dkmers[i],define_iupac);
 
 	            // total counts
 	            int total_counts1 = sum(counts1);
@@ -2510,9 +2510,9 @@ int find_significant_kmer_from_one_seq_set(
 	                    double z = (counts1[m] - expected) / sqrt(expected*(1-f2)); 
 	                    double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 												
-	                    outstream  << dkmers[i] << "\t" << m-startPos << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+	                    outstream  << dkmers[i] << "\t" << m-startPos+2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
 	        
-                       outcounts << dkmers[i] << ":" << m-startPos;
+                       outcounts << dkmers[i] << ":" << m-startPos+2;
                        for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
                        outcounts << endl;
 	                }
@@ -2811,6 +2811,7 @@ vector<string> last_n_bases(vector<string> seqs,int n){
 }
 
 // start from position a and ends at b
+// 1-based
 // if a or b < 1: distance from end
 // examples
 // from position 10 to the end: a=10, b=0
@@ -2824,14 +2825,14 @@ vector<string> sub_sequences(vector<string> seqs, int a, int b)
     for (int i=0;i<seqs.size();i++)
     {  
 		int L = seqs[i].size();
-		if (a>0) start = a;
+		if (a>0) start = a - 1;
         else start = L + a -1;
-		if (b>0) end = b;
+		if (b>0) end = b - 1;
 		else end = L + b - 1;  
 
-		if( (start > 0 && start <= end) && (end>0 && end < L))      	
+		if( (start >= 0 && start <= end) && (end>=0 && end < L))      	
         {  
-            res.push_back(seqs[i].substr(start-1,end-start+1));
+            res.push_back(seqs[i].substr(start,end-start+1));
         }
     }
 

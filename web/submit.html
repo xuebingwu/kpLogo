@@ -104,7 +104,7 @@ color: #fff;
         	<strong>Upload input sequences in a file (<2MB): </strong> <br><br>
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
            	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
-				<a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
+				<a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a>
 			<br><br> Or paste sequences below:<br>
 	        <textarea name="foregroundpaste" cols="40" rows="8" id="foregroundpaste"></textarea>
         </td>
@@ -213,7 +213,7 @@ color: #fff;
 	  
       <tr>
         <td colspan="1" style="vertical-align: center;">
-        <div style="text-align: right;vertical-align: center;"><strong>K-mer length </strong> <a href="manual.html#K-mer"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;vertical-align: center;"><strong>K-mer length </strong> <a href="manual.html#positional-kmer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;">
@@ -237,7 +237,7 @@ color: #fff;
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
-shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><br>
+shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="help"></a><br>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
         <select name="shift" id="shift">
@@ -262,14 +262,14 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Degenerate letter </strong><a href="manual.html#upload"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Degenerate letter </strong><a href="manual.html#degenerate-letter"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
 	   <select name="degenerate" id="degenerate">
-          <option value="-degenerate all">all IUPAC nucleotide letters: ACGTRYMKWSBDHVN</option>
-	          <option value="-gapped" selected="selected">ACGTN, i.e. gapped K-mer</option>
-	          <option value="">None (no degenerate letters)</option>
+              <option value="" selected="selected" >None (no degenerate letters)</option>
+              <option value="-gapped">ACGTN, i.e. gapped K-mer</option>
+			  <option value="-degenerate all">all IUPAC nucleotide letters: ACGTRYMKWSBDHVN</option>
 	          <option value="other">Other</option>
 	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }"> 
         </td>
@@ -283,7 +283,7 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Input Type </strong> <a href="manual.html#statistical-models"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -296,25 +296,14 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#background"><img src="info.gif" alt="help"></a><br>(unranked input only)</div>
+        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#unranked"><img src="info.gif" alt="help"></a><br>(unranked input only)</div>
         </td>
         <td colspan="1" style="vertical-align: center; ">
-		
-		<label> 
-		<input name="background" value="" checked="checked" type="radio"> Average across all positions in input sequences </label> 
-		 <br>
-		 
 
-		 
-		<label> 
-		<input name="background" value="markov_foreground" type="radio"> Learn a
-        <select name="markov_foreground_order" id="markov_foreground_order">
-        <option value="0">zero</option>
-        <option value="1" selected="selected">first</option>
-        <option value="2">second</option>
-        </select> order Markov model from input sequences </label> 
-		 <br>
-		 
+        <label>        <input name="background" value="bgfile" type="radio"> Background sequences (please upload or paste) </label>          
+         <br>
+
+		
  		 <label>
          <input name="background" value="shuffle" type="radio"> Shuffle each input sequence 
  		<input name="shuffle_n" id="shuffle_n" size="4" value="100" type="text"> times preserving
@@ -324,18 +313,36 @@ shift </strong> <a href="manual.html#shift"><img src="info.gif" alt="help"></a><
          <option value="3">tri-</option>
          <option value="4">tetra-</option>
          </select> nucleotide frequency </label><br>
-		 
-  		<label> 
-  		<input name="background" value="bgfile" type="radio"> The same position in background sequences (please upload/paste background sequences) </label> 
-  		 <br>
- 		<label> 
- 		<input name="background" value="markov_background" type="radio"> Learn a
+
+
+        <label>        <input name="background" value="markov_foreground" type="radio"> Markov model learned from input sequences, choose model order: <select name="markov_foreground_order" id="markov_foreground_order">
+        <option value="0">zero</option>
+        <option value="1" selected="selected">first</option>
+        <option value="2">second</option>
+        </select> </label>                                        
+         <br>
+
+        <label>
+        <input name="background" value="markov_background" type="radio"> Markov model learned from background sequences, choose model order:
          <select name="markov_background_order" id="markov_background_order">
          <option value="0">zero</option>
          <option value="1" selected="selected">first</option>
          <option value="2">second</option>
-         </select> order Markov model from background sequences (need background sequences) </label> 
- 		 <br>
+         </select></label>                               
+         <br>
+
+
+         <label>
+         <input name="background" value="markov_string" type="radio"> Markov model, User defined: 
+         <input name="markov_string" id="markov_string" size="40" value="A:0.25,C:0.25,G:0.25,T:0.25" type="text"> 
+         </label><br>
+
+
+        <label>
+        <input name="background" value="" checked="checked" type="radio"> Average across all positions in input sequences </label>
+         <br>
+
+
       </tr>
 	 
       <tr>
