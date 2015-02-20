@@ -35,6 +35,10 @@ background-color: #aaa;
 color: #fff;
 }
 
+a:link {
+    text-decoration: none;
+}
+
 </style>
 
 </head>
@@ -88,31 +92,79 @@ $command = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 $jobID = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 fclose($handle);
 
+if(file_exists("./pka.output.most.significant.each.position.png") == false){
+    header("refresh: 1;");
+}
+
 if (file_exists('./pka.output.most.significant.each.position.png')) {
-
-	exec("tar zcvf $jobID.tar.gz *");
-
+	if(file_exists('$jobID.tar.gz') == false){
+		exec("tar zcvf $jobID.tar.gz *");
+	}
 	echo "Your output figures and data can be accessed here:  <a href=\"./$jobID.tar.gz\"> Download $jobID.tar.gz </a> (<font color=\"red\">to be removed after 72 hours!</font>) </a> <br>";
+}
 
 	echo "<div style=\"font-family: Helvetica,Arial,sans-serif;\" id=\"figures\"> <br> ";
 
     echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" border-spacing=\"0\" border-collapse=\"collapse\" display=\"block\" >";
+
+if(file_exists('./pka.output.freq.png')){
     echo "<tr>";
-	echo "<td>Frequency Logo</td><td><a href=\"./pka.output.freq.png\"> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"100%\"> </a></td>";
+	echo "<td><strong>Frequency Logo</strong><br> <small> <a href=\"./pka.output.freq.ps\">PS</a> | <a href=\"./pka.output.freq.pdf\">PDF</a> | <a href=\"./pka.output.freq.png\">PNG</a></td><td><a href=\"./pka.output.freq.png\"> </small> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
+}
+if(file_exists('./pka.output.info.png')){
     echo "<tr>";
-	echo "<td>Information Content Logo</td><td><a href=\"./pka.output.info.png\"> <img src=\"./pka.output.info.png\" width=\"100%\" style=\"display:block\" > </figure> </a></td> ";
+	echo "<td><strong>Information Content Logo</strong> <br> <small><a href=\"./pka.output.info.ps\">PS</a> | <a href=\"./pka.output.info.pdf\">PDF</a> | <a href=\"./pka.output.info.png\">PNG</a></td><td><a href=\"./pka.output.info.png\"> </small> <img src=\"./pka.output.info.png\" width=\"100%\" style=\"display:block\" > </figure> </a></td> ";
     echo "</tr>";
-	if (file_exists('./pka.output.png')) {
+}
+if (file_exists('./pka.output.png')) {
     echo "<tr>";
-		echo "<td>Probability Logo</td><td><a href=\"./pka.output.png\"> <img src=\"./pka.output.png\" width=\"100%\" style=\"display:block\" ></a></td>";
+		echo "<td><strong>Probability Logo</strong><br> <small> <a href=\"./pka.output.ps\">PS</a> | <a href=\"./pka.output.pdf\">PDF</a> | <a href=\"./pka.output.png\">PNG</a> </td><td><a href=\"./pka.output.png\"> </small> <img src=\"./pka.output.png\" width=\"100%\" style=\"display:block\" ></a></td>";
     echo "</tr>";
-	}
+}
+if (file_exists('./pka.output.most.significant.each.position.png')) {
     echo "<tr>";
-	echo "<td>K-mer Logo</td><td><a href=\"./pka.output.most.significant.each.position.png\"> <img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"100%\"> </a></td>";
+	echo "<td><strong>K-mer Logo</strong><br> <small> <a href=\"./pka.output.most.significant.each.position.ps\">PS</a> | <a href=\"./pka.output.most.significant.each.position.pdf\">PDF</a> | <a href=\"./pka.output.most.significant.each.position.png\">PNG</a></td><td><a href=\"./pka.output.most.significant.each.position.png\"> </small><img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
+}
     echo "</table>";
 	echo "</div>";
+
+
+if (file_exists('./pka.output.most.significant.each.position.png')) {	
+	echo "<h3>Tabular output </h3>";
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;the most significant kmer at each position : <a href=\"./pka.output.most.significant.each.position.txt\">TXT</a> <br>";
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;all significant kmer : <a href=\"./pka.output.pass.p.cutoff.txt\">TXT</a> <br>";
+} else {
+
+    header("refresh: 1;");
+
+    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+	echo "<h2><font color=Red>Probability logo and Kmer logo will appear here once generated...</font></h2>";
+
+    echo "<strong>Your job $jobID ($jobname) has been submitted and results will be available here for 72 hours (this page):</strong> <br><br> <a href=\"$url\">$url</a> <br><br>";
+
+    //$list = listdir_by_date('./');
+    //foreach ($list as $file)
+    //{
+    //  echo "$file <br>";
+    //}
+
+    // email reminder
+    if (file_exists("submission_notification_not_sent") )
+    {
+        $subject = "PKA job submitted: $jobID ($jobname)";
+        $message = "Your job $jobID ($jobname) has been submitted and results will be available here for 72 hours: \r\n\r\n $url";
+        $message = wordwrap($message, 70, "\r\n");
+        mail($email, $subject, $message);
+        exec("rm submission_notification_not_sent");
+    } elseif ($email != "xxx@yyy.com" )
+    {
+        echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
+    }
+
+}
 
     echo "<h3> Job ID & Name </h3>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;$jobID ($jobname)<br>";
@@ -121,61 +173,8 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
     echo "$command<br><br>";
     echo nl2br(file_get_contents( "log" ));
 
-	echo "<h3> Input </h3>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
-	
-	echo "<h3>Logo output </h3>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;frequency logo : <a href=\"./pka.output.freq.ps\">ps</a> <a href=\"./pka.output.freq.pdf\">pdf</a> <a href=\"./pka.output.freq.png\">png</a><br>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;information content logo : <a href=\"./pka.output.info.ps\">ps</a> <a href=\"./pka.output.info.pdf\">pdf</a> <a href=\"./pka.output.info.png\">png</a><br>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;probability logo : <a href=\"./pka.output.ps\">ps</a> <a href=\"./pka.output.pdf\">pdf</a> <a href=\"./pka.output.png\">png</a> <br>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;K-mer logo : <a href=\"./pka.output.most.significant.each.position.ps\">ps</a> <a href=\"./pka.output.most.significant.each.position.pdf\">pdf</a> <a href=\"./pka.output.most.significant.each.position.png\">png</a> <br>";
-    echo "</table>";
-
-	echo "<br>";
-	echo "<h3>Tabular output </h3>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;the most significant K-mer at each position : <a href=\"./pka.output.most.significant.each.position.txt\">txt</a> <br>";
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;raw data : <a href=\"./pka.output.pass.p.cutoff.txt\">txt</a> <br>";
-
-}
-else{
-
-    header("refresh: 1;");
-
-    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
-	echo "Your job $jobID ($jobname) has been submitted and results will be available here for 72 hours (this page): <br><br> <a href=\"$url\">$url</a> <br><br>";
-
-	//$list = listdir_by_date('./');
-	//foreach ($list as $file)
-	//{
-	//	echo "$file <br>";
-	//}
-    
-    // email reminder
-    if (file_exists("submission_notification_not_sent") )
-    {
-        $subject = "PKA job submitted: $jobID ($jobname)";
-        $message = "Your job $jobID ($jobname) has been submitted and results will be available here for 72 hours: \r\n\r\n $url";
-		$message = wordwrap($message, 70, "\r\n");
-        mail($email, $subject, $message);
-        exec("rm submission_notification_not_sent");
-    } elseif ($email != "xxx@yyy.com" )
-    {
-		echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
-	}
-
-    echo "<h3> Job name </h3>";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;'$jobname' ($jobID)<br>";
-
-    echo "<h3> Commandline & Screen Output </h3>";
-    echo "$command<br><br>";
-    echo nl2br(file_get_contents( "log" ));
-
     echo "<h3> Input </h3>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;pka.input.txt : <a href=\"./pka.input.txt\">txt</a> <br>";
-
-}
-
 
 	
 	function listdir_by_date($path){

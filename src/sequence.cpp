@@ -1634,8 +1634,7 @@ void implant_motif(map<string,string> &seqs, int position, string motif, double 
 }
 
 
-// build position weight matrix for a positional kmer, can include flanking sequence
-// haven't conder startPos, assume 1 start
+// for max_shift > 0: take the most strongest
 boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos, int cScore)
 {
 	int cSeq = 0;
@@ -1677,7 +1676,10 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 			if (pos < 0) pos += 1;
 			pos = pos + startPos - 2;
 			//cout << pos << "," << line << endl;
-			pwm(letter2pos[flds[cSeq]],pos) = score;
+			if(abs(pwm(letter2pos[flds[cSeq]],pos)) < abs(score)) // for multiple shift values
+			{
+				pwm(letter2pos[flds[cSeq]],pos) = score;
+			}
 		}
 	}
 	fin.close();
@@ -1714,7 +1716,12 @@ string postscript_line(double x1, double y1, double x2, double y2)
 	return res;
 }
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, bool information_content, double max_scale)
+// to avoid calculating information content, set nSeq=0
+// if nSeq > 0, calculate information content and small sample correction
+// if nSeq == 0, do not calculate information content
+// if nSeq < 0, calculate info content without small sample correction
+// small sample correction: subtract the following term from each value: (alphabet.size-1)/ln2/2/n
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq)
 {
 
 	// fontsize
@@ -1735,19 +1742,30 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	double coord_size = fontsize * scaley * 2;
 	
 	int L = pwm.size2();
+
+	double small_sample_correction = 0;
 	
-	if (information_content) 
+	if (nSeq != 0) 
 	{
+		if(nSeq > 0)
+		{
+			small_sample_correction = (alphabet.size()-1.0)/log(2.0)/2.0/nSeq;
+		}
+
 		vector<double> info_content = matrix_column_information_content(pwm);
 
-		for (int i=0;i<pwm.size1();i++)
+		for (int i=0;i<pwm.size2();i++)
 		{
-			for (int j=0;j<pwm.size2();j++)
+			info_content[i] -= small_sample_correction;
+			if(info_content[i] < 0) info_content[i] = 0;
+			for (int j=0;j<pwm.size1();j++)
 			{
-				pwm(i,j) *= info_content[j];
+				pwm(j,i) *= info_content[i];
 			}
 		}
 	}
+
+	//print_matrix(pwm);
 
 
 	double maxv = matrix_max(pwm);

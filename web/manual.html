@@ -171,13 +171,17 @@ href="#download">Download</a></li>
             </li>
           </ul>
         </li>
-        <li><a href="#output-format">Output format</a>
+        <li><a href="#output">Output</a>
           <ul>
             <li><a href="#logo-plots">Logo plots</a></li>
             <li><a href="#tabular-data-file">Tabular data file</a></li>
           </ul>
         </li>
-        <li><a href="#examples">Examples</a></li>
+        <li><a href="#examples">Examples</a>
+          <ul>
+            <li><a href="#example1">Unranked: microRNA precursor / Drosha specificity</a></li>
+            <li><a href="#example2">Weighted/Ranked: CRISPR/Cas9 cutting efficiency</a></li>
+          </ul></li>
         <li><a href="#command-line-options">Command Line Options</a></li>
         <li><a href="#copyright">Copyright</a></li>
         <li><a href="#author">Author</a></li>
@@ -962,8 +966,17 @@ ers. This feature enables one to study dependence between positional kmers (see 
 <p> Remove sequences containing either G at position 35, or CNC at position 47. Sequences contain neither of these two kmers will be analyzed by PKA. </p>
 
 
-      <h1><a class="mozTocH1" name="output-format"></a>Output format</h1>
+      <h1><a class="mozTocH1" name="output"></a>Output</h1>
+
+		<p>PKA outputs both sequence logo plots and tabular data file.</p>
+
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
+      <h3><a class="mozTocH3" name="frequency-logo"></a>Frequency logo</h3>
+      <h3><a class="mozTocH3" name="information-content-logo"></a>Information content logo</h3>
+      <h3><a class="mozTocH3" name="entropy-logo"></a>Entropy logo</h3>
+      <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
+      <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
+
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
         file</h2>
       <p>Regardless the type of input (unranked/ranked/weighted), the
@@ -995,8 +1008,7 @@ ers. This feature enables one to study dependence between positional kmers (see 
           Distributions of the Wilcoxon Statistics: Accurate to What N?
           Graphical Insights, <strong>Journal of
             Statistics Education</strong>, Volume 18, Number 2, (2010) <a
-href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download
-            PDF</a>
+href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
         </small></div>
       <p>Unranked input will generate four additional columns in the
         output:</p>
@@ -1037,16 +1049,35 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download
           </ol>
         </small> </div>
       <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
-		<h2><a class="mozTocH2" name="example1"></a>Example 1 (unranked): MicroRNA precursor / Drosha specificity </h2>
+		Here are two examples discussed in detail.
+ 
+		<h2><a class="mozTocH2" name="example1"></a>Unranked: MicroRNA precursor / Drosha specificity </h2>
+        <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
+		<p>MicroRNAs are small RNAs targeting most mammalian mRNAs post-transcriptionally to regualte protein production. 
+MicroRNAs are processed from transcribed hairpins, first by the riboendonuclease Drosha. Although secondary structure
+is the primary determinants of Drosha substrate specificity, two recent high-throughput assay uncovers primary sequence
+features, in particular a G nucleotide 13 nucleotides upstream of the 5' end Drosha cleavage site (G:-14, and to a less
+extent U:-13), a CNNC motif 18 or 19 nucleotides downstream the 3' end Drosha cleavage site (CNNC:18 or CNNC:19). <p>
+
+<p>Here we show that PKA can uncover these motifs from annotated microRNA sequences alone. </p>
+
+        <h4><a class="mozTocH4" name="example1-input"></a>Data set </h4>
+
+        <h4><a class="mozTocH4" name="example1-setting"></a>Parameter setting </h4>
+
+        <h4><a class="mozTocH4" name="example1-result"></a>Result </h4>
 
 		<p> </p>
-        <h2><a class="mozTocH2" name="example2"></a>Example 2 (weighted/ranked): CRISPR/Cas9 cutting efficiency </h2>
+        <h2><a class="mozTocH2" name="example2"></a>Weighted/Ranked: CRISPR/Cas9 cutting efficiency </h2>
         <p> </p>
         <p> </p>
 
       <h1><a class="mozTocH1" name="command-line-options"></a>Command
         Line Options</h1>
-      <p>coming soon</p>
+
+      <p>Click <a href="commandline.usage">here</a> to view the command line options in plain text</p>
+	  <p>An enhanced html version is comming soon.</p>
+
       <h1><a class="mozTocH1" name="copyright"></a>Copyright</h1>
       <p>Copyright (c) 2014 Xuebing Wu. </p>
       <p>PKA reuses the following library/code:<br>

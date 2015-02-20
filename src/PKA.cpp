@@ -58,6 +58,7 @@ void print_help()
 	"   -minCount NUM        minimum number of sequences to have this kmer to include in output\n"
 	"                        if smaller than 1, treat as fraction of sequences (default=5)\n"
     "   -p FLOAT             p-value cut-off, default=1.01 (i.e. output all possible kmers)\n"
+    "   -pc FLOAT            Bonferroni corrected p-value cut-off, default=0.05\n"
     "   -FDR                 adjust p value by FDR method ( default is Bonferroni correction)\n"
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
     "   -pseudo FLOAT        pseudocount added to background counts. default=1e-9. Ignored by -markov\n"
@@ -66,7 +67,7 @@ void print_help()
     "   -email STR           send email notification to this address\n"
     "   -subject STR         email subject (quoted, default='PKA job done')\n"
     "   -content STR         email content (quoted, default='PKA job done')\n"
-		
+	"   -small_sample        correct for small sample size\n"
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
 	"   (default)            compare to the same kmer at other positions \n"
 	"   -bgfile FILE         background sequence file\n"	
@@ -82,6 +83,15 @@ void print_help()
 
  
 int main(int argc, char* argv[]) {
+
+	/*
+	string commandline = argv[0];
+	for (int i = 1; i < argc; i++) {
+		commandline += " " + string(argv[i]);
+	}
+	message("The command line you have entered is:");
+	message(commandline);
+	*/
 
     ///////////////////////////////////////////////////////////////
     //       part 1: parameters and default settings             //
@@ -131,7 +141,9 @@ int main(int argc, char* argv[]) {
 	// statistics
     double pseudo = 1e-9;   // pseudocounts, only used when -b or -shift used
     double pCutoff=1.01;    // binomial p cutoff
+	double pCutoff_corrected = 0.05;
 	bool Bonferroni = true;
+	int small_sample_correction = -1; // -1 or 1
 	
 	// output
     int startPos= 1; // coordinates
@@ -286,6 +298,9 @@ int main(int argc, char* argv[]) {
             } else if (str == "-p") {
                 pCutoff = atof(argv[i + 1]);
                 i=i+1;
+            } else if (str == "-pc") {
+                pCutoff_corrected = atof(argv[i + 1]);
+                i=i+1;
             } else if (str == "-FDR") {
                 Bonferroni = false;
             } else if (str == "-startPos") {
@@ -296,6 +311,8 @@ int main(int argc, char* argv[]) {
 				i=i+1;
             } else if (str == "-colorblind") {
                 colorblind = true;
+            } else if (str == "-small_sample") {
+				small_sample_correction = 1;
             } else if (str == "-markov") {
 				str = argv[i+1];
 				if(str.find(',') == std::string::npos)
@@ -647,6 +664,18 @@ int main(int argc, char* argv[]) {
     }
 
 
+
+	message("making frequency logo...");
+    boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
+    generate_ps_logo_from_pwm(pwm2, output+".freq.ps",alphabet,colors,1,startPos,fontsize,"Frequency",2,0);
+    system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");
+    system_run("convert "+output+".freq.ps "+output+".freq.png");
+
+    message("making information content logo...");
+    generate_ps_logo_from_pwm(pwm2, output+".info.ps",alphabet,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size());
+    system_run("ps2pdf -dEPSCrop "+output+".info.ps "+output+".info.pdf");
+    system_run("convert "+output+".info.ps "+output+".info.png");
+
 ///////////////////////////////////////////////////////////////
 //         part 4:  prediction mode
 ///////////////////////////////////////////////////////////////
@@ -902,21 +931,32 @@ WriteFasta(seqs1,"implanted.fa");
 
 	// column to plot, 1 based
 	int cScore = 6; // bonferroni
+	string ylabel = "-log10(p)";
+	double score_cutoff = -log10(pCutoff_corrected);
+
 	if (plot == "f") // fdr
 	{
 	    if (analysis == "ranked") cScore = 7;
 		else if (analysis == "weighted") cScore = 13;
 		else cScore = 11;
 	}
-	else if (plot == "p") cScore = 5;
-	else if (plot == "s") cScore = 4;
-	
+	else if (plot == "p") 
+	{
+		cScore = 5;
+		score_cutoff = -log10(pCutoff_corrected/nTest);
+	}
+	else if (plot == "s")
+	{
+		cScore = 4;
+		ylabel = "test statistic";
+		score_cutoff = 1e300;
+	}
     //string plotfilename = output+".most.significant.each.position.pdf";
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, -log10(0.05/nTest), startPos, fontsize,cScore,"-log10(p)",4);
-	
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,4);	
+
 	// if monomer is included in the analysis
 	if(min_k < 2) 
 	{
@@ -927,19 +967,10 @@ WriteFasta(seqs1,"implanted.fa");
 
 		//print_matrix(pwm);
 
-	    generate_ps_logo_from_pwm(pwm, output+".ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"-log10(p)",false,4);
-		
+	    generate_ps_logo_from_pwm(pwm, output+".ps",alphabet,colors,score_cutoff,startPos,fontsize,ylabel,4,0);	
 	}
-	
-	// plot frequency
-	boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-	//print_matrix(pwm2);
-	generate_ps_logo_from_pwm(pwm2, output+".freq.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Frequency",false,2);
-	generate_ps_logo_from_pwm(pwm2, output+".info.ps",alphabet,colors,-log10(0.05/nTest),startPos,fontsize,"Bits",true,2);
-	
-	// convert ps to pdf
-	system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");
-	system_run("ps2pdf -dEPSCrop "+output+".info.ps "+output+".info.pdf");
+
+		
 	system_run("ps2pdf -dEPSCrop "+output+".ps "+output+".pdf");
 	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.pdf");
 	
@@ -947,8 +978,6 @@ WriteFasta(seqs1,"implanted.fa");
 	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+"*.pdf");
 	
 	// ps to png
-	system_run("convert "+output+".freq.ps "+output+".freq.png");
-	system_run("convert "+output+".info.ps "+output+".info.png");
 	system_run("convert "+output+".ps "+output+".png");
 	system_run("convert "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.png");
 	

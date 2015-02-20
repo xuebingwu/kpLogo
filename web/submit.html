@@ -269,7 +269,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	   <select name="degenerate" id="degenerate">
               <option value="" selected="selected" >None (no degenerate letters)</option>
               <option value="-gapped">ACGTN, i.e. gapped K-mer</option>
-			  <option value="-degenerate all">all IUPAC nucleotide letters: ACGTRYMKWSBDHVN</option>
+			  <option value="-degenerate all">all IUPAC letter letters: ACGTRYMKWSBDHVN</option>
 	          <option value="other">Other</option>
 	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }"> 
         </td>
@@ -312,7 +312,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
          <option value="2" selected="selected">di-</option>
          <option value="3">tri-</option>
          <option value="4">tetra-</option>
-         </select> nucleotide frequency </label><br>
+         </select> letter frequency </label><br>
 
 
         <label>        <input name="background" value="markov_foreground" type="radio"> Markov model learned from input sequences, choose model order: <select name="markov_foreground_order" id="markov_foreground_order">
@@ -331,9 +331,25 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
          </select></label>                               
          <br>
 
+         <label>
+         <input name="background" value="markov_predefined" type="radio"> Markov model, pre-defined:
+         <select name="markov_predefined" id="markov_predefined">
+         <option value="hg">human genome</option>
+         <option value="ht">human transcriptome</option>
+         <option value="hp">human promoter</option>
+         <option value="mg">mouse genome </option>
+         <option value="mt">mouse transcriptome</option>
+         <option value="mp">mouse promoter</option>
+         </select></label>
+         <select name="markov_predefined_order" id="markov_predefined_order">
+         <option value="0">zero</option>
+         <option value="1" selected="selected">first</option>
+         <option value="2">second</option>
+         </select> order</label>
+         </label><br>
 
          <label>
-         <input name="background" value="markov_string" type="radio"> Markov model, User defined: 
+         <input name="background" value="markov_string" type="radio"> Markov model, user defined: 
          <input name="markov_string" id="markov_string" size="40" value="A:0.25,C:0.25,G:0.25,T:0.25" type="text"> 
          </label><br>
 
@@ -362,7 +378,16 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         <td rowspan="1" colspan="1" style="vertical-align: center;">
         <input value="1e-9" name="pseudo" id="pseudo" size="5" type="text"></td>
       </tr>	
-  
+
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>P-value cutoff </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        Bonferroni corrected p = <input value="0.01" name="p" id="p" size="5" type="text"></td>
+      </tr> 
+ 
     <tr>
         <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue">Output </font></big> 
         </div>
@@ -379,7 +404,6 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         <option value="-plot p" selected="selected">p-value</option>
         <option value="-plot b">Bonferroni corrected p-value</option>
         <option value="-plot s">test statistics</option>
-        <option value="-plot e">fold enrichment/depletion</option>
     </select> </td>
       </tr>
 
@@ -400,10 +424,22 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
           <td colspan="1" style="vertical-align: center; ">
 		
   		<label> 
-	  	<input name="colorblind" value="" checked="checked" type="radio"> Use default colors (Red/Green/Yellow/Blue) </label> <br>
-  		<input name="colorblind" value="-colorblind" type="radio"> Use colorblind-friendly color scheme </label>
+  		<input name="colorblind" value="-colorblind" type="checkbox"> Use colorblind-friendly color scheme </label>
   		 <br>
 	 </tr>
+
+        <tr>
+          <td colspan="1" style="vertical-align: center; text-align: center;">
+          <div style="text-align: right;"><strong>Small sample </strong><a href="manual.html#small_sample"><img src="info.gif" alt="help"></a></div>
+          </td>
+          <td colspan="1" style="vertical-align: center; ">
+
+        <label>
+        <input name="small_sample" value="-small_sample" type="checkbox"> Correct for small sample size for information content logo </label>
+         <br>
+     </tr>
+
+
 
     </tbody>
   </table>
