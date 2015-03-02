@@ -667,14 +667,14 @@ int main(int argc, char* argv[]) {
 
 	message("making frequency logo...");
     boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-    generate_ps_logo_from_pwm(pwm2, output+".freq.ps",alphabet,colors,1,startPos,fontsize,"Frequency",2,0);
-    system_run("ps2pdf -dEPSCrop "+output+".freq.ps "+output+".freq.pdf");
-    system_run("convert "+output+".freq.ps "+output+".freq.png");
+    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,colors,1,startPos,fontsize,"Frequency",2,0);
+    system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
+    system_run("convert "+output+".freq.eps "+output+".freq.png");
 
     message("making information content logo...");
-    generate_ps_logo_from_pwm(pwm2, output+".info.ps",alphabet,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size());
-    system_run("ps2pdf -dEPSCrop "+output+".info.ps "+output+".info.pdf");
-    system_run("convert "+output+".info.ps "+output+".info.png");
+    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size());
+    system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
+    system_run("convert "+output+".info.eps "+output+".info.png");
 
 ///////////////////////////////////////////////////////////////
 //         part 4:  prediction mode
@@ -698,9 +698,12 @@ int main(int argc, char* argv[]) {
 		//load_weighted_sequences_to_vectors(inputfile,seqs,weights,cSeq,cWeight);
 		for (int i=0;i<seqs1.size();i++)
 		{
-			//cout << i << seqs1[i] << endl;
+			cout << i << seqs1[i] << endl;
 			double score = score_sequence_using_PKA_model(ranked_kmers, seqs1[i]);
-			out1 << seqs1[i] << "\t" << weights[i] << "\t" << score << endl;		
+			if(weights.size()>0)
+				out1 << seqs1[i] << "\t" << weights[i] << "\t" << score << endl;	
+			else
+                out1 << seqs1[i] << "\t"  << score << endl;	
 		}
 		out1.close();
 		message("- done");
@@ -955,7 +958,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.ps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,4);	
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,4);	
 
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -967,19 +970,19 @@ WriteFasta(seqs1,"implanted.fa");
 
 		//print_matrix(pwm);
 
-	    generate_ps_logo_from_pwm(pwm, output+".ps",alphabet,colors,score_cutoff,startPos,fontsize,ylabel,4,0);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,colors,score_cutoff,startPos,fontsize,ylabel,4,0);	
 	}
 
 		
-	system_run("ps2pdf -dEPSCrop "+output+".ps "+output+".pdf");
-	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.pdf");
+	system_run("ps2pdf -dEPSCrop "+output+".eps "+output+".pdf");
+	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.pdf");
 	
 	// merge pdf
 	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+"*.pdf");
 	
 	// ps to png
-	system_run("convert "+output+".ps "+output+".png");
-	system_run("convert "+output+".most.significant.each.position.ps "+output+".most.significant.each.position.png");
+	system_run("convert "+output+".eps "+output+".png");
+	system_run("convert "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.png");
 	
 	// add header to data file
 	insert_header(out,header);

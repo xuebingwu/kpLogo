@@ -1024,7 +1024,7 @@ double score_sequence_using_PKA_model(vector<positional_kmer> ranked_kmers,  str
 	for( int i=0;i<ranked_kmers.size();i++)
 	{
 		//cout << i << "\t"<< ranked_kmers[i].as_string() ;
-		//cout << "\t" << seq.substr(ranked_kmers[i].pos,ranked_kmers[i].size) ;
+		//cout << "\t" << seq.substr(ranked_kmers[i].pos-1,ranked_kmers[i].size) ;
 		size_t found = seq.substr(ranked_kmers[i].pos,ranked_kmers[i].size).find(ranked_kmers[i].seq);
 		if (found != std::string::npos) 
 		{
@@ -1033,6 +1033,7 @@ double score_sequence_using_PKA_model(vector<positional_kmer> ranked_kmers,  str
 		}
 		//cout << endl;
 	}
+	//cout << "done with seq: " << seq << endl;
 	return score;
 }
 

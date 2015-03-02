@@ -109,22 +109,22 @@ if (file_exists('./pka.output.most.significant.each.position.png')) {
 
 if(file_exists('./pka.output.freq.png')){
     echo "<tr>";
-	echo "<td><strong>Frequency Logo</strong><br> <small> <a href=\"./pka.output.freq.ps\">PS</a> | <a href=\"./pka.output.freq.pdf\">PDF</a> | <a href=\"./pka.output.freq.png\">PNG</a></td><td><a href=\"./pka.output.freq.png\"> </small> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"100%\"> </a></td>";
+	echo "<td><strong>Frequency Logo</strong><br> <small> <a href=\"./pka.output.freq.eps\">EPS</a> | <a href=\"./pka.output.freq.pdf\">PDF</a> | <a href=\"./pka.output.freq.png\">PNG</a></td><td><a href=\"./pka.output.freq.png\"> </small> <img src=\"./pka.output.freq.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
 }
 if(file_exists('./pka.output.info.png')){
     echo "<tr>";
-	echo "<td><strong>Information Content Logo</strong> <br> <small><a href=\"./pka.output.info.ps\">PS</a> | <a href=\"./pka.output.info.pdf\">PDF</a> | <a href=\"./pka.output.info.png\">PNG</a></td><td><a href=\"./pka.output.info.png\"> </small> <img src=\"./pka.output.info.png\" width=\"100%\" style=\"display:block\" > </figure> </a></td> ";
+	echo "<td><strong>Information Content Logo</strong> <br> <small><a href=\"./pka.output.info.eps\">EPS</a> | <a href=\"./pka.output.info.pdf\">PDF</a> | <a href=\"./pka.output.info.png\">PNG</a></td><td><a href=\"./pka.output.info.png\"> </small> <img src=\"./pka.output.info.png\" width=\"100%\" style=\"display:block\" > </figure> </a></td> ";
     echo "</tr>";
 }
 if (file_exists('./pka.output.png')) {
     echo "<tr>";
-		echo "<td><strong>Probability Logo</strong><br> <small> <a href=\"./pka.output.ps\">PS</a> | <a href=\"./pka.output.pdf\">PDF</a> | <a href=\"./pka.output.png\">PNG</a> </td><td><a href=\"./pka.output.png\"> </small> <img src=\"./pka.output.png\" width=\"100%\" style=\"display:block\" ></a></td>";
+		echo "<td><strong>Probability Logo</strong><br> <small> <a href=\"./pka.output.eps\">EPS</a> | <a href=\"./pka.output.pdf\">PDF</a> | <a href=\"./pka.output.png\">PNG</a> </td><td><a href=\"./pka.output.png\"> </small> <img src=\"./pka.output.png\" width=\"100%\" style=\"display:block\" ></a></td>";
     echo "</tr>";
 }
 if (file_exists('./pka.output.most.significant.each.position.png')) {
     echo "<tr>";
-	echo "<td><strong>K-mer Logo</strong><br> <small> <a href=\"./pka.output.most.significant.each.position.ps\">PS</a> | <a href=\"./pka.output.most.significant.each.position.pdf\">PDF</a> | <a href=\"./pka.output.most.significant.each.position.png\">PNG</a></td><td><a href=\"./pka.output.most.significant.each.position.png\"> </small><img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"100%\"> </a></td>";
+	echo "<td><strong>K-mer Logo</strong><br> <small> <a href=\"./pka.output.most.significant.each.position.eps\">EPS</a> | <a href=\"./pka.output.most.significant.each.position.pdf\">PDF</a> | <a href=\"./pka.output.most.significant.each.position.png\">PNG</a></td><td><a href=\"./pka.output.most.significant.each.position.png\"> </small><img src=\"./pka.output.most.significant.each.position.png\" style=\"display:block\" width=\"100%\"> </a></td>";
     echo "</tr>";
 }
     echo "</table>";
