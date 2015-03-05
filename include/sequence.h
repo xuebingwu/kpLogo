@@ -28,6 +28,10 @@ extern "C"{
 
 using namespace std;
 
+
+void use_end_position(string filename);
+
+
 string postscript_line(double x1, double y1, double x2, double y2);
 
 string postscript_text(string text, double x, double y, double width, double height, string color, double rotate=0);

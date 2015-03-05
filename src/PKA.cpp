@@ -16,11 +16,7 @@ void print_help()
 	"   at every position in a set of aligned sequences, weighted or unweighted. \n"
 	"   Degenerate nucleotides and small shift in positions can be allowed.\n"
     "\n"
-    "Usage: PKA input.fa [options]\n"
-    "\n"
-    "       PKA input-fixed-length.fa \n" 
-    "       PKA input-fixed-length.fa -bgfile background.fa\n"
-    "       PKA input-variable-length.fa -first 60 \n"
+    "Usage: PKA inpu_file [options]\n"
     "\n"
     "Options\n"
     "\n"
@@ -61,6 +57,7 @@ void print_help()
     "   -pc FLOAT            Bonferroni corrected p-value cut-off, default=0.05\n"
     "   -FDR                 adjust p value by FDR method ( default is Bonferroni correction)\n"
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
+    "   -last_letter         use a kmer's last letter position as the kmer's position. Default is first letter\n"
     "   -pseudo FLOAT        pseudocount added to background counts. default=1e-9. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
 	"   -colorblind          use colorblind friendly color scheme\n"
@@ -149,6 +146,7 @@ int main(int argc, char* argv[]) {
     int startPos= 1; // coordinates
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
+    bool last_letter = false;
 
 	// color blind
 	bool colorblind = false;
@@ -303,6 +301,8 @@ int main(int argc, char* argv[]) {
                 i=i+1;
             } else if (str == "-FDR") {
                 Bonferroni = false;
+            } else if (str == "-last_letter") {
+                last_letter = true;
             } else if (str == "-startPos") {
                 startPos = atoi(argv[i + 1]);
                 i=i+1;
@@ -896,6 +896,9 @@ WriteFasta(seqs1,"implanted.fa");
 ///////////////////////////////////////////////////////////////
 //			part 7: post-processing	
 ///////////////////////////////////////////////////////////////
+
+	// use the last letter's position as the motif position
+	if(last_letter) use_end_position(outtmp);
 	
 	if(Bonferroni == false || plot == "f")
 	{

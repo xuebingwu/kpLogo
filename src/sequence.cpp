@@ -844,6 +844,37 @@ int paired_kmer::gap()
 	return dist - int(seq1.size());
 }
 
+// use motif end position instead of start position
+void use_end_position(string filename)
+{
+    ifstream fin(filename.c_str());
+	string output = filename + ".tmp";
+	ofstream fout(output.c_str());
+    string line;
+    vector<string> flds;
+
+    while(fin)
+    {
+        getline(fin,line);
+        if (line.length() == 0)
+            continue;
+
+        if(line[0] == '#') continue;
+
+        flds = string_split(line);
+		int oldpos = stoi(flds[1]);
+		int pos  = stoi(flds[1])+int(flds[0].size())+stoi(flds[2])-1;
+		if (oldpos < 0 && pos >=0) pos = pos + 1;
+		fout << flds[0] << "\t" << to_string(pos);
+		for(int i=2;i<flds.size();i++)
+			fout << "\t" << flds[i];
+		fout  << endl;
+	}
+	fin.close();
+	fout.close();
+	system_run("mv "+output+" "+filename);
+}
+
 // note input should be sorted by weight
 vector<positional_kmer> build_model_from_PKA_output(string filename, int startPos)
 {

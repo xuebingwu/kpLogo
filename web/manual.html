@@ -840,7 +840,7 @@ PKA
 	  <p> To run PKA on protein sequences, please set <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>. </p>
 	  
 	  <p> Similarly, to run PKA on other types of sequences, use <code>-alphabet </code> to specify all allowed letters.</p>
- 	  
+
       <h2><a class="mozTocH2" name="input-format"></a>Format</h2>
       <a>PKA currently supports both FASTA format and Tabular format. <font
           color="red">Note that all sequences will be converted to upper
@@ -895,8 +895,7 @@ PKA
         1. Each line is a sequence <br>
         2. Weights do not need to be sorted<br>
         3. Sequences do NOT need to be of the same length (see option
-        <code>-first</code>
-        and <code>-last</code>) <br>
+        <code>-region</code>)<br>
         4. If sequence is not in column 1 or weight not in column 2,
         then their
         position needs to be specified by <code>-seq</code> and <code>-weight</code>. For
@@ -927,8 +926,7 @@ PKA
         2. IDs always start with '&gt;' <br>
         3. IDs are not used by PKA and thus do not need to be unique <br>
         4. Sequences do not need to be of the same length (see option
-        <code>-first</code>
-        and <code>-last</code>) <br>
+        <code>-region</code>)<br>
         5. Can be treated as ranked (see option <code>-ranked</code>) but not
         weighted (need to use tabular format) </a>
 
@@ -972,11 +970,16 @@ ers. This feature enables one to study dependence between positional kmers (see 
 
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
       <h3><a class="mozTocH3" name="frequency-logo"></a>Frequency logo</h3>
+      <p>In frequency logos, letters are rescaled relative to their frequency at each position, and then stacked on top of each other with more frequent letter on top of less frequent letter.</p>
       <h3><a class="mozTocH3" name="information-content-logo"></a>Information content logo</h3>
-      <h3><a class="mozTocH3" name="entropy-logo"></a>Entropy logo</h3>
-      <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
-      <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
+	<p>Similar to fequency logos, in information content logo (conventional sequence logo) letters are rescaled by frequency and stacked, and the total height of each position is further scaled relative to the information content, which is defined as </p>
+<img src="./infocont.png">
 
+<p>Here N is the number of letters in the alphabet (all possible letters that can occur at a position), and p<small>i</small> is the frequency of letter i at this position. </p> 
+      <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
+<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, letters are rescaled relative to the statistical significance (-log10(p value)) of each letter at each position. Enriched letters stack on the top, whereas depleted letters stack on the bottom. Significant positions will have coordinates colored in red.</p>
+      <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
+	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single letter. Stacked letters at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. </p>
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
         file</h2>
       <p>Regardless the type of input (unranked/ranked/weighted), the
@@ -1049,17 +1052,9 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           </ol>
         </small> </div>
       <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
-		Here are two examples discussed in detail.
- 
+		Here are two examples discussed in detail <font color=Red> (more details to be added)</font>. 
 		<h2><a class="mozTocH2" name="example1"></a>Unranked: MicroRNA precursor / Drosha specificity </h2>
         <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
-		<p>MicroRNAs are small RNAs targeting most mammalian mRNAs post-transcriptionally to regualte protein production. 
-MicroRNAs are processed from transcribed hairpins, first by the riboendonuclease Drosha. Although secondary structure
-is the primary determinants of Drosha substrate specificity, two recent high-throughput assay uncovers primary sequence
-features, in particular a G nucleotide 13 nucleotides upstream of the 5' end Drosha cleavage site (G:-14, and to a less
-extent U:-13), a CNNC motif 18 or 19 nucleotides downstream the 3' end Drosha cleavage site (CNNC:18 or CNNC:19). <p>
-
-<p>Here we show that PKA can uncover these motifs from annotated microRNA sequences alone. </p>
 
         <h4><a class="mozTocH4" name="example1-input"></a>Data set </h4>
 
@@ -1079,7 +1074,7 @@ extent U:-13), a CNNC motif 18 or 19 nucleotides downstream the 3' end Drosha cl
 	  <p>An enhanced html version is comming soon.</p>
 
       <h1><a class="mozTocH1" name="copyright"></a>Copyright</h1>
-      <p>Copyright (c) 2014 Xuebing Wu. </p>
+      <p>Copyright (c) 2015 Xuebing Wu. </p>
       <p>PKA reuses the following library/code:<br>
         - <a href="http://www.boost.org/">Boost</a> library (version
         1.57.0)<br>
