@@ -1753,7 +1753,8 @@ string postscript_line(double x1, double y1, double x2, double y2)
 // if nSeq == 0, do not calculate information content
 // if nSeq < 0, calculate info content without small sample correction
 // small sample correction: subtract the following term from each value: (alphabet.size-1)/ln2/2/n
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq)
+// descending: false. if true, will put important letter at the bottom
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, bool bottom_up)
 {
 
 	// fontsize
@@ -1898,7 +1899,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		vector<double> w;
 
 		for(int j=0;j<alphabet.size();j++) w.push_back(pwm(j,i));
-		vector<size_t> idx = sort_indexes(w,false);
+		vector<size_t> idx = sort_indexes(w,bottom_up);
 		//for(int j=0;j<4;j++) cout << i << "\t" << letters[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
 		
 		for(int j=0;j<alphabet.size();j++)

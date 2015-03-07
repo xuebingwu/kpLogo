@@ -65,6 +65,7 @@ void print_help()
     "   -subject STR         email subject (quoted, default='PKA job done')\n"
     "   -content STR         email content (quoted, default='PKA job done')\n"
 	"   -small_sample        correct for small sample size\n"
+    "   -bottom_up           stack letters from bottom to top, starting with the most significant one\n"
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
 	"   (default)            compare to the same kmer at other positions \n"
 	"   -bgfile FILE         background sequence file\n"	
@@ -147,6 +148,7 @@ int main(int argc, char* argv[]) {
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
     bool last_letter = false;
+	bool bottom_up = false;
 
 	// color blind
 	bool colorblind = false;
@@ -311,6 +313,8 @@ int main(int argc, char* argv[]) {
 				i=i+1;
             } else if (str == "-colorblind") {
                 colorblind = true;
+            } else if (str == "-bottom_up") {
+                bottom_up = true;
             } else if (str == "-small_sample") {
 				small_sample_correction = 1;
             } else if (str == "-markov") {
@@ -667,12 +671,12 @@ int main(int argc, char* argv[]) {
 
 	message("making frequency logo...");
     boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,colors,1,startPos,fontsize,"Frequency",2,0);
+    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,colors,1,startPos,fontsize,"Frequency",2,0,bottom_up);
     system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
     system_run("convert "+output+".freq.eps "+output+".freq.png");
 
     message("making information content logo...");
-    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size());
+    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size(),bottom_up);
     system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
     system_run("convert "+output+".info.eps "+output+".info.png");
 
@@ -973,7 +977,7 @@ WriteFasta(seqs1,"implanted.fa");
 
 		//print_matrix(pwm);
 
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,colors,score_cutoff,startPos,fontsize,ylabel,4,0);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,colors,score_cutoff,startPos,fontsize,ylabel,4,0,bottom_up);	
 	}
 
 		
