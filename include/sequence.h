@@ -28,6 +28,10 @@ extern "C"{
 
 using namespace std;
 
+array<int,2> find_longest_run(string s, string letters);
+
+void sequence_feature(string s, bool di, bool tri, bool p1, bool p2, bool h2, bool h3, bool h4);
+void sequence_feature(string inpfile, string outfile, string freq_feat, string posi_feat, int col_seq=1, int col_id=1, int start=1);
 
 void use_end_position(string filename);
 
@@ -36,7 +40,7 @@ string postscript_line(double x1, double y1, double x2, double y2);
 
 string postscript_text(string text, double x, double y, double width, double height, string color, double rotate=0);
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", double max_scale=6.0, int nSeq=0, bool bottom_up=false);
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", double max_scale=6.0, int nSeq=0, bool bottom_up=false);
 
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs, string alphabet);
 
@@ -158,6 +162,8 @@ int sequence_similarity(string a, string b);
 // calculate and write pairwise similarity matrix of
 void pairwise_sequence_similarity_matrix(vector<string> seqs, string filename);
 
+
+int count(string seq,string motif);
 	
 set<int> findall(string seq, string motif);
 

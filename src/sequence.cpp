@@ -32,6 +32,213 @@ extern "C"{
 
 using namespace std;
 
+// homopolymer: find the longest runs of any letter of letters in s
+// return length and start position (0-based)
+array<int,2> find_longest_run(string s, string letters)
+{
+	int max_L = 0;
+	int start=-1;
+	int L=0;
+	// starting at each position
+	for(int i =0;i<s.size();i++)
+	{
+		if (letters.find(s[i])!=std::string::npos) 
+		{
+			int j;
+			for(j=i+1;j<s.size();j++)
+			{
+				if (letters.find(s[j])==std::string::npos) break;
+			}
+			L = j - i;
+			if(L > max_L)
+			{
+				max_L = L;
+				start = i;
+			}
+		}
+	}
+	array<int,2> res={max_L,start};
+	return res;
+}
+
+// DNA sequence feature, output to screen
+// 
+void sequence_feature(string s, bool di, bool tri, bool p1, bool p2, bool h2, bool h3, bool h4)
+{
+
+	// string header = "Seq\tAn.L\tAn.P\tCn.L\tCn.P\tGn.L\tGn.P\tTn.L\tTn.P\tRn.L\tRn.P\tYn.L\tYn.P\tWn.L\tWn.P\tSn.L\tSn.P\tA\tC\tG\tT\tW\tS\tR\tY\tAA\tAC\tAG\tAT\tCA\tCC\tCG\tCT\tGA\tGC\tGG\tGT\tTA\tTC\tTG\tTT\tAAA\tCAA\tGAA\tTAA\tACA\tAGA\tATA\tCCA\tCGA\tCTA\tGCA\tGGA\tGTA\tTCA\tTGA\tTTA\tAAC\tAAG\tAAT\tCAC\tCAG\tCAT\tGAC\tGAG\tGAT\tTAC\tTAG\tTAT\tACC\tACG\tACT\tAGC\tAGG\tAGT\tATC\tATG\tATT\tCCC\tCCG\tCCT\tCGC\tCGG\tCGT\tCTC\tCTG\tCTT\tGCC\tGCG\tGCT\tGGC\tGGG\tGGT\tGTC\tGTG\tGTT\tTCC\tTCG\tTCT\tTGC\tTGG\tTGT\tTTC\tTTG\tTTT";
+
+	// column 1: sequence
+	cout << s ;
+
+    // column 2-9: longest runs and center position
+    vector<string> runs = {"A","C", "G", "T","AG","TC","AT","GC"};
+
+    for(int i=0;i<runs.size();i++)
+    {  
+        array<int,2> res = find_longest_run(s,runs[i]);
+        cout << "\t" << res[0] << "\t" << res[0]/2 + res[1] ;
+    }
+
+
+	// column 10-17: mono + A/T + G/C + A/G + T/C
+	int nA = count(s,"A");
+	int nC = count(s,"C");
+	int nG = count(s,"G");
+	int nT = count(s,"T");
+	
+	cout << "\t" << nA << "\t" << nC << "\t" << nG << "\t" << nT << "\t" << nA+nT << "\t" << nG+nC << "\t" << nA+nG << "\t" << nT+nC;	
+
+
+	if(di)
+	{	
+		// column 18-33: di
+		array<string,16> di = {"AA","AC","AG","AT","CA","CC","CG","CT","GA","GC","GG","GT","TA","TC","TG","TT"};
+
+		for (int i=0;i<di.size();i++) cout << "\t" << count(s,di[i]) ;
+	}
+
+	if(tri)
+	{
+		vector<string> tri = generate_kmers(3,"ACGT");
+		for (int i=0;i<tri.size();i++) cout << "\t" << count(s,tri[i]) ;
+	}
+	//header = header +"\t"+to_string(tri);
+
+
+	if(p1)
+	{
+		for(int i=0;i<s.size();i++)
+		{
+			if(s[i] == 'A') cout << "\t1\t0\t0\t0";
+			else if (s[i] == 'C') cout << "\t0\t1\t0\t0";
+            else if (s[i] == 'G') cout << "\t0\t0\t1\t0";
+            else cout << "\t0\t0\t0\t1";
+		}		
+	}
+
+    if(p2)
+    {
+		array<string,16> di = {"AA","AC","AG","AT","CA","CC","CG","CT","GA","GC","GG","GT","TA","TC","TG","TT"};
+        for(int i=0;i< s.size()-1;i++)
+        {
+			for(int j=0;j<16;j++)
+			{
+				if(s.substr(i,2) == di[j]) cout << "\t1";
+				else cout << "\t0";
+			}
+        }
+    }
+
+
+	// homopolymer
+	if(h2)
+	{
+		array<string,4> homo = {"AA","CC","GG","TT"};
+		for(int i=0;i< s.size()-1;i++)
+        {   
+            for(int j=0;j<4;j++)
+            {  
+                if(s.substr(i,2) == homo[j]) cout << "\t1";
+                else cout << "\t0";
+            }
+        }
+	}
+    if(h3)
+    {   
+        array<string,4> homo = {"AAA","CCC","GGG","TTT"};
+        for(int i=0;i< s.size()-2;i++)
+        {      
+            for(int j=0;j<4;j++)
+            {  
+                if(s.substr(i,3) == homo[j]) cout << "\t1";
+                else cout << "\t0";
+            }
+        }
+    }
+    if(h4)
+    {   
+        array<string,4> homo = {"AAAA","CCCC","GGGG","TTTT"};
+        for(int i=0;i< s.size()-3;i++)
+        {      
+            for(int j=0;j<4;j++)
+            {  
+                if(s.substr(i,4) == homo[j]) cout << "\t1";
+                else cout << "\t0";
+            }
+        }
+    }
+
+	cout << endl;
+
+	//cerr << header << endl;
+}
+
+// features specified via strings
+// freq_feat: A,CG,...
+// posi_feat: A.-3,CG.9,...
+// col: column of sequence, 0 based
+// start: 1 based
+void sequence_feature(string infile, string outfile, string freq_feat, string posi_feat, int col_seq/*=1*/, int col_id/*=1*/,int start/*=1*/)
+{
+	vector<string> freq_feats = string_split(freq_feat,",");
+	vector<string> posi_feats = string_split(posi_feat,",");
+	vector<string> feat;
+	vector<int> posi;
+	for(int i=0;i<posi_feats.size();i++)
+	{
+		vector<string> tmp = string_split(posi_feats[i],".");
+		feat.push_back(tmp[0]);
+		int p = stoi(tmp[1]);
+		if (p<0) p = p + 1;
+		p = p + start - 2;
+		posi.push_back(p);
+	}
+	
+	ofstream fout(outfile.c_str());
+	
+	fout << "SeqID\t" << to_string(freq_feats) << "\t" << to_string(posi_feats) << endl;
+	
+	ifstream fin(infile.c_str());
+	
+    string line;
+    vector<string> flds;
+
+    while(fin)
+    {  
+        getline(fin,line);
+        if (line.length() == 0)
+            continue;
+
+        line.erase(line.find_last_not_of(" \n\r\t")+1);
+		
+		flds = string_split(line,"\t");
+
+		string seq = to_upper(flds[col_seq]);
+		string id = flds[col_id];
+		
+		fout << id ;
+		
+		// count freq
+		for(int i=0;i<freq_feats.size();i++)
+		{
+			fout << "\t" << count(seq,freq_feats[i]);
+		}
+
+		//presence of position motif
+		for(int i=0;i<feat.size();i++)
+		{
+			if(seq.substr(posi[i],feat[i].size()) == feat[i]) fout <<"\t1" ;
+			else fout << "\t0";
+		}
+		
+		fout << endl;
+
+	}
+	fin.close();
+	fout.close();
+}
+
 // number of identical bases
 int sequence_similarity(string a, string b)
 {
@@ -1513,6 +1720,19 @@ set<int> findall(string seq, string motif)
     return allpos;
 }
 
+int count(string seq,string motif)
+{
+    // count the number of matches, allowing overlap 
+    int n = 0;
+    size_t pos = 0; //start at pos
+    pos = seq.find(motif); // the first match
+    while(pos != string::npos)
+    {  
+        n++;
+        pos = seq.find(motif,pos+1); // start search for the next match from pos + 1
+    }
+    return n;
+}
 
 // dict for IUPAC degenerate nucleotides
 map<char,string> define_IUPAC()
@@ -1754,7 +1974,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 // if nSeq < 0, calculate info content without small sample correction
 // small sample correction: subtract the following term from each value: (alphabet.size-1)/ln2/2/n
 // descending: false. if true, will put important letter at the bottom
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, bool bottom_up)
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet,vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, bool bottom_up)
 {
 
 	// fontsize
@@ -1806,7 +2026,19 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	vector<double> col_max = matrix_column_max(pwm);
 	vector<double> col_min = matrix_column_min(pwm);
 		
-
+	// for fixed position
+	double max_col_sum = max(matrix_column_sum(pwm,1));
+	for (int i=0;i<fixed_position.size();i++)
+	{
+		for(int j=0;j<alphabet.size();j++)
+		{
+			if(fixed_letter[i] == alphabet.substr(j,1))
+			{
+				pwm(j,fixed_position[i]) = 1.1 * max_col_sum;
+			}
+			else pwm(j,fixed_position[i]) = 0 ;
+		}
+	}
 
 
 	vector<bool> significant;
@@ -1883,6 +2115,8 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		if (pos < 1) pos -= 1;
 		string color_sig = "0.5 0.5 0.5";
 		if (significant[i]) color_sig = "1 0 0";
+		// fixed position
+		if (find (fixed_position.begin(), fixed_position.end(), i) != fixed_position.end() )  color_sig = "0 0 0";
 		out << postscript_text(to_string(pos),x0 + xstep * (i+0.3) ,y0+ystep,0.6,0.6,color_sig,90);
 	}
 	

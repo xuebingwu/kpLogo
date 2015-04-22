@@ -22,6 +22,7 @@ string random_string( int length );
 string to_upper(string str);
 
 string to_string(vector<string> str, string del="\t");
+string to_string(vector<int> str, string del="\t");
 string to_string(set<string> str, string del="\t");
 
 template <typename T>

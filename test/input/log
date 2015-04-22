@@ -1,0 +1,195 @@
+[Sat Mar  7 20:56:42 2015] Summary: 
+[Sat Mar  7 20:56:42 2015]    Input       :   data.train.0
+[Sat Mar  7 20:56:42 2015]    Background  :   local
+[Sat Mar  7 20:56:42 2015]    Output      :   output.0.*
+[Sat Mar  7 20:56:42 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:42 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:42 2015]    max_kmer    :   3
+[Sat Mar  7 20:56:42 2015]    min_shift   :   0
+[Sat Mar  7 20:56:42 2015]    max_shift   :   1
+[Sat Mar  7 20:56:42 2015]    p           :   1.010000
+[Sat Mar  7 20:56:42 2015]    start at    :   1
+[Sat Mar  7 20:56:42 2015] 2005 sequences loaded from data.train.0
+[Sat Mar  7 20:56:42 2015] making frequency logo...
+[Sat Mar  7 20:56:43 2015] making information content logo...
+[Sat Mar  7 20:56:43 2015] 84 exact kmers to be tested
+[Sat Mar  7 20:56:43 2015] 5256 tests (kmer x position x shifts) will be performed
+[Sat Mar  7 20:56:44 2015] 4378 positional kmers with p <1.010000
+[Sat Mar  7 20:56:45 2015] plotting the most significant kmer at each position...
+[Sat Mar  7 20:56:45 2015] plotting single nucleotide profile...
+[Sat Mar  7 20:56:46 2015] Done!
+[Sat Mar  7 20:56:46 2015] Summary: 
+[Sat Mar  7 20:56:46 2015]    Input       :   data.test.0
+[Sat Mar  7 20:56:46 2015]    Background  :   local
+[Sat Mar  7 20:56:46 2015]    Output      :   PKA.*
+[Sat Mar  7 20:56:46 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:46 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:46 2015]    max_kmer    :   4
+[Sat Mar  7 20:56:46 2015]    min_shift   :   0
+[Sat Mar  7 20:56:46 2015]    max_shift   :   0
+[Sat Mar  7 20:56:46 2015]    p           :   1.010000
+[Sat Mar  7 20:56:46 2015]    start at    :   1
+[Sat Mar  7 20:56:46 2015] 501 sequences loaded from data.test.0
+[Sat Mar  7 20:56:46 2015] making frequency logo...
+[Sat Mar  7 20:56:47 2015] making information content logo...
+[Sat Mar  7 20:56:47 2015] === prediction mode ===
+[Sat Mar  7 20:56:47 2015] building model from file: output.0.pass.p.cutoff.txt
+[Sat Mar  7 20:56:47 2015] - 4378 positional kmers included in the model
+[Sat Mar  7 20:56:47 2015] scoring input sequences using the model...
+[Sat Mar  7 20:56:47 2015] - done
+[Sat Mar  7 20:56:47 2015] Summary: 
+[Sat Mar  7 20:56:47 2015]    Input       :   data.train.1
+[Sat Mar  7 20:56:47 2015]    Background  :   local
+[Sat Mar  7 20:56:47 2015]    Output      :   output.1.*
+[Sat Mar  7 20:56:47 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:47 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:47 2015]    max_kmer    :   3
+[Sat Mar  7 20:56:47 2015]    min_shift   :   0
+[Sat Mar  7 20:56:47 2015]    max_shift   :   1
+[Sat Mar  7 20:56:47 2015]    p           :   1.010000
+[Sat Mar  7 20:56:47 2015]    start at    :   1
+[Sat Mar  7 20:56:47 2015] 2005 sequences loaded from data.train.1
+[Sat Mar  7 20:56:47 2015] making frequency logo...
+[Sat Mar  7 20:56:48 2015] making information content logo...
+[Sat Mar  7 20:56:49 2015] 84 exact kmers to be tested
+[Sat Mar  7 20:56:49 2015] 5256 tests (kmer x position x shifts) will be performed
+[Sat Mar  7 20:56:50 2015] 4392 positional kmers with p <1.010000
+[Sat Mar  7 20:56:50 2015] plotting the most significant kmer at each position...
+[Sat Mar  7 20:56:50 2015] plotting single nucleotide profile...
+[Sat Mar  7 20:56:51 2015] Done!
+[Sat Mar  7 20:56:51 2015] Summary: 
+[Sat Mar  7 20:56:51 2015]    Input       :   data.test.1
+[Sat Mar  7 20:56:51 2015]    Background  :   local
+[Sat Mar  7 20:56:51 2015]    Output      :   PKA.*
+[Sat Mar  7 20:56:51 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:51 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:51 2015]    max_kmer    :   4
+[Sat Mar  7 20:56:51 2015]    min_shift   :   0
+[Sat Mar  7 20:56:51 2015]    max_shift   :   0
+[Sat Mar  7 20:56:51 2015]    p           :   1.010000
+[Sat Mar  7 20:56:51 2015]    start at    :   1
+[Sat Mar  7 20:56:51 2015] 501 sequences loaded from data.test.1
+[Sat Mar  7 20:56:51 2015] making frequency logo...
+[Sat Mar  7 20:56:52 2015] making information content logo...
+[Sat Mar  7 20:56:52 2015] === prediction mode ===
+[Sat Mar  7 20:56:52 2015] building model from file: output.1.pass.p.cutoff.txt
+[Sat Mar  7 20:56:52 2015] - 4392 positional kmers included in the model
+[Sat Mar  7 20:56:52 2015] scoring input sequences using the model...
+[Sat Mar  7 20:56:53 2015] - done
+[Sat Mar  7 20:56:53 2015] Summary: 
+[Sat Mar  7 20:56:53 2015]    Input       :   data.train.2
+[Sat Mar  7 20:56:53 2015]    Background  :   local
+[Sat Mar  7 20:56:53 2015]    Output      :   output.2.*
+[Sat Mar  7 20:56:53 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:53 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:53 2015]    max_kmer    :   3
+[Sat Mar  7 20:56:53 2015]    min_shift   :   0
+[Sat Mar  7 20:56:53 2015]    max_shift   :   1
+[Sat Mar  7 20:56:53 2015]    p           :   1.010000
+[Sat Mar  7 20:56:53 2015]    start at    :   1
+[Sat Mar  7 20:56:53 2015] 2005 sequences loaded from data.train.2
+[Sat Mar  7 20:56:53 2015] making frequency logo...
+[Sat Mar  7 20:56:53 2015] making information content logo...
+[Sat Mar  7 20:56:54 2015] 84 exact kmers to be tested
+[Sat Mar  7 20:56:54 2015] 5256 tests (kmer x position x shifts) will be performed
+[Sat Mar  7 20:56:55 2015] 4385 positional kmers with p <1.010000
+[Sat Mar  7 20:56:55 2015] plotting the most significant kmer at each position...
+[Sat Mar  7 20:56:55 2015] plotting single nucleotide profile...
+[Sat Mar  7 20:56:56 2015] Done!
+[Sat Mar  7 20:56:56 2015] Summary: 
+[Sat Mar  7 20:56:56 2015]    Input       :   data.test.2
+[Sat Mar  7 20:56:56 2015]    Background  :   local
+[Sat Mar  7 20:56:56 2015]    Output      :   PKA.*
+[Sat Mar  7 20:56:56 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:56 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:56 2015]    max_kmer    :   4
+[Sat Mar  7 20:56:56 2015]    min_shift   :   0
+[Sat Mar  7 20:56:56 2015]    max_shift   :   0
+[Sat Mar  7 20:56:56 2015]    p           :   1.010000
+[Sat Mar  7 20:56:56 2015]    start at    :   1
+[Sat Mar  7 20:56:56 2015] 501 sequences loaded from data.test.2
+[Sat Mar  7 20:56:56 2015] making frequency logo...
+[Sat Mar  7 20:56:57 2015] making information content logo...
+[Sat Mar  7 20:56:57 2015] === prediction mode ===
+[Sat Mar  7 20:56:57 2015] building model from file: output.2.pass.p.cutoff.txt
+[Sat Mar  7 20:56:58 2015] - 4385 positional kmers included in the model
+[Sat Mar  7 20:56:58 2015] scoring input sequences using the model...
+[Sat Mar  7 20:56:58 2015] - done
+[Sat Mar  7 20:56:58 2015] Summary: 
+[Sat Mar  7 20:56:58 2015]    Input       :   data.train.3
+[Sat Mar  7 20:56:58 2015]    Background  :   local
+[Sat Mar  7 20:56:58 2015]    Output      :   output.3.*
+[Sat Mar  7 20:56:58 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:56:58 2015]    min_kmer    :   1
+[Sat Mar  7 20:56:58 2015]    max_kmer    :   3
+[Sat Mar  7 20:56:58 2015]    min_shift   :   0
+[Sat Mar  7 20:56:58 2015]    max_shift   :   1
+[Sat Mar  7 20:56:58 2015]    p           :   1.010000
+[Sat Mar  7 20:56:58 2015]    start at    :   1
+[Sat Mar  7 20:56:58 2015] 2005 sequences loaded from data.train.3
+[Sat Mar  7 20:56:58 2015] making frequency logo...
+[Sat Mar  7 20:56:58 2015] making information content logo...
+[Sat Mar  7 20:56:59 2015] 84 exact kmers to be tested
+[Sat Mar  7 20:56:59 2015] 5256 tests (kmer x position x shifts) will be performed
+[Sat Mar  7 20:57:00 2015] 4390 positional kmers with p <1.010000
+[Sat Mar  7 20:57:00 2015] plotting the most significant kmer at each position...
+[Sat Mar  7 20:57:00 2015] plotting single nucleotide profile...
+[Sat Mar  7 20:57:02 2015] Done!
+[Sat Mar  7 20:57:02 2015] Summary: 
+[Sat Mar  7 20:57:02 2015]    Input       :   data.test.3
+[Sat Mar  7 20:57:02 2015]    Background  :   local
+[Sat Mar  7 20:57:02 2015]    Output      :   PKA.*
+[Sat Mar  7 20:57:02 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:57:02 2015]    min_kmer    :   1
+[Sat Mar  7 20:57:02 2015]    max_kmer    :   4
+[Sat Mar  7 20:57:02 2015]    min_shift   :   0
+[Sat Mar  7 20:57:02 2015]    max_shift   :   0
+[Sat Mar  7 20:57:02 2015]    p           :   1.010000
+[Sat Mar  7 20:57:02 2015]    start at    :   1
+[Sat Mar  7 20:57:02 2015] 501 sequences loaded from data.test.3
+[Sat Mar  7 20:57:02 2015] making frequency logo...
+[Sat Mar  7 20:57:03 2015] making information content logo...
+[Sat Mar  7 20:57:03 2015] === prediction mode ===
+[Sat Mar  7 20:57:03 2015] building model from file: output.3.pass.p.cutoff.txt
+[Sat Mar  7 20:57:03 2015] - 4390 positional kmers included in the model
+[Sat Mar  7 20:57:03 2015] scoring input sequences using the model...
+[Sat Mar  7 20:57:03 2015] - done
+[Sat Mar  7 20:57:03 2015] Summary: 
+[Sat Mar  7 20:57:03 2015]    Input       :   data.train.4
+[Sat Mar  7 20:57:03 2015]    Background  :   local
+[Sat Mar  7 20:57:03 2015]    Output      :   output.4.*
+[Sat Mar  7 20:57:03 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:57:03 2015]    min_kmer    :   1
+[Sat Mar  7 20:57:03 2015]    max_kmer    :   3
+[Sat Mar  7 20:57:03 2015]    min_shift   :   0
+[Sat Mar  7 20:57:03 2015]    max_shift   :   1
+[Sat Mar  7 20:57:03 2015]    p           :   1.010000
+[Sat Mar  7 20:57:03 2015]    start at    :   1
+[Sat Mar  7 20:57:03 2015] 2004 sequences loaded from data.train.4
+[Sat Mar  7 20:57:03 2015] making frequency logo...
+[Sat Mar  7 20:57:04 2015] making information content logo...
+[Sat Mar  7 20:57:04 2015] 84 exact kmers to be tested
+[Sat Mar  7 20:57:04 2015] 5256 tests (kmer x position x shifts) will be performed
+[Sat Mar  7 20:57:06 2015] 4382 positional kmers with p <1.010000
+[Sat Mar  7 20:57:06 2015] plotting the most significant kmer at each position...
+[Sat Mar  7 20:57:06 2015] plotting single nucleotide profile...
+[Sat Mar  7 20:57:07 2015] Done!
+[Sat Mar  7 20:57:07 2015] Summary: 
+[Sat Mar  7 20:57:07 2015]    Input       :   data.test.4
+[Sat Mar  7 20:57:07 2015]    Background  :   local
+[Sat Mar  7 20:57:07 2015]    Output      :   PKA.*
+[Sat Mar  7 20:57:07 2015]    alphabet    :   ACGT
+[Sat Mar  7 20:57:07 2015]    min_kmer    :   1
+[Sat Mar  7 20:57:07 2015]    max_kmer    :   4
+[Sat Mar  7 20:57:07 2015]    min_shift   :   0
+[Sat Mar  7 20:57:07 2015]    max_shift   :   0
+[Sat Mar  7 20:57:07 2015]    p           :   1.010000
+[Sat Mar  7 20:57:07 2015]    start at    :   1
+[Sat Mar  7 20:57:07 2015] 502 sequences loaded from data.test.4
+[Sat Mar  7 20:57:07 2015] making frequency logo...
+[Sat Mar  7 20:57:08 2015] making information content logo...
+[Sat Mar  7 20:57:09 2015] === prediction mode ===
+[Sat Mar  7 20:57:09 2015] building model from file: output.4.pass.p.cutoff.txt
+[Sat Mar  7 20:57:09 2015] - 4382 positional kmers included in the model
+[Sat Mar  7 20:57:09 2015] scoring input sequences using the model...
+[Sat Mar  7 20:57:09 2015] - done

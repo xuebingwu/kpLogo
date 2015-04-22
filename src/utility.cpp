@@ -51,6 +51,14 @@ string random_string( int len) {
 }
 /**/
 
+string to_string(vector<int> str, string del/*="\t"*/)
+{
+	string res = to_string(str[0]);
+	for(unsigned i=1;i<str.size();i++)
+		res += del + to_string(str[i]);
+	return res;
+}
+
 
 string to_string(vector<string> str, string del/*="\t"*/)
 {
