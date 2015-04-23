@@ -980,6 +980,10 @@ ers. This feature enables one to study dependence between positional kmers (see 
 <p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, letters are rescaled relative to the statistical significance (-log10(p value)) of each letter at each position. Enriched letters stack on the top, whereas depleted letters stack on the bottom. Significant positions will have coordinates colored in red.</p>
       <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
 	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single letter. Stacked letters at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. </p>
+      <h3><a class="mozTocH3" name="fix"></a>Fixed positions</h3>
+	<p>In many applications the input sequences may contain almost invariant letters at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. PKA allows user to fix positions where a single letter occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed letter will be 1.1 times of the max total height of non-fixed position. </p>
+	
+	
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
         file</h2>
       <p>Regardless the type of input (unranked/ranked/weighted), the
