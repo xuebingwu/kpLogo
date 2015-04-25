@@ -703,9 +703,11 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	message("fixed position: "+to_string(fixed_position));
-	message("fixed letter  : "+to_string(fixed_letter));
-	
+	if(fixed_position.size()>0)
+	{
+		message("fixed position: "+to_string(fixed_position));
+		message("fixed letter  : "+to_string(fixed_letter));
+	}
 
 ///////////////////////////////////////////////////////////////
 //         part 4:  prediction mode
