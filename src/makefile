@@ -5,7 +5,8 @@
 # 'make clean'  removes all .o and executable files
 #
 
-PROGS = PKA sequence_feature
+PROGS = PKA
+# sequence_feature
 
 # define the C++ compiler to use
 CC = g++
@@ -25,8 +26,8 @@ all: $(PROGS) install
 PKA: sequence.o markov.o positional_kmer.o container.o utility.o text.o stat.o ushuffle.o PKA.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-sequence_feature: sequence_feature.o utility.o sequence.o ushuffle.o  positional_kmer.o stat.o container.o
-	$(CC) $(CFLAGS) $^ -o $@
+#sequence_feature: sequence_feature.o utility.o sequence.o ushuffle.o  positional_kmer.o stat.o container.o
+#	$(CC) $(CFLAGS) $^ -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
