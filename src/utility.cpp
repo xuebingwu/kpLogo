@@ -12,9 +12,26 @@
 #include <algorithm>
 
 #include "utility.h"
+#include <boost/regex.hpp>
+
 
 using namespace std;
 
+
+//
+
+// combine multiple spaces into one
+bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
+bool BothAreTabs(char lhs, char rhs) { return (lhs == rhs) && (lhs == '\t'); }
+
+string combine_spaces(string str, char ch)
+{
+	std::string::iterator new_end;
+	if(ch == ' ') new_end = std::unique(str.begin(), str.end(), BothAreSpaces);
+	else new_end = std::unique(str.begin(), str.end(), BothAreTabs);
+	str.erase(new_end, str.end());   
+	return str;
+}
 
 // generate a random string of letters and numbers of certain length
 /*

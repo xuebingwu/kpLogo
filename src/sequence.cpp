@@ -32,6 +32,32 @@ extern "C"{
 
 using namespace std;
 
+string reverse(string str)
+{
+	string res = str;
+	std::reverse(res.begin(), res.end());
+	return res;
+}
+
+// seq can not have letters not in valid_letters
+bool valid_sequence(string seq, string valid_letters)
+{
+	for (int i=0;i<seq.size();i++)
+	{
+		bool valid = false;
+		for(int j=0;j<valid_letters.size();j++)
+		{
+			if (seq[i] == valid_letters[j])
+			{
+				valid = true;
+				break;
+			}
+		}
+		if (valid == false) return false;
+	}
+	return true;
+}
+
 // homopolymer: find the longest runs of any letter of letters in s
 // return length and start position (0-based)
 array<int,2> find_longest_run(string s, string letters)
@@ -2084,7 +2110,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		"%%DocumentFonts:                   \n"
 		"%%EndComments                      \n"
 		"\n"
-		"/Helvetica-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
+		"/Helvetica-Narrow-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
 	
 	ofstream out(filename.c_str());
 	out << header << endl;
@@ -2283,7 +2309,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 		"%%DocumentFonts:                   \n"
 		"%%EndComments                      \n"
 		"\n"
-		"/Helvetica-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
+		"/Helvetica-Narrow-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
 	
 	ofstream out(outfile.c_str());
 	out << header << endl;
@@ -2732,9 +2758,10 @@ int find_significant_kmer_from_one_seq_set(
 	                double z = (counts1[m] - expected) / sqrt(expected*(1-f2));
 	                // local enrichment
 	                double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
-										
-	                outstream << it->first << "\t" << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
-	                outcounts << it->first << ":" << m-startPos + 2;
+					int position = m-startPos + 2;
+					if(position < 1) position --;
+	                outstream << it->first << "\t" << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+	                outcounts << it->first << ":" << position;
 	                for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                outcounts << endl;
 	            }
@@ -2797,10 +2824,13 @@ int find_significant_kmer_from_one_seq_set(
 	                    double expected = nSeq1 * f2;
 	                    double z = (counts1[m] - expected) / sqrt(expected*(1-f2)); 
 	                    double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
+						
+						int position = m-startPos+2;
+						if(position < 1) position--;
 												
-	                    outstream  << dkmers[i] << "\t" << m-startPos+2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+	                    outstream  << dkmers[i] << "\t" << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
 	        
-                       outcounts << dkmers[i] << ":" << m-startPos+2;
+                       outcounts << dkmers[i] << ":" << position;
                        for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
                        outcounts << endl;
 	                }

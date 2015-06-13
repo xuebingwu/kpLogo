@@ -682,12 +682,12 @@ int main(int argc, char* argv[]) {
 
 	message("making frequency logo...");
     boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Frequency",2,0,bottom_up);
+    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,bottom_up);
     system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
     system_run("convert "+output+".freq.eps "+output+".freq.png");
 
     message("making information content logo...");
-    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Bits",2,small_sample_correction * seqs1.size(),bottom_up);
+    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,small_sample_correction * seqs1.size(),bottom_up);
     system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
     system_run("convert "+output+".info.eps "+output+".info.png");
 	
@@ -945,9 +945,9 @@ WriteFasta(seqs1,"implanted.fa");
     //remove_duplicates(outtmp,output+".most.significant.each.position.txt",2,1,"");	
 	
 	/**/
-    system_run(" cat "+out +" | awk '$4>0' | sort -k2,2g -k5,5gr  > "+outtmp);
+    system_run(" cat "+out +" | awk '$4>0' | sort -k2,2g -k5,5gr -k4,4gr  > "+outtmp);
     remove_duplicates(outtmp,outtmp+".most.enriched",2,1,"");	
-    system_run(" cat "+out +" | awk '$4<0' | sort -k2,2g -k5,5gr  > "+outtmp);
+    system_run(" cat "+out +" | awk '$4<0' | sort -k2,2g -k5,5gr -k4,4g  > "+outtmp);
     remove_duplicates(outtmp,outtmp+".most.depleted",2,1,"");	
 	system_run(" cat "+outtmp+".most.enriched "+outtmp+".most.depleted > "+output+".most.significant.each.position.txt");
 	/**/
@@ -983,7 +983,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,4);	
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
 
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -995,7 +995,7 @@ WriteFasta(seqs1,"implanted.fa");
 
 		//print_matrix(pwm);
 
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,4,0,bottom_up);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,bottom_up);	
 	}
 
 		

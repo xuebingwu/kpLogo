@@ -76,8 +76,10 @@ int split_file_for_cross_validation(string input, string output, int nfold)
 
 // input file contine multi-line records such as fasta/fastq or others
 // col is 1 based
-void select_multi_lines(string inputfile, string idfile, string outputfile, int nline, int id_col, string id_prefix)
+int select_multi_lines(string inputfile, string idfile, string outputfile, int nline, int id_col, string id_prefix)
 {
+	int selected = 0;
+	
 	id_col = id_col - 1;
 	
 	set<string> ids;
@@ -105,10 +107,11 @@ void select_multi_lines(string inputfile, string idfile, string outputfile, int 
 	{
 		getline(fin,line);
 		if(line.length()==0) continue;
-		if(line[0] == '>')
+		if(line.substr(0,id_prefix.size()) == id_prefix)
 		{
 			if (ids.find(line) != ids.end())
 			{
+				selected++;
 				out << line << endl; // id
 				for (int i =0;i< nline-1;i++)
 				{
@@ -127,6 +130,7 @@ void select_multi_lines(string inputfile, string idfile, string outputfile, int 
 	}
 	fin.close();
 	out.close();
+	return selected;
 }
 
 
@@ -270,8 +274,13 @@ void mergeTab(string file1, string file2, string outputfile, unsigned col1/*=0*/
 }
 
 
-		
-void remove_duplicates(string input, string output, int col, int max, string sort_opts="")
+/*
+keep the top N lines with matched columns
+
+print_rank: bool variable indicating whether print a column indicating the rank
+*/
+	
+void remove_duplicates(string input, string output, int col, int max, string sort_opts, bool print_rank)
 {
 	string tmp = random_string(10);
 
@@ -300,16 +309,20 @@ void remove_duplicates(string input, string output, int col, int max, string sor
         if (line.length() == 0)
             continue;
         flds = string_split(line,"\t");
-        if (curr != flds[col])
+        if (curr != flds[col]) // a new line
         {
-            fout << line << endl;;
+            fout << line ;
+			if(print_rank) fout << "\t1";
+			fout << endl;
             k = max - 1;
             curr = flds[col];
         }
         else if (k>0)
         {
-            fout << line << endl;
-            k--;
+			k--;
+            fout << line ;
+			if(print_rank) fout << "\t" << max-k;
+			fout << endl;
         }
     }
 

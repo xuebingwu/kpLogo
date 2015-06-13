@@ -54,6 +54,7 @@ T sum(vector<T> v)
 	// return accumulate(v.begin(), v.end(), 0.0); 
 }
 
+
 template<typename T>
 double mean(vector<T> v)
 {

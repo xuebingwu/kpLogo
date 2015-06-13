@@ -28,6 +28,10 @@ extern "C"{
 
 using namespace std;
 
+string reverse(string str);
+
+bool valid_sequence(string seq, string valid_letters);
+
 array<int,2> find_longest_run(string s, string letters);
 
 void sequence_feature(string s, bool di, bool tri, bool p1, bool p2, bool h2, bool h3, bool h4);

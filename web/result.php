@@ -57,23 +57,23 @@ a:link {
   <tbody>
     <tr>
       <td style="vertical-align: top; width: 69px;">
-      <form action="../../index.html"> <input value="Home" type="submit"></form>
+      <form action="http://pka.wi.mit.edu/index.html"> <input value="Home" type="submit" style="color: GreenYellow" ></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
-      <form action="../../submit.html"> <input value="Server" type="submit"></form>
+      <form action="http://pka.wi.mit.edu/submit.html"> <input value="Server" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 0px;">
-      <form action="../../code.html"> <input value="Code" type="submit"></form>
+        <form action="http://pka.wi.mit.edu/manual.html#install-pka-locally"> <input value="Code" type="submit"></form>
+        </td>
+        <td style="vertical-align: top; width: 69px;">
+        <form action="http://pka.wi.mit.edu/manual.html"> <input value="Manual" type="submit"></form>
+        </td>
+        <td style="vertical-align: top; width: 69px;">
+        <form action="http://pka.wi.mit.edu/manual.html#examples"> <input value="Examples" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 69px;">
-      <form action="../../manual.html"> <input value="Manual" type="submit"></form>
+      <td style="vertical-align: top; width: 0px;">
+      <form action="http://pka.wi.mit.edu/feedback.html"> <input value="Feedback" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 69px;">
-      <form action="../../examples.html"> <input value="Examples" type="submit"></form>
-      </td>
-	  <td style="vertical-align: top; width: 0px;">
-	  <form action="../../feedback.html"> <input value="Feedback" type="submit"></form>
-	  </td>
     </tr>
   </tbody>
 </table>

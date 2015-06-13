@@ -11,10 +11,9 @@
 
 #include <boost/algorithm/string.hpp>
 
-
 using namespace std;
 
-
+string combine_spaces(string str,char ch=' ');
 
 // generate a random string of letters and numbers of certain length
 string random_string( int length );
