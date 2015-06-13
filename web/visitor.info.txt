@@ -372,3 +372,34 @@
 10.9.9.77	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 1 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01  -bottom_up
 10.9.61.72	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 1 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01  
 10.9.61.72	xxx@yyy.com	PKA pka.input.txt -o pka.output -weighted -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01  -bottom_up
+10.5.200.156	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 31 -gapped  -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.5.200.156	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.5.200.156	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 31   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.5.200.156	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.5.200.156	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -markov 1  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.5.200.156	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -markov 1  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot s  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot s  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot b  -pc 0.01   -fix 0.75
+10.9.61.76	wuxb07@gmail.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -markov 2  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot b  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,10   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,10   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,6   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,3   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1   -minCount 0.01 -pseudo 1e-9 -region 1,3   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
+10.9.61.76	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 5 -shift 0  -startPos 51   -minCount 0.01 -pseudo 1e-9 -region 1,0   -plot p  -pc 0.01   -fix 0.75
