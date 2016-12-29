@@ -32,6 +32,289 @@ extern "C"{
 
 using namespace std;
 
+// return position of the char in str that is not found in alphabet
+// if no such char, return -1
+int bad_char(string str, string alphabet)
+{
+	int i,j;
+	for (  i=0;i<str.size();i++)
+	{
+		for (  j=0;j<alphabet.size();j++)
+		{
+			if (str[i] == alphabet[j]) break;
+		}
+		if (j == alphabet.size()) return i;
+	}
+	return -1; // if not found
+}
+
+vector<int> bad_char(vector<string> str, string alphabet)
+{
+	vector<int> res = {-1,-1};
+	int i,j;
+	for (  i=0;i<str.size();i++)
+	{
+		j = bad_char(str[i],alphabet);
+		if (j > -1)
+		{
+			res = {i,j};
+			return res;
+		}
+	}
+	return res;
+}
+
+
+// initialize a pwm from a sequence
+boost::numeric::ublas::matrix<double> initialize_pwm_from_one_seq(string seq)
+{
+    // nucleotide to position
+    map<char,int> letter2pos;
+    letter2pos['A'] = 0;
+    letter2pos['C'] = 1;
+    letter2pos['G'] = 2;
+    letter2pos['T'] = 3;
+	
+    boost::numeric::ublas::matrix<double> pwm (4,seq.size());
+    for (int i = 0; i < pwm.size1(); ++ i) 
+		for (int j = 0; j < pwm.size2(); ++ j) 
+			pwm(i,j) = 0;
+    for (int i = 0; i < pwm.size2(); ++ i) pwm(letter2pos[seq[i]],i) = 1.0;
+  
+    return pwm;
+}
+
+// score a sequence by pwm
+double score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq)
+{
+	double score = 0;
+	for (int i = 0; i < pwm.size2(); ++ i) score += pwm(letter2pos[seq[i]],i);
+	return score;
+}
+
+// find best match by pwm in a seq
+// pos: position of best match
+// return best match score
+double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq, int &pos)
+{
+	double max_score = -100000;
+	double score;
+	int motif_size = int(pwm.size2());
+	for(int i=0;i< int(seq.size())-motif_size;i++)
+	{
+		//cout << i << "," << seq.size()-motif_size << "," << motif_size << endl;
+		score =  score_by_pwm(pwm,letter2pos,seq.substr(i,motif_size));
+		if (score > max_score)
+		{
+			max_score = score;
+			pos = i;
+		}
+	}
+	return max_score;
+}
+
+// update pwm from sequences
+// scores: normalized to 0-1 ()
+// weight from each sequence: pwm score of the match * sequence score
+boost::numeric::ublas::matrix<double> update_pwm_from_seqs(vector<string> seqs, vector<double> scores, boost::numeric::ublas::matrix<double> pwm,  map<char,int> letter2pos)
+{
+	// initialize a zero matrix
+    boost::numeric::ublas::matrix<double> pwm2 (4,pwm.size2());
+    for (int i = 0; i < pwm2.size1(); ++ i) 
+		for (int j = 0; j < pwm2.size2(); ++ j) 
+			pwm2(i,j) = 0;
+	
+	// update from each sequence
+	int max_pos;
+	double max_score;
+	double composite_score;
+	for(int i=0;i<seqs.size();i++)
+	{
+		max_score = best_score_by_pwm(pwm,letter2pos,seqs[i],max_pos);
+		composite_score = max_score * scores[i];
+		for (int j = 0; j < pwm2.size2(); ++ j) pwm2(letter2pos[seqs[i][max_pos+j]],j) += composite_score; 
+	}
+
+	// normalize so that each column sum up to 1
+	for(int c=0;c<pwm2.size2();c++) // for each column
+	{
+		double row_sum = 0;
+		for(int r=0;r<pwm2.size1();r++)
+			row_sum += pwm2(r,c);
+		for(int r=0;r<pwm2.size1();r++)
+			pwm2(r,c) = pwm2(r,c)/row_sum;
+	}
+	
+    return pwm2;
+}
+
+
+/*
+
+// smith-waterman scoring without gap
+// a and b should be of the same size
+// mismatch_penalty: negative number
+double smith_waterman_score(string a, string b, double mismatch_penalty)
+{
+	double score = 0;
+	double score_max = 0;
+	for(int i=0;i<a.size();i++)
+	{
+		if(a[i] == b[i]) score++;
+		else score += mismatch_penalty;
+		if (score > score_max) score_max = score;
+	}
+	return score_max;
+}
+
+void find_best_smith_waterman_match(string motif, string seq, double mismatch_penalty, int &pos, double &score)
+{
+	pos = 0;
+	score = -10000000;
+	for(int i = 0;i<seq.size()-motif.size();i++)
+	{
+		double s = smith_waterman_score(motif, seq, mismatch_penalty);
+		if (s > score) 
+		{
+			score = s;
+			pos = i;
+		}
+	}
+}
+
+*/
+
+/********* for regression motif analysis ********/
+
+// for each motif, count frequency in each target sequence
+
+vector<int> motif_counts_in_seqs(string motif, vector<string> seqs)
+{
+	vector<int> counts;
+	for( int i=0;i<seqs.size();i++)
+	{		
+		counts.push_back(count_non_overlap(seqs[i],motif));
+	}
+	return counts;
+}
+/*******************/
+
+// test if a kmer's presence is associated with sequence scores/weights
+// do not require position info
+array<double,4>  kmer_rank_test(string kmer, vector<string> seqs, vector<double> ranks)
+{
+	vector<double> ranks_with_kmer;
+	array<double,2> utest;
+	for(int i=0;i<seqs.size();i++)
+	{
+		if(seqs[i].find(kmer) != string::npos) ranks_with_kmer.push_back(ranks[i]);
+	}
+	if (ranks_with_kmer.size()>2 && ranks_with_kmer.size() < seqs.size()-1 ) // cannot have too few or too many 
+	{
+		utest = Mann_Whitney_U_test(ranks_with_kmer, seqs.size()); // z, p
+	} else
+	{
+		utest = {{0,1}};
+		
+	}
+	array<double,4> res = {{double(seqs.size()),double(ranks_with_kmer.size()),-utest[0],utest[0]/fabs(utest[0])*log10(utest[1])}};
+
+	// debug
+	//cout << "debug" << endl;
+	//cout << seqs.size() << endl;
+	//cout << seqs[0] << endl;
+	//cout << kmer << endl;
+	//cout << ranks_with_kmer.size() << endl;
+	
+	return res;
+}
+
+
+void kmer_cdf(string kmer, vector<string> seqs, vector<double> scores, string outputfile)
+{
+	ofstream fout(outputfile.c_str());
+	for(int i=0;i<seqs.size();i++)
+	{
+		if(seqs[i].find(kmer) != string::npos) fout << "1\t" << scores[i]  << endl;
+		else fout << "0\t" << scores[i] << endl;
+	}
+	fout.close();
+	
+	string script = 
+    "pdf('"+outputfile+".pdf',width=5,height=5) \n"
+	"par(cex=1)\n"
+    "x  = read.table('"+outputfile+"', header=F) \n"
+	"pos = x[x[,1]==1,2]\n"
+	"neg = x[x[,1]==0,2]\n"
+    "median_p = round(median(pos),digits=3)\n"
+	"median_n = round(median(neg),digits=3)\n"
+    "if(median_p < median_n){\n"
+	"    kstest = ks.test(pos,neg,alternative='greater')\n"
+    "} else {\n"
+    "    kstest = ks.test(pos,neg,alternative='less')\n "
+    "}\n"
+	"p = kstest$p.value\n"
+	"ecdf_pos = ecdf(pos)\n"
+	"ecdf_neg = ecdf(neg)\n"
+	"xtick = sort(c(pos[(length(pos)*0.01):(length(pos)*0.99)],neg[(length(neg)*0.01):(length(neg)*0.99)]))\n"
+	"plot(xtick,ecdf_pos(xtick),type='l',col='blue', bty='n',main=paste('ks test p=',format(p,digits=2),'\nmedian dif = ',round(median_p-median_n,digits=3),'=',median_p,'-',median_n,sep=''),xlab='score', ylab='cdf') \n"	
+	"lines(xtick,ecdf_neg(xtick),col='red')\n"
+	"legend('topleft',c(paste(length(pos),' with "+kmer+"',sep=''),paste(length(neg),' without "+kmer+"',sep='')),col=c('blue','red'),box.lty=0,lty=1,cex=1)\n"
+		
+    "dev.off() \n"
+	"\n";
+
+	R_run(script);		
+}
+
+
+// kmer can be degenerate, such as CNNC
+void positional_kmer_cdf(string kmer, vector<string> seqs, vector<double> scores, string outputfile)
+{
+	// get all positional kmers, including 
+	vector<positional_kmer> pkmers = positional_kmer_vector_from_string(kmer,define_IUPAC());
+	if(pkmers.size()<1){
+		cerr << "ERROR: no positional kmer recognized: "+kmer << endl;
+		return;
+	}
+	
+	ofstream fout(outputfile.c_str());
+	for(int i=0;i<seqs.size();i++)
+	{
+		if(seq_has_any_of_positional_kmer(seqs[i],pkmers)) fout << "1\t" << scores[i]  << endl;
+		else fout << "0\t" << scores[i] << endl;
+	}
+	fout.close();
+	
+	string script = 
+    "pdf('"+outputfile+".pdf',width=5,height=5) \n"
+	"par(cex=1)\n"
+    "x  = read.table('"+outputfile+"', header=F) \n"
+	"pos = x[x[,1]==1,2]\n"
+	"neg = x[x[,1]==0,2]\n"
+    "median_p = round(median(pos),digits=1)\n"
+	"median_n = round(median(neg),digits=1)\n"
+    "if(median_p < median_n){\n"
+	"    kstest = ks.test(pos,neg,alternative='greater')\n"
+    "} else {\n"
+    "    kstest = ks.test(pos,neg,alternative='less')\n "
+    "}\n"
+	"p = kstest$p.value\n"
+	//"ecdf_pos = ecdf(pos)\n"
+	//"ecdf_neg = ecdf(neg)\n"
+	//"xtick = sort(c(pos[(length(pos)*0.05):(length(pos)*0.95)],neg[(length(neg)*0.5):(length(neg)*0.95)]))\n"
+	//"plot(xtick,ecdf_pos(xtick),type='l',col='blue', bty='n',main=paste('ks test p=',format(p,digits=2),'\nmedian dif: ',median_p,'-',median_n,'=',round(median_p-median_n,digits=1),sep=''),xlab='score', ylab='cdf') \n"	
+	//"lines(xtick,ecdf_neg(xtick),col='red')\n"
+	"plot(ecdf(pos),xlim=c(min(quantile(pos,0.025),quantile(neg,0.025)),max(quantile(pos,0.975),quantile(neg,0.975))),do.points = FALSE,verticals=TRUE,col='blue',bty='l',main=paste('ks test p=',format(p,digits=2),'\\nmedian dif: ',median_p,'-',median_n,'=',round(median_p-median_n,digits=1),sep=''),xlab='score', ylab='CDF')\n"
+	"lines(ecdf(neg),do.points = FALSE,verticals=TRUE,col='red',)\n"
+	"legend('topleft',c(paste(length(pos),' with "+kmer+"',sep=''),paste(length(neg),' without "+kmer+"',sep='')),text.col=c('blue','red'),box.lty=0,cex=1)\n"	
+    "dev.off() \n"
+	"\n";
+
+	R_run(script);		
+}
+
+
 string reverse(string str)
 {
 	string res = str;
@@ -265,6 +548,11 @@ void sequence_feature(string infile, string outfile, string freq_feat, string po
 	fout.close();
 }
 
+void to_upper(vector<string> &seqs)
+{
+	for(int i=0;i<seqs.size();i++) seqs[i] = to_upper(seqs[i]);
+}
+
 // number of identical bases
 int sequence_similarity(string a, string b)
 {
@@ -437,6 +725,21 @@ vector<int> filter_sequences_by_size(vector<string> &seqs, int lSeq/*=0*/)
 }
 
 
+vector<int> filter_sequences_by_alphabet(vector<string> &seqs, string alphabet)
+{
+    vector<int> removed;
+
+    for(int i=seqs.size()-1;i>=0;i--)
+    {  
+        if(bad_char(seqs[i],alphabet) != -1)
+        {  
+            seqs.erase(seqs.begin()+i);
+            removed.push_back(i);
+        }
+    }
+    return removed;
+}
+
 // any of a list positional kmer is present in sequence
 bool seq_has_any_of_positional_kmer(string seq, vector<positional_kmer> pkmers)
 {
@@ -518,7 +821,7 @@ int find_significant_kmer_from_ranked_sequences(
 			for( int pos=0; pos < lSeq-k+1; pos ++) // at each position
 			{
 				// ranks of sequences with this kmer at this position
-				vector<int> ranks;
+				vector<double> ranks;
 				// for each sequence, 
 				for( int j=0;j<nSeq;j++) 
 				{
@@ -771,14 +1074,19 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 
 	            if (p < pCutoff)
 	            {					
-					if(p == 0) p = 1e-16;
+	                double z = (counts[x] - expected) / sqrt(expected*(1-f2));
+					
+					if(p == 0) 
+					{
+						p = p_value_for_z_score(z);
+						if(p == 0) p = 1e-300;
+					}
 
 	                double corrected_p = min(1.0,p*nTest);	
 					if (Bonferroni && corrected_p > pCutoff) continue;
 					
 	                nSig++;
 					double f1 = float(counts[x])/nSeq;
-	                double z = (counts[x] - expected) / sqrt(expected*(1-f2));
 	                double local_r = f1 / ((f2 * nSeq - f1)/(nSeq-1));// double(counts[x])/(total_counts-counts[x])*(nSeq-1);
 					int position = x-startPos+2;
 					if (position < 1) position -= 1;
@@ -1760,6 +2068,21 @@ int count(string seq,string motif)
     return n;
 }
 
+int count_non_overlap(string seq,string motif)
+{
+    // count the number of matches, not allowing overlap 
+	int motif_size = motif.size();
+    int n = 0;
+    size_t pos = 0; //start at pos
+    pos = seq.find(motif); // the first match
+    while(pos != string::npos)
+    {  
+        n++;
+        pos = seq.find(motif,pos+motif_size); // start search for the next match from pos + motif_size
+    }
+    return n;
+}
+
 // dict for IUPAC degenerate nucleotides
 map<char,string> define_IUPAC()
 {
@@ -2000,7 +2323,7 @@ string postscript_line(double x1, double y1, double x2, double y2)
 // if nSeq < 0, calculate info content without small sample correction
 // small sample correction: subtract the following term from each value: (alphabet.size-1)/ln2/2/n
 // descending: false. if true, will put important letter at the bottom
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet,vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, bool bottom_up)
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet,vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, int bottom_up)
 {
 
 	// fontsize
@@ -2044,6 +2367,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		}
 	}
 
+	// debug
 	//print_matrix(pwm);
 
 
@@ -2110,7 +2434,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 		"%%DocumentFonts:                   \n"
 		"%%EndComments                      \n"
 		"\n"
-		"/Helvetica-Narrow-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
+		"/Helvetica-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
 	
 	ofstream out(filename.c_str());
 	out << header << endl;
@@ -2233,8 +2557,42 @@ string postscript_kmer(string seq, double x, double y, int fontsize, double scal
 	return res;
 }
 
+void remove_kmers_overlapping_with_fixed_positions(string infile,vector<int> fixed_positions,int startPos)
+{	
+	string outputfile = infile+".remove_kmers_overlapping_with_fixed_positions";
+	ofstream fout(outputfile.c_str());
+	
+ 	ifstream fin(infile.c_str());
+	string line;
+	vector<string> flds;
+	while(fin)
+	{
+		getline(fin,line);
+		if(line.length() == 0) continue;
+		flds = string_split(line);
+		
+		int kmer_start = stoi(flds[1]);
+		if (kmer_start > 0) kmer_start = kmer_start + startPos - 2;
+		else kmer_start = kmer_start + startPos - 1;
+		int kmer_end = kmer_start + flds[0].size() - 1;
+		bool no_overlap = true;
+		for (int i=0;i<fixed_positions.size();i++)
+		{
+			if (kmer_start <= fixed_positions[i] && kmer_end >= fixed_positions[i])
+			{
+				no_overlap = false;
+				break;
+			}
+		}
+		if (no_overlap) fout << line << endl;
+	}
+	fin.close();
+	fout.close();
+	system_run("mv "+outputfile+" "+infile);
+}
+	
 
-void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
+void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -2309,7 +2667,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 		"%%DocumentFonts:                   \n"
 		"%%EndComments                      \n"
 		"\n"
-		"/Helvetica-Narrow-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
+		"/Helvetica-Bold findfont "+to_string(fontsize)+" scalefont setfont\n";
 	
 	ofstream out(outfile.c_str());
 	out << header << endl;
@@ -2338,6 +2696,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 		if (pos < 1) pos -= 1;
 		string color_sig = "0.5 0.5 0.5";
 		if (significant[i]) color_sig = "1 0 0";
+		if (find (fixed_position.begin(), fixed_position.end(), i) != fixed_position.end() )  color_sig = "0 0 0";
 		out << postscript_text(to_string(pos),x0 + xstep * (i+0.3) ,y0+ystep,0.6,0.6,color_sig,90);
 	}
 	
@@ -2366,12 +2725,90 @@ void postscript_logo_from_PKA_output(string infile, string outfile, map<char,str
 	}
 	fin.close();
 	
+	// fixed positions
+	for(int i=0;i<fixed_position.size();i++)
+	{
+		string s = string(fixed_letter[i]);
+		cout << s << endl;
+		out << postscript_kmer(s, x0+ xstep * (fixed_position[i]), y0+coord_size, fontsize, scaley, 1, 1.1*maxv/ absmax * max_scale, colors, 0);
+	}
+	
 	out << "showpage" << endl;
 	out << "%%EOF" << endl;
 	
 	out.close();
 			
 }
+
+// reverse a pwm columns
+boost::numeric::ublas::matrix<double> reverse_pwm(boost::numeric::ublas::matrix<double> pwm)
+{
+	boost::numeric::ublas::matrix<double> pwm2 (pwm.size1(),pwm.size2());
+	for (int i = 0; i < pwm.size1(); ++ i)
+	    for (int j = 0; j < pwm.size2(); ++ j)
+	        pwm2(i,j) = pwm(i,pwm.size2()-j-1);
+	return pwm2;
+}
+
+// load pwm from file, contain only the matrix
+boost::numeric::ublas::matrix<double> load_pwm_from_file(string filename, string alphabet){
+	// determine the size of the matrix
+ 	ifstream fin(filename.c_str());
+	string line;
+	vector<string> flds;
+	int i=0;
+	int L=0;
+	while(fin)
+	{
+		getline(fin,line);
+		if(line.length() == 0) continue;
+		flds = string_split(line);
+		if (L==0) L=flds.size();
+		else if (L != flds.size())
+		{
+			message("ERROR! rows have different number of columns in pwm file: "+filename);
+			exit(1);
+		}
+		i = i + 1;
+				
+		if(i > alphabet.size())
+		{
+			message("ERROR! pwm file has too many rows: "+filename);
+			exit(1);
+		}
+	}
+	fin.close();
+	if(i < alphabet.size())
+	{
+		message("ERROR! pwm file has too few rows: "+filename);
+		exit(1);
+	}
+	
+	// initialize an empty matrix
+	boost::numeric::ublas::matrix<double> pwm (alphabet.size(),L);
+	for (int i = 0; i < alphabet.size(); ++ i)
+	    for (int j = 0; j < pwm.size2(); ++ j)
+	        pwm(i,j) = 0.0;
+	
+    // load from file
+	fin.open(filename.c_str());
+	i=0;
+	while(fin)
+	{
+		getline(fin,line);
+		if(line.length() == 0) continue;
+		flds = string_split(line);
+		for (int j=0;j<L;j++)
+		{
+			pwm(i,j) = stof(flds[j]);
+		}
+		i = i + 1;
+	}
+	fin.close();
+
+	return pwm;
+}
+
 
 
 // write pwm in meme format
@@ -2709,7 +3146,8 @@ int find_significant_kmer_from_one_seq_set(
 	int startPos,
 	int nTest, 
 	string outfile, 
-	string output_count_file)
+	string output_count_file,
+	int minCount)
 {
     int nSeq1 = seqs1.size();
     int nSig = 0;
@@ -2739,23 +3177,30 @@ int find_significant_kmer_from_one_seq_set(
 	        int total_counts1 = sum(counts1);
 
 	        double f2 = min(1.0,probs_kmer[it->first]*(1+shift));
+			if(f2 == 1) f2 = 0.9999;
 
 
 	        // for each position
 	        for( int m=0;m<counts1.size();m++)
 	        { 
 	            if (counts1[m] == 0 && f2 ==0) continue; 
+				if (counts1[m] < minCount || counts1[m] > nSeq1 - minCount) continue;
 	            // compare background p estimate from shuffling and markov model
 	            double p = binom_test(nSeq1,counts1[m],f2);
 	            if (p < pCutoff)
 	            {
-					if(p == 0) p = 1e-16;
-	                double corrected_p = min(1.0,p*nTest);					
-					if(Bonferroni && corrected_p > pCutoff) continue;
-	                nSig++;
 	                double f1 = float(counts1[m])/nSeq1;
 	                double expected = nSeq1 * f2;
 	                double z = (counts1[m] - expected) / sqrt(expected*(1-f2));
+					if(p == 0) 
+					{
+						p = p_value_for_z_score(z);
+						if(p == 0) p = 1e-300;
+					}
+	                double corrected_p = min(1.0,p*nTest);					
+					if(Bonferroni && corrected_p > pCutoff) continue;
+	                nSig++;
+
 	                // local enrichment
 	                double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 					int position = m-startPos + 2;
@@ -2815,14 +3260,19 @@ int find_significant_kmer_from_one_seq_set(
 	                double p = binom_test(nSeq1,counts1[m],f2);
 	                if (p < pCutoff)
 	                {
-						if(p == 0) p = 1e-16;
+	                    double f1 = float(counts1[m])/nSeq1;
+	                    double expected = nSeq1 * f2;
+	                    double z = (counts1[m] - expected) / sqrt(expected*(1-f2)); 
+						if(p == 0) 
+						{
+							p = p_value_for_z_score(z);
+							if(p == 0) p = 1e-300;
+						}
 	                    double corrected_p = min(1.0,p*nTest);
 						if(Bonferroni && corrected_p > pCutoff) continue;
 						
 	                    nSig++;
-	                    double f1 = float(counts1[m])/nSeq1;
-	                    double expected = nSeq1 * f2;
-	                    double z = (counts1[m] - expected) / sqrt(expected*(1-f2)); 
+
 	                    double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 						
 						int position = m-startPos+2;
@@ -2849,7 +3299,7 @@ int find_significant_kmer_from_one_seq_set(
 
 
 // two file comparison, not allow shift and degenerate at the same time
-int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift,bool degenerate,double pCutoff, bool Bonferroni/*=true*/,double pseudo,int startPos,int nTest, string outfile,string output_count_file)
+int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift,bool degenerate,double pCutoff, bool Bonferroni/*=true*/,double pseudo,int startPos,int nTest, string outfile,string output_count_file,int minCount)
 {
     int nSeq1 = seqs1.size();
     int nSeq2 = seqs2.size();
@@ -2890,24 +3340,36 @@ int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>s
 	        for( int m=0;m<counts1.size();m++)
 	        { 
 	            if (counts1[m] == 0 && counts2[m] == 0) continue; 
+				if (counts1[m] < minCount || counts1[m] > nSeq1 - minCount) continue;
+				
 	            double f2 = float(counts2[m]+pseudo)/nSeq2;
+				if (f2 >= 1) f2 = 1-pseudo/nSeq2;
+				
 	            // compare background p estimate from shuffling and markov model
 	            double p = binom_test(nSeq1,counts1[m],f2);
 	            if (p < pCutoff)
 	            {
-					if(p == 0) p = 1e-16;
-	                double corrected_p = min(1.0,p*nTest);					
-					if(Bonferroni && corrected_p > pCutoff) continue;
-	                nSig++;
 	                double f1 = float(counts1[m])/nSeq1;
 	                double expected = nSeq1 * f2;
 	                double z = (counts1[m] - expected) / sqrt(expected*(1-f2));
+					if(p == 0) 
+					{
+						p = p_value_for_z_score(z);
+						if(p == 0) p = 1e-300;
+					}
+	                double corrected_p = min(1.0,p*nTest);					
+					if(Bonferroni && corrected_p > pCutoff) continue;
+	                nSig++;
+
 	                // local enrichment
 	                double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 					
-	                outstream << it->first << "\t"  << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
+					int position = m-startPos+2;
+					if (position < 1) position -= 1;
+					
+	                outstream << it->first << "\t"  << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r << endl;
 	               
-	                    outcounts << it->first << ":" << m-startPos +2;
+	                    outcounts << it->first << ":" << position;
 	                    for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                    outcounts << endl;
 	               
@@ -2961,22 +3423,33 @@ int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>s
 	            for( int m=0;m<counts1.size();m++)
 	            { 
 	                if (counts1[m] == 0 && counts2[m]==0) continue;
-	                double f2 = float(counts2[m]+pseudo)/nSeq2;
+					if (counts1[m] < minCount || counts1[m] > nSeq1 - minCount) continue;
+
+					double f2 = float(counts2[m]+pseudo)/nSeq2;
+					if (f2 >= 1) f2 = 1-pseudo/nSeq2;
+
 	                double p = binom_test(nSeq1,counts1[m],f2);
 	                if (p < pCutoff)
 	                {
-						if(p == 0) p = 1e-16;
-	                    double corrected_p = min(1.0,p*nTest); 
-						if(Bonferroni && corrected_p > pCutoff) continue;
-	                    nSig++;
 	                    double f1 = float(counts1[m])/nSeq1;
 	                    double expected = nSeq1 * f2;
 	                    double z = (counts1[m] - expected) / sqrt(expected*(1-f2)); 
+						if(p == 0) 
+						{
+							p = p_value_for_z_score(z);
+							if(p == 0) p = 1e-300;
+						}
+	                    double corrected_p = min(1.0,p*nTest); 
+						if(Bonferroni && corrected_p > pCutoff) continue;
+	                    nSig++;
+
 	                    double local_r = double(counts1[m]) / (total_counts1 - counts1[m]) * (counts1.size()-1);
 						
-						
-	                    outstream  << dkmers[i] << "\t" << m-startPos + 2 << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r  << endl;
-	                        outcounts << dkmers[i] << ":" << m-startPos + 2;
+		                int position = m-startPos+2;
+			            if (position < 1) position -= 1;
+
+	                    outstream  << dkmers[i] << "\t" << position << "\t" << shift << "\t" << z << "\t" << -log10(p) << "\t" << -log10(corrected_p) << "\t" << f1 << "\t" << f2 << "\t" << f1/f2 << "\t"  << local_r  << endl;
+	                        outcounts << dkmers[i] << ":" << position;
 	                        for( int x=0;x<counts1.size();x++) outcounts << "\t" << double(counts1[x])/nSeq1;
 	                        outcounts << endl;
 
@@ -3236,7 +3709,7 @@ vector<string> shuffle_seqs_preserving_k_let(vector<string> seqs, int N, int k){
     vector<string> seqs2;
     for (int i=0;i<seqs.size();i++)
     {
-        for( int i =0;i<N;i++) seqs2.push_back( shuffle_seq_preserving_k_let(seqs[i],k));
+        for( int j =0;j<N;j++) seqs2.push_back( shuffle_seq_preserving_k_let(seqs[i],k));
     }
     return seqs2;
 }
@@ -3355,7 +3828,8 @@ array<int,2> match(string motiffile, string seqfile, string outfile, int nmismat
   // expand motifs
   map<string,string> expandedmotifs = ExpandMotifs(motifs,nmismatch,rc,alphabet);
   cout <<"["<<current_time()<<"] "<<expandedmotifs.size()<< " motifs after expanding (mismatch/reverse-complement)"<<endl;
-  
+  WriteFasta(expandedmotifs,motiffile+".expanded.fa"); 
+ 
   //PrintMap(expandedmotifs);
   
   // searching motifs in each sequence

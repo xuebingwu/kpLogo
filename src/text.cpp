@@ -4,13 +4,75 @@
 #include <stdlib.h>
 #include <cmath>
 #include <algorithm>
-
+#include <set>
 #include "utility.h"
 #include "text.h"
 #include "time.h"
 #include <map>
 #include <iostream>
 
+
+// load tabular files, one column gives name, the other gives score
+// ignore # lines
+int load_scores(string filename, vector<string> &names, vector<double> &scores, int c1/*=1*/, int c2/*=2*/) {
+	
+	int total = 0;
+	
+	// minimum number of columns in input
+	int nCol = max(c1,c2)+1;
+	
+	ifstream fin;
+	fin.open(filename.c_str());
+
+    string line;
+    vector<string> flds;
+	
+    while(fin)
+    {
+        getline(fin,line);
+        if (line.length() == 0)
+            continue;
+		
+		line.erase(line.find_last_not_of(" \n\r\t")+1);
+		
+		if(line[0] == '#') continue;
+
+        flds = string_split(line);
+		if (flds.size() < nCol) message("too few columns in line: "+line);
+		else
+		{
+			names.push_back(flds[c1]);
+			scores.push_back(stof(flds[c2]));
+			total++;
+		}
+	}
+	fin.close();
+	return total;
+}
+
+map<string,double> load_weight(string filename, int c1, int c2)
+{
+	c1 = c1 - 1;
+	c2 = c2 - 1;
+		
+	ifstream fin;
+	fin.open(filename.c_str());
+
+	string line;
+	vector<string> flds;
+	
+	map<string,double> weights;
+		
+	while(fin)
+	{
+		getline(fin,line);
+		if(line.length()==0) continue;
+		flds = string_split(line,"\t");
+		weights[flds[c1]] = stof(flds[c2]);
+	}
+	fin.close();
+	return weights;
+}
 
 
 // split files for crossvalidation
@@ -187,13 +249,55 @@ void intersectTab(string file1, string file2, string outputfile, unsigned col1/*
 		}
 	}          
 	
-	if (subtract) cout << diff << " of " << total << " lines unique to " << file1 << endl;
-	else cout << comm << " of " << total << " lines shared" << endl;
+	
+	//if (subtract) cout << diff << " of " << total << " lines unique to " << file1 << endl;
+	//else cout << comm << " of " << total << " lines shared" << endl;
 	
     f1.close();  
 	out.close();         
-}
+} 
 
+/*
+// intersect  multiple tab files based on key columns
+int intersectMultipleTabFiles(vector<string> files, vector<unsigned> key_cols, bool header, bool intersect)
+{
+	// first find common keys 
+	map<string> common_keys;
+	for(int i=0;i<files.size();i++)
+	{
+		ifstream f(files[i].c_str());
+		string line;
+		if(header) getline(f,line);
+		while(f)
+		{
+			getline(f,line);
+			if(line.length()==0) continue;
+			flds = string_split(line,"\t");
+			common_keys.insert(flds[key_cols[i]]);
+		}
+		f.close();
+	}
+	
+	// combine data
+	data = {}
+	for(int i=0;i<files.size();i++)
+	{
+		ifstream f(files[i].c_str());
+		string line;
+		if(header) getline(f,line);
+		while(f)
+		{
+			getline(f,line);
+			if(line.length()==0) continue;
+			flds = string_split(line,"\t");
+			if
+		}
+		f.close();
+	}
+	
+	return common_keys.size();
+}
+*/
 void mergeTab(string file1, string file2, string outputfile, unsigned col1/*=0*/, unsigned col2/*=0*/, bool header/*=false*/, string fill/*="None"*/)
 {
 	/*
@@ -226,7 +330,8 @@ void mergeTab(string file1, string file2, string outputfile, unsigned col1/*=0*/
     unsigned n2 = data2.size();
     unsigned nc = flds.size();
 	
-	//cout << n2 << "," << nc << endl;
+	message(to_string(n2) + " lines from " +file2);
+	// cout << n2 << "," << nc << endl;
 	
     // match and add to file1
 	ifstream f1;
@@ -271,6 +376,10 @@ void mergeTab(string file1, string file2, string outputfile, unsigned col1/*=0*/
 	}          
     f1.close();      
 	out.close();     
+	message(to_string(n1) + " lines from " +file1);
+	message(to_string(n3) + " lines in common ");
+	
+	
 }
 
 

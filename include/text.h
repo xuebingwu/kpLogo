@@ -5,8 +5,12 @@
 #include <string>
 #include <vector>
 #include "utility.h"
+#include <map>
+
 
 using namespace std;
+
+int load_scores(string filename, vector<string> &names, vector<double> &scores, int c1=1, int c2=2);
 
 void insert_header(string filename, string header);
 
@@ -23,6 +27,9 @@ void mergeTab(string file1, string file2, string outputfile, unsigned col1=0, un
 void remove_duplicates(string input, string output, int col, int max, string sort_opts="", bool print_rank=false);
 
 int find_unique_lines(string input, string output, int col);
+
+// load weight data, column c1 is id, c2 is the weight
+map<string,double> load_weight(string filename, int c1, int c2);
 
 #endif
 

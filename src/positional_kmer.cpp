@@ -17,6 +17,7 @@
 
 #include <boost/algorithm/string.hpp> // erase_all
 
+
 // build a vector from seq:pos:shift
 // position: 1 based
 // allow degenerate
@@ -29,6 +30,12 @@ vector<positional_kmer> positional_kmer_vector_from_string(string str, map<char,
 	for(int i=0;i<all_pkmers.size();i++)
 	{
 		vector<string> flds = string_split(all_pkmers[i],":");// seq, pos, shift
+		if (flds.size() == 1){
+			cerr << "ERROR: incorrect positional kmer string: "+all_pkmers[i] << endl;
+			exit(1);
+		} else if (flds.size() == 2){
+			flds.push_back("0");
+		}
 		vector<string> seqs = expand_degenerate_kmer(flds[0], degenerate_map);
 		int pos = stoi(flds[1])-1;
 		int size = stoi(flds[2])+flds[0].size();

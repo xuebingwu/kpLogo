@@ -18,6 +18,8 @@ string combine_spaces(string str,char ch=' ');
 // generate a random string of letters and numbers of certain length
 string random_string( int length );
 
+bool ends_with(string const & value, string const & ending);
+
 string to_upper(string str);
 
 string to_string(vector<string> str, string del="\t");
@@ -44,7 +46,7 @@ set<string> set_subtract(set<string> s1, set<string> s2);
 string current_time();
 
 // write message to standard error starting with time
-void message(string text, bool stdout=false);
+void message(string text, bool stdout=false, string pre="");
 
 // run system command
 void system_run(string cmd);

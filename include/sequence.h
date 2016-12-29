@@ -28,6 +28,30 @@ extern "C"{
 
 using namespace std;
 
+boost::numeric::ublas::matrix<double> load_pwm_from_file(string filename, string alphabet = "ACGT" );
+boost::numeric::ublas::matrix<double> reverse_pwm(boost::numeric::ublas::matrix<double> pwm);
+
+
+vector<int> filter_sequences_by_alphabet(vector<string> &seqs, string alphabet);
+
+int bad_char(string str, string alphabet);
+
+vector<int> bad_char(vector<string> str, string alphabet);
+
+boost::numeric::ublas::matrix<double> initialize_pwm_from_one_seq(string seq);
+double score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq);
+double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq, int &pos);
+boost::numeric::ublas::matrix<double> update_pwm_from_seqs(vector<string> seqs, vector<double> scores, boost::numeric::ublas::matrix<double> pwm,  map<char,int> letter2pos);
+
+
+void to_upper(vector<string> &seqs);
+
+vector<int> motif_counts_in_seqs(string motif, vector<string> seqs);
+
+array<double,4> kmer_rank_test(string kmer, vector<string> targetSeqs, vector<double> score_ranks);
+void kmer_cdf(string kmer, vector<string> seqs, vector<double> scores, string outputfile);
+void positional_kmer_cdf(string kmer, vector<string> seqs, vector<double> scores, string outputfile);
+
 string reverse(string str);
 
 bool valid_sequence(string seq, string valid_letters);
@@ -44,13 +68,15 @@ string postscript_line(double x1, double y1, double x2, double y2);
 
 string postscript_text(string text, double x, double y, double width, double height, string color, double rotate=0);
 
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", double max_scale=6.0, int nSeq=0, bool bottom_up=false);
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename,string alphabet, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff,int startPos=1, int fontsize=20, string ylabel="-log10(p)", double max_scale=6.0, int nSeq=0, int bottom_up= -1);
 
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs, string alphabet);
 
 boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos=1,int cScore=5);
 
-void postscript_logo_from_PKA_output(string infile, string outfile, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
+void remove_kmers_overlapping_with_fixed_positions(string infile,vector<int> fixed_positions,int startPos);
+
+void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
 
 string postscript_kmer(string text, double x, double y, int fontsize, double scaley, double width, double height, map<char,string> colormap, double rotate);
 
@@ -168,6 +194,7 @@ void pairwise_sequence_similarity_matrix(vector<string> seqs, string filename);
 
 
 int count(string seq,string motif);
+int count_non_overlap(string seq,string motif);
 	
 set<int> findall(string seq, string motif);
 
@@ -222,10 +249,10 @@ void print_kmer_positional_profile(map<string,vector<int> > data);
 
 map<string,vector<int> > degenerate_kmer_counts(vector<string> dkmers,map<string,vector<int> > data, map<char,string> define_iupac);
 
-int find_significant_kmer_from_one_seq_set(vector<string>seqs1, map<string,double> probs_kmer,vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni, int startPos,int nTest, string outfile, string output_count_file);
+int find_significant_kmer_from_one_seq_set(vector<string>seqs1, map<string,double> probs_kmer,vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni, int startPos,int nTest, string outfile, string output_count_file, int minCount);
 
 // two file comparison, not allow shift and degenerate at the same time
-int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift, int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni,double pseudo,int startPos,int nTest, string outfile,string output_count_file);
+int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift, int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni,double pseudo,int startPos,int nTest, string outfile,string output_count_file, int minCount);
 
 int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	vector<string> seqs,

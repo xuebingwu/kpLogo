@@ -101,19 +101,18 @@ color: #fff;
 		
       <tr>
 	    <td style="vertical-align: top;" ><br>
-        	<strong>Upload input sequences in a file (<2MB): </strong> <br><br>
+        	<strong>Upload input sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a><br><br>
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
            	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
-				<a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a>
+				
 			<br><br> Or paste sequences below:<br>
 	        <textarea name="foregroundpaste" cols="40" rows="8" id="foregroundpaste"></textarea>
         </td>
 
         <td style="vertical-align: top;" ><br>
-            <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB): </strong> <br><br>
+            <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a> </strong> <br><br>
                 <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
                 <input name="backgroundfile" type="file" style="vertical-align: top;">
-                <a href="./manual.html#upload"><img src="./info.gif" alt="help"></a>
             <br><br> Or paste sequences below:<br>
             <textarea name="backgroundpaste" cols="40" rows="8" id="backgroundpaste"></textarea>
         </td>
@@ -163,11 +162,11 @@ color: #fff;
               </div>
               </td>
               <td colspan="1" rowspan="1" style="vertical-align: center;">
-               <select name="alphabet" id="alphabet">
+               <select name="alphabet" id="alphabet" onchange='check_other_alphabet(this.value)'>
                       <option value="dna" selected="selected">DNA/RNA</option>
                       <option value="protein">Protein</option>
                       <option value="other">Other</option>
-                </select> <input name="other_alphabet" id="other_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }" >
+                </select> <input name="other_alphabet" id="other_alphabet" style='display:none' size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }" >
               </td>
             </tr>
 
@@ -234,7 +233,7 @@ color: #fff;
        </td>
       </tr>
 	  
-
+<!-- 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
 shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="help"></a><br>
@@ -259,6 +258,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	 </td>
       </tr>
 	  
+	  -->
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
@@ -266,12 +266,12 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         </div>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
-	   <select name="degenerate" id="degenerate">
-              <option value="" selected="selected" >None (no degenerate letters)</option>
-              <option value="-gapped">ACGTN, i.e. gapped K-mer</option>
-			  <option value="-degenerate all">all IUPAC letter letters: ACGTRYMKWSBDHVN</option>
+	   <select name="degenerate" id="degenerate" onchange='check_other_degenerate(this.value)' >
+              <option value=""  > None (no degenerate letters)</option>
+              <option value="-gapped" selected="selected" >ACGTN, i.e. gapped K-mer</option>
+			  <option value="-degenerate all">all IUPAC letters: ACGTRYMKWSBDHVN</option>
 	          <option value="other">Other</option>
-	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }"> 
+	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" style='display:none' size="40" value="Other: enter all allowed letters here" type="text" onfocus="if(this.value == 'Other: enter all allowed letters here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed letters here'; }"> 
         </td>
       </tr>
 	  
@@ -288,7 +288,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
         <select name="inputtype" id="inputtype" style="vertical-align: center;">
-        <option value="" selected="selected">unranked</option>
+        <option value="" selected="selected">unweighted</option>
         <option value="-ranked">ranked</option>
         <option value="-weighted">weighted</option>
     </select> </td>
@@ -296,7 +296,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#unranked"><img src="info.gif" alt="help"></a><br>(unranked input only)</div>
+        <div style="text-align: right;"><strong>Background model </strong><a href="manual.html#unweighted"><img src="info.gif" alt="help"></a><br>(unweighted input only)</div>
         </td>
         <td colspan="1" style="vertical-align: center; ">
 
@@ -331,6 +331,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
          </select></label>                               
          <br>
 
+		 <!-- 
          <label>
          <input name="background" value="markov_predefined" type="radio"> Markov model, pre-defined:
          <select name="markov_predefined" id="markov_predefined">
@@ -347,6 +348,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
          <option value="2">second</option>
          </select> order (<font color=Red>not implemented yet</font>)</label>
          </label><br>
+			 -->
 
          <label>
          <input name="background" value="markov_string" type="radio"> Markov model, user defined: 
@@ -363,7 +365,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Min presence/absence </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Min count/fraction </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -376,7 +378,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
-        <input value="1e-9" name="pseudo" id="pseudo" size="5" type="text"></td>
+        <input value="1" name="pseudo" id="pseudo" size="5" type="text"></td>
       </tr>	
 
       <tr>
@@ -404,17 +406,18 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
     </tr>
 
 
-        <tr>
-          <td colspan="1" style="vertical-align: center; text-align: center;">
-          <div style="text-align: right;"><strong>Stacking order </strong><a href="manual.html#stacking-order"><img src="info.gif" alt="help"></a></div>
-          </td>
-          <td colspan="1" style="vertical-align: center; ">
-
-        <label>
-        <input name="bottom_up" value="-bottom_up" type="checkbox"> Bottom-up with the most significant letter </label>
-         <br>
-     </tr>
-
+      <tr>
+        <td colspan="1" style="vertical-align: center; text-align: center;">
+        <div style="text-align: right;"><strong>Stacking order </strong> <a href="manual.html#stackorder"><img src="info.gif" alt="help"></a><br>
+        </div>
+        </td>
+        <td rowspan="1" colspan="1" style="vertical-align: center;">
+        <select name="stack_order" id="stack_order" style="vertical-align: center;">
+        <option value="-stack_order 1" selected="selected">frequent letter on top</option>
+        <option value="-stack_order -1">frequent letter on bottom</option>
+        <option value="-stack_order 0">order specified by alphabet</option>
+    </select> </td>
+      </tr>
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
@@ -444,7 +447,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
         <tr>
           <td colspan="1" style="vertical-align: center; text-align: center;">
-          <div style="text-align: right;"><strong>First position number </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
+          <div style="text-align: right;"><strong>Position 1 </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
           </div>
           </td>
           <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -480,6 +483,25 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 </form>
 
 <hr> <p align="center">Copyright (c) 2015 Xuebing Wu <br><br><br>
+
+<script>
+function check_other_alphabet(val)
+{
+    if(val==="other")
+       document.getElementById('other_alphabet').style.display='block';
+    else
+       document.getElementById('other_alphabet').style.display='none'; 
+}
+
+function check_other_degenerate(val)
+{
+    if(val==="other")
+       document.getElementById('degenerate_alphabet').style.display='block';
+    else
+       document.getElementById('degenerate_alphabet').style.display='none'; 
+}
+
+</script>
 
 </div>
 

@@ -137,7 +137,7 @@ href="#download">Download</a></li>
               <ul>
                 <li><a href="#weighted">Weighted: two-sample t-test</a></li>
                 <li><a href="#ranked">Ranked: rank-sum test</a></li>
-                <li><a href="#unranked">Unranked (default): binomial test</a>
+                <li><a href="#unweighted">Unranked (default): binomial test</a>
                   <ul>
                     <li><a href="#background-sequences">Background sequences</a></li>
                     <li><a href="#shuffle-input-sequences">Shuffle input sequences</a></li>
@@ -699,9 +699,9 @@ PKA
       will
       ignore <code>-weight</code> if specified. Also note that sequences need to be
       sorted prior to PKA analysis. <br>
-      <h3><a class="mozTocH3" name="unranked"></a>Unranked (default): binomial test</h3>
+      <h3><a class="mozTocH3" name="unweighted"></a>Unranked (default): binomial test</h3>
       When neither <code>-ranked</code> nor <code>-weighted</code> is specified, PKA assumes
-      the input is unranked. PKA uses <code>one-sided Binomial test</code>
+      the input is unweighted. PKA uses <code>one-sided Binomial test</code>
       to determine the significance of a kmer at a position.
       Specifically,
       the number of trials is the total nubmer of sequences, and the
@@ -851,7 +851,7 @@ PKA
         characters as delimiter: tab ("\t"), comma (","), vertical bar ("|"), and space (" ").
         <br>
         <br>
-        Example 1: minimal ranked or unranked tabular input <br>
+        Example 1: minimal ranked or unweighted tabular input <br>
         <br>
       </a>
       <div style="border: 0px solid ; padding: 10px 40px; background:
@@ -986,7 +986,7 @@ ers. This feature enables one to study dependence between positional kmers (see 
 	
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
         file</h2>
-      <p>Regardless the type of input (unranked/ranked/weighted), the
+      <p>Regardless the type of input (unweighted/ranked/weighted), the
         first six columns of the output data file are always the same:</p>
       <div style="border: 0px solid ; padding: 10px 40px; background:
         rgb(221, 221, 221) none repeat scroll 0% 50%;

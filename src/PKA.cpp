@@ -4,6 +4,7 @@
 #include "utility.h"
 #include "text.h"
 
+// rewrite kmer counting? instead for kmer for pos for seq, use a map to skip for kmer loop
 
 void print_help()
 {
@@ -28,6 +29,9 @@ void print_help()
 	"   -weighted            Two-sample stutent's t test on weighted sequences\n"
 	"                        - input can only be tabular format, does not need to be sorted\n"
 	"   -predict prefix      use significant kmers from a previous run (-o prefix) to score input sequences\n"
+	"   -gradient INT        divide the data into ranked fractions and perfrom PKA on each fraction\n"
+	"   -simple              only output frequency and information content logo\n"
+	"   -pwm                 visualize a pwm\n"
     "Input\n"
     "   -alphabet STR        alphabet for generating kmers, default=ACGT, case insensitive\n"
     "                        note: 'dna' is equivalent to 'ACGT', 'U' will be converted to 'T'\n"
@@ -39,6 +43,7 @@ void print_help()
     "   -select a,b,c,...    keep sequences contain any of specified kmers a, b, c, etc\n"
     "                        kmer format: seq:position:shift, e.g. CNNC:47:0 \n"
     "   -remove a,b,c,...    remove sequences contain any of specified kmers.\n"  
+	"   -cdf a,b,c,...       perform KS test and generate CDF plots for specified kmers (-weighted mode only)\n"  
     "   -fix maxFreq         fix a position with a specific letter if it occurs in more than maxFreq of the sequences\n"  
 	"                        fixed letters will be plotted as 1.1x of hight of the position with the highest total height\n"
     "Kmer counting\n"
@@ -60,7 +65,7 @@ void print_help()
     "   -FDR                 adjust p value by FDR method ( default is Bonferroni correction)\n"
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
     "   -last_letter         use a kmer's last letter position as the kmer's position. Default is first letter\n"
-    "   -pseudo FLOAT        pseudocount added to background counts. default=1e-9. Ignored by -markov\n"
+    "   -pseudo FLOAT        pseudocount added to background counts. default=1.0. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
 	"   -colorblind          use colorblind friendly color scheme\n"
     "   -email STR           send email notification to this address\n"
@@ -68,7 +73,7 @@ void print_help()
     "   -content STR         email content (quoted, default='PKA job done')\n"
 	"   -small_sample        correct for small sample size\n"
     "   -plot STR            which statistics to plot: p: raw p-value (default), b: Bonferroni corrected p, f: FDR, s: statisitcs\n"
-    "   -bottom_up           stack letters from bottom to top, starting with the most significant one\n"
+    "   -stack_order -1/0/1  stack letters by frequency (1) or reverse (-1) or alphabet (0)\n"
     "   -save                save shuffled sequences (*.shuffled.input) or the learned markov model (*.markov.model)\n"
 	"                        in -predict mode, save feature matrix (*.feat.mat)\n"
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
@@ -100,6 +105,10 @@ int main(int argc, char* argv[]) {
 
 	// type of analysis
 	string analysis = "default"; // or ranked or weighted
+	
+	bool simple = false; // only make frequency and info logo
+	
+	int gradient = 1; 
 	
 	// prediction mode: -predict prefix
 	string prefix;
@@ -140,7 +149,7 @@ int main(int argc, char* argv[]) {
     bool no_bg_trim = false;    // only valid when -b and -markov used
 	
 	// statistics
-    double pseudo = 1e-9;   // pseudocounts, only used when -b or -shift used
+    double pseudo = 1.0;   // pseudocounts, only used when -b or -shift used
     double pCutoff=1.01;    // binomial p cutoff
 	double pCutoff_corrected = 0.05;
 	bool Bonferroni = true;
@@ -151,14 +160,14 @@ int main(int argc, char* argv[]) {
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
     bool last_letter = false;
-	bool bottom_up = false;
+	int stack_order = 1;
 
 	// color blind
 	bool colorblind = false;
 	map<char,string> colors;
     colors['A'] = "0.05 0.75 0.05";
     colors['C'] = "0 0 1";
-    colors['G'] = "1 0.75 0";
+    colors['G'] = "1 0.7 0";
     colors['T'] = "1 0 0";
     colors['N'] = "0.5 0.5 0.5";
     colors['Y'] = "1 1 0";
@@ -182,7 +191,7 @@ int main(int argc, char* argv[]) {
     colors['X'] = "0.5 0 0.5";
     colors['Z'] = "0.5 0.5 0";
     colors['B'] = "0.5 0.5 0.75";
-
+    colors['-'] = "1 1 1";
 
     map<char,string> colorblind_colors = colors;
     colorblind_colors['A'] = "0 0.620 0.451";
@@ -209,6 +218,9 @@ int main(int argc, char* argv[]) {
 	bool pair = false; // test all pairs of monomers
 	
 	bool build_model = false;
+	
+	// plot cdf for selected kmers
+	string cdf_kmers = "";
 
     // email
     string email = "";
@@ -251,6 +263,10 @@ int main(int argc, char* argv[]) {
                 seqfile2 = argv[i + 1];
 				local = false;
                 i=i+1;
+            } else if (str == "-simple") {
+                simple = true;
+            } else if (str == "-pwm") {
+				analysis = "pwm";
             } else if (str == "-ranked") {
                 analysis = "ranked";
 				cWeight = -1;
@@ -260,6 +276,12 @@ int main(int argc, char* argv[]) {
 			} else if (str == "-predict") {
 				prefix = argv[i + 1];
 				i=i+1;
+			} else if (str == "-gradient") {
+				gradient = atoi(argv[i + 1]);
+				i=i+1;
+            } else if (str == "-cdf") { 
+                cdf_kmers = argv[i + 1];
+                i=i+1;
             } else if (str == "-o") {   // output prefix
                 output = argv[i + 1];
                 i=i+1;
@@ -322,8 +344,9 @@ int main(int argc, char* argv[]) {
 				i=i+1;
             } else if (str == "-colorblind") {
                 colorblind = true;
-            } else if (str == "-bottom_up") {
-                bottom_up = true;
+            } else if (str == "-stack_order") {
+                stack_order = atoi(argv[i + 1]);
+                i=i+1;
             } else if (str == "-small_sample") {
 				small_sample_correction = 1;
             } else if (str == "-markov") {
@@ -377,7 +400,8 @@ int main(int argc, char* argv[]) {
         }
     }
 	
-
+	
+	
 	if(colorblind) colors = colorblind_colors;
 	
 	if(boost::algorithm::to_lower_copy(alphabet) == "dna") 
@@ -402,6 +426,11 @@ int main(int argc, char* argv[]) {
 		min_shift = shift;
 		max_shift = shift;
 	}
+	
+    if(analysis != "ranked")
+		{
+			gradient = 1;
+		}
 	
     if(analysis != "weighted")
 		{
@@ -467,6 +496,21 @@ int main(int argc, char* argv[]) {
         message("   degenerate  :   " + degenerate_alphabet );
         message("   p           :   " + to_string(pCutoff ));
         message("   start at    :   " + to_string(startPos));
+		
+		
+///////////////////////////////////////////////////////////////
+    /***********    only visualize PWM                 */
+///////////////////////////////////////////////////////////////		
+	if(analysis == "pwm")
+	{
+		boost::numeric::ublas::matrix<double> pwm = load_pwm_from_file(seqfile1,alphabet);
+		double score_cutoff=1e300;
+		string ylabel="weight";
+		int seq_len1 = pwm.size2();
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+		generate_ps_logo_from_pwm(reverse_pwm(pwm), output+".rev.eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+		exit(0);
+	}
 
 ///////////////////////////////////////////////////////////////
     /***********    part 3: process input                 */
@@ -496,6 +540,9 @@ int main(int argc, char* argv[]) {
     }
     // show the number of sequences loaded
     message(to_string(seqs1.size()) + " sequences loaded from " + seqfile1);
+	
+	// debug
+	//cout << seqs1[0] << endl;
 
     // trim if -first or -last specified, note that too short sequences will be discarded
     if (first != 1 || last != 0) 
@@ -637,6 +684,45 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
+    // remove foreground/background sequences with letters not found in alphabet
+    vector<int> removed2 = filter_sequences_by_alphabet(seqs1,alphabet);
+    nSeq1 = seqs1.size();
+    if (removed2.size() > 0)
+    {   
+        message(to_string(nSeq1)+" sequences left after removing sequences containing letters not present in alphabet");
+        if(analysis == "weighted")
+        {  
+            for(int i=0;i<removed2.size();i++)
+            {  
+                weights.erase(weights.begin()+removed2[i]);
+            }
+            // save the data
+            //ofstream tmpout("tmp.txt");
+            //for(int i=0;i<seqs1.size();i++)
+            //  tmpout << seqs1[i] << "\t" << weights[i] << endl;
+            //tmpout.close();
+        }
+    }
+
+    if(seqs1.size()>1)
+    {   
+        if(seqs2.size()>1)
+        {  
+            filter_sequences_by_alphabet(seqs2,alphabet);
+            if(seqs2.size()<2)
+            {
+                message("ERROR: less than 2 background sequences left after alphabet filter");
+                exit(1);
+            }
+        }
+    }
+    else
+    {
+        message("ERROR: less than 2 input sequences left after alphabet filter");
+        exit(1);
+    }
+
+
   // filter sequences
 	if (select_pkmers.size()>0)
 	{
@@ -678,18 +764,68 @@ int main(int argc, char* argv[]) {
         message(to_string(seqs1.size())+" sequences left after filtering by kmer");
     }
 
+	/// check if sequence contains letters not in the alphabet
+	vector<int> badchars = bad_char(seqs1,alphabet);
+	if (badchars[0] > -1)
+	{
+		message("The letter '"+seqs1[badchars[0]].substr(badchars[1],1)+"' found in the following sequence is not allowed in the alphabet:" + seqs1[badchars[0]]);
+		message("Exit with error!!");
+		system_run("touch exit_with_error");
+		exit(1);
+	}
 
+	///////////////////////////////////////////
+	// divide ranked input into groups and run individually
+	if (gradient > 1 && analysis == "ranked"){
+		message("split input sequences into sub-groups");
+		// split data 
+		int nTotal = seqs1.size();
+		int nEachGroup = nTotal / gradient;
+		if (nEachGroup < 10){
+			message("ERROR: too few sequences! Need at least "+to_string(10*gradient));
+			exit(1);
+		}
+		for (int k = 0; k < gradient; k++){
+			string output_k = output+"-"+to_string(k);
+			string input = output_k + ".seq";
+			ofstream out(input.c_str()); 
+			for(int i= nEachGroup * k;i<nEachGroup * (k+1);i++){
+				out << seqs1[i] << endl;
+			}
+			if (k == gradient-1){
+				for (int i = nEachGroup * gradient ;i< nTotal;i++)
+				{
+					out << seqs1[i] << endl;
+				}
+			}
+			out.close();
+		}
+		// run each group
+		for (int k = 0; k < gradient; k++){
+			string cmd = "PKA "+output + "-" + to_string(k) + ".seq";
+			for (int i = 2;i< argc; i++){
+				cmd = cmd + " " + argv[i];
+			}
+			cmd = cmd + " -gradient 1 -o "+output+"-"+to_string(k);
+			message(cmd);
+			system_run(cmd);
+		}
+		exit(0);
+	}
+	///////////////////////////////////////////
 
 	message("making frequency logo...");
     boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,bottom_up);
+    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,stack_order);
     system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
     system_run("convert "+output+".freq.eps "+output+".freq.png");
 
     message("making information content logo...");
-    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,small_sample_correction * seqs1.size(),bottom_up);
+    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,small_sample_correction * seqs1.size(),stack_order);
     system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
     system_run("convert "+output+".info.eps "+output+".info.png");
+	
+	if (simple) exit(0);
 	
 	// extract fixed position and letter
 	for (int i=0;i<pwm2.size1();i++)
@@ -713,6 +849,19 @@ int main(int argc, char* argv[]) {
 //         part 4:  prediction mode
 ///////////////////////////////////////////////////////////////
 	
+	// plot cdf of specific kmer
+	if (analysis == "weighted" && cdf_kmers.size()>0)
+	{
+		message("generating CDF plots for specified kmers");
+		boost::erase_all(cdf_kmers," ");	
+		vector<string> cdf_kmers_vector = string_split(cdf_kmers,",");
+		for (int i=0;i<cdf_kmers_vector.size();i++)
+		{
+			positional_kmer_cdf(cdf_kmers_vector[i],seqs1,weights,output+'-'+cdf_kmers_vector[i]);
+		}
+		return 0;
+	}
+
 	if(prefix.size() > 0) 
 	{
 		message("=== prediction mode ===");
@@ -753,7 +902,7 @@ int main(int argc, char* argv[]) {
 		message("scoring input sequences using the model...");
 		string pairedScoreFile = prefix+".pair.score";
 	    ofstream out(pairedScoreFile.c_str());
-		for (int i=0;i<seqs1.size();i++)
+		for (int i=0;i<seqs1.size();i++) 
 		{
 			double score = score_sequence_using_paired_kmer_model(paired_kmer_model, seqs1[i]);
 			out << seqs1[i] << "\t" << weights[i] << "\t" << score << endl;		
@@ -818,6 +967,10 @@ WriteFasta(seqs1,"implanted.fa");
 	// multiple by shift
 	nTest = nTest * (max_shift - min_shift + 1);
 	message(to_string(nTest) + " tests (kmer x position x shifts) will be performed");
+	if (nTest > 10000000) {
+		message("ERROR: too many tests to perform! Exit");
+		exit(1);
+	}
 
 
 ///////////////////////////////////////////////////////////////
@@ -856,7 +1009,7 @@ WriteFasta(seqs1,"implanted.fa");
 			header += "\tn1\tmean1\tstd1\tn2\tmean2\tstd2";
 			if(degenerate) nSig = find_significant_kmer_from_weighted_sequences(
 				seqs1, weights, dkmers, outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift, startPos,minCount);
-			else nSig = find_significant_kmer_from_weighted_sequences(
+			else           nSig = find_significant_kmer_from_weighted_sequences(
 				seqs1, weights, kmers, outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift, startPos,minCount);
 		}
 	
@@ -900,13 +1053,13 @@ WriteFasta(seqs1,"implanted.fa");
 	        // find significant kmers by comparing two set of sequences
 	        nSig = find_significant_kmer_from_two_seq_sets(
 				seqs1,seqs2,kmers,dkmers,min_shift,max_shift,degenerate,
-			pCutoff,Bonferroni,pseudo,startPos,nTest,outtmp,output_freq);
+			pCutoff,Bonferroni,pseudo,startPos,nTest,outtmp,output_freq,minCount);
 	    }else{
 	        // find significant kmers using markov model as background
 			kmer_probs = markov.probs(kmers);
 	        nSig = find_significant_kmer_from_one_seq_set(
 				seqs1,kmer_probs,kmers,dkmers,min_shift,max_shift,degenerate,
-			pCutoff,Bonferroni, startPos,nTest,outtmp,output_freq); 
+			pCutoff,Bonferroni, startPos,nTest,outtmp,output_freq,minCount); 
 	    }
 
 	    message( to_string (nSig) +  " significant positional kmers identified in total"); 
@@ -936,6 +1089,9 @@ WriteFasta(seqs1,"implanted.fa");
 		int n = count_lines(outtmp);
 		message(to_string(n)+" significant kmers with FDR < "+to_string(pCutoff));
 	}
+	
+	// remove kmers overlapping with fixed positions
+	remove_kmers_overlapping_with_fixed_positions(outtmp,fixed_position,startPos);
 	
 	// sort output by p.value
 	system_run("sort -k5,5gr "+outtmp+" > "+out);
@@ -968,6 +1124,7 @@ WriteFasta(seqs1,"implanted.fa");
 		else if (analysis == "weighted") cScore = 13;
 		else cScore = 11;
 	}
+	
 	else if (plot == "p") 
 	{
 		cScore = 5;
@@ -979,11 +1136,31 @@ WriteFasta(seqs1,"implanted.fa");
 		ylabel = "test statistic";
 		score_cutoff = 1e300;
 	}
+	else if (plot == "w" && analysis == "weighted")
+	{
+		cScore = 8;
+		ylabel = "average weight";
+		score_cutoff = 1e300;
+	}
+	
+	// if some kmers have p=inf and fdr=inf, switch to test statistics
+	system_run(" more "+out+" | grep inf > "+out+".inf");
+	if (count_lines(out+".inf") > 0 && (plot == "p" || plot == "f"))
+	{
+		plot = "s";
+		cScore = 4;
+		ylabel = "test statistic";
+		score_cutoff = 1e300;
+		message("p values too small! plot test statistics instead");
+	}
+	
+	
+	
     //string plotfilename = output+".most.significant.each.position.pdf";
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",fixed_position, fixed_letter,colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
 
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -993,9 +1170,51 @@ WriteFasta(seqs1,"implanted.fa");
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out,alphabet, seq_len1, startPos, cScore);
 
-		//print_matrix(pwm);
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
 
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,bottom_up);	
+		// make barplots & heatmap
+		if(alphabet == "ACGT")
+		{
+			save_matrix(pwm,output+".pwm.txt");
+    		string script = 
+				"x=read.table('"+output+".pwm.txt',header=F) \n"
+				"ncol=ncol(x) \n"
+				"pdf('"+output+".barplot.pdf',width=8,height=3*32/ncol) \n"
+				"par(mar=c(4,4,1,0)) \n"
+				"col=c('green','blue','orange','red') \n"
+				"barplot(as.matrix(x,nr=4),beside=T,names.arg=1:ncol(x),width=1,space=c(0.5,1),col=col,border=col,ylab='log10(P)') \n"
+				"for (i in 1:(ncol-1)){ \n"
+				"abline(v=i*6.5+0.5,col='gray',lwd=0.5) \n"
+				"legend('bottomleft',legend=c('A','C','G','T'),bty='n',text.col=col) \n"
+				"} \n"
+				"dev.off() \n"
+				"# heatmap \n"
+				"library(ggplot2) \n"
+				"library(reshape2) \n"
+				"x = x[nrow(x):1,] \n"
+				"x[x<0]=0 \n"
+				"row.names(x) = 1:4 \n"
+				"nrow=nrow(x) \n"
+				"ncol=ncol(x) \n"
+				"xbreaks=(1:floor(ncol(x)/5))*5 \n"
+				"pdf('"+output+".heatmap.pdf',width=20,height=6*32/ncol) \n"
+				"m=melt(as.matrix(t(x),nc=4)) \n"
+				"names(m) <- c('Position','Nucleotide','P') \n"
+				"p <- ggplot(data=m, aes(x=Position, y=Nucleotide, fill=P)) + geom_raster() \n"
+				"red=rgb(1,0,0); green=rgb(0,1,0); blue=rgb(0,0,1); white=rgb(1,1,1) \n"
+				"RtoWrange<-colorRampPalette(c(blue, white ) ) \n"
+				"WtoGrange<-colorRampPalette(c(white, red) )  \n"
+				"p <- p + scale_x_discrete(breaks=paste('V',xbreaks,sep=''),labels=xbreaks)	+ scale_y_continuous(breaks=c(1,2,3,4),labels=c('T','G','C','A'))+ scale_fill_gradient2(low=RtoWrange(100), mid=WtoGrange(100), high='red') + theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(), \n"
+				"	panel.grid.minor = element_blank(), axis.line = element_line(colour = 'black'),  \n"
+				"   axis.title=element_text(size=18),axis.text=element_text(size=16), \n"
+				"   legend.title=element_text(size=18),legend.text=element_text(size=16))  \n"
+				"p  \n"
+				"dev.off() \n";
+			
+			
+    		R_run(script);
+			
+		}
 	}
 
 		
@@ -1003,7 +1222,7 @@ WriteFasta(seqs1,"implanted.fa");
 	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.pdf");
 	
 	// merge pdf
-	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+"*.pdf");
+	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+".info.pdf "+output+".freq.pdf "+output+".pdf "+output+".most.significant.each.position.pdf");
 	
 	// ps to png
 	system_run("convert "+output+".eps "+output+".png");

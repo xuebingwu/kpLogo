@@ -92,6 +92,14 @@ $command = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 $jobID = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 fclose($handle);
 
+// if exit due to error
+if(file_exists("exit_with_error") == true){
+	echo "<font color='red'>Exit due to error!</font><br>";
+	sleep(1);
+    echo nl2br(file_get_contents( "log" ));
+	exit();
+}
+
 if(file_exists("./pka.output.most.significant.each.position.png") == false){
     header("refresh: 1;");
 }

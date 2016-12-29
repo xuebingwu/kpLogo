@@ -43,7 +43,7 @@ double hypergeometric_test(unsigned k, unsigned r, unsigned n, unsigned N)
 // see paper: Carine A. Bellera et al, Normal Approximations to the Distributions of the Wilcoxon
 // Statistics: Accurate to What N? Graphical Insights, Journal of Statistics Education, Volume 18, Number 2, (2010)
 // http://www.amstat.org/publications/jse/v18n2/bellera.pdf
-array<double,2> Mann_Whitney_U_test(vector<int> ranks, int N)
+array<double,2> Mann_Whitney_U_test(vector<double> ranks, int N)
 {
 	double n1 = ranks.size();
 	double n2 = N - n1;
@@ -155,8 +155,9 @@ array<double,6> t_test(vector<double> x, vector<double> y, bool equal_var)
     double Sm2 = mean(y); 
     double Sd2 = sqrt(var(y)); 
 	
-	//debug cout << Sn1 << "," << Sm1 << "," << Sd1 << endl;
-	//debug cout << Sn2 << "," << Sm2 << "," << Sd2 << endl;	
+	//debug 
+	//cout << Sn1 << "," << Sm1 << "," << Sd1 << endl;
+	//cout << Sn2 << "," << Sm2 << "," << Sd2 << endl;	
 
 	array<double,6> res = {{-1,-1,Sm1, Sd1,  Sm2, Sd2}};
 	

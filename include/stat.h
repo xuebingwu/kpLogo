@@ -5,6 +5,9 @@
 #include <array>
 #include <algorithm>
 #include <math.h>
+#include <container.h>
+
+
 
 using namespace std;
 
@@ -15,7 +18,7 @@ double binom_test(int trials,int success,double success_fraction);
 
 double hypergeometric_test(unsigned k, unsigned r, unsigned n, unsigned N);
 
-array<double,2> Mann_Whitney_U_test(vector<int> ranks, int N);
+array<double,2> Mann_Whitney_U_test(vector<double> ranks, int N);
 
 array<double,2> two_samples_t_test_equal_sd(double Sm1, double Sd1, unsigned Sn1, double Sm2, double Sd2, unsigned Sn2);
 
@@ -98,5 +101,6 @@ double sd(vector<T> v)
 {
 	return sqrt(var(v));
 }
+
 
 #endif

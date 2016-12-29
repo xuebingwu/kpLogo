@@ -34,6 +34,21 @@ void print_matrix(boost::numeric::ublas::matrix<double> m)
     }
 }
 
+// save a matrix to file
+void save_matrix(boost::numeric::ublas::matrix<double> m, string filename)
+{
+	ofstream out(filename.c_str());
+    for (unsigned i = 0; i < m.size1(); ++ i)
+    {
+        for (unsigned j = 0; j < m.size2(); ++ j)
+        {
+            out << m(i,j) << "\t";
+        }
+        out << endl;
+    }
+	out.close();
+}
+
 
 double matrix_min(boost::numeric::ublas::matrix<double> x)
 {

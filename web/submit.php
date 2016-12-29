@@ -127,6 +127,7 @@ if($alphabet != "dna")
 
 $background = $_POST['background']; // 
 $markov_foreground_order = $_POST['markov_foreground_order'];
+$markov_background_order = $_POST['markov_background_order'];
 $shuffle_n = $_POST['shuffle_n'];
 $shuffle_m = $_POST['shuffle_m'];
 $markov_string = $_POST['markov_string'];
@@ -152,7 +153,7 @@ $maxFrac = $_POST['maxFrac'];
 $startPos = $_POST['startPos'];
 $colorblind = $_POST['colorblind'];
 
-$bottom_up = $_POST['bottom_up'];
+$stack_order = $_POST['stack_order'];
 
 
 // clean up folders older than 3 days
@@ -218,7 +219,7 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_letter $bottom_up -fix $maxFrac";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_letter $stack_order -fix $maxFrac";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
@@ -232,7 +233,6 @@ $url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HO
 $content = "Your PKA job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n $url";
 
 $result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
-
 
 umask($oldmask);
 
