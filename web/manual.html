@@ -129,7 +129,7 @@ href="#download">Download</a></li>
           <ul>
             <li><a href="#positional-kmer">Positional K-mer with shift and degeneracy</a>
               <ul>
-                <li><a href="#positional-shift">Positional shift</a></li>
+                <li><a href="#positional-shift">Positional shift (<font color=Red>experimental</font>)</a></li></
                 <li><a href="#degenerate-letter">Degenerate letter</a></li>
               </ul>
             </li>
@@ -144,6 +144,8 @@ href="#download">Download</a></li>
                     <li><a href="#markov-model-from-input">Markov model from input sequences</a></li>
                     <li><a href="#markov-model-from-background">Markov model from background sequences</a></li>
                     <li><a href="#average-across-all-positions">Average across all positions (default)</a></li>
+                    <li><a href="#other-parameters">Other parameters</a></li>
+
                   </ul>
                 </li>
               </ul>
@@ -381,9 +383,9 @@ href="#download">Download</a></li>
 
 		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer has the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first letter is used as the position of the kmer. </p>
 		
-        <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift</h3>
+        <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift (<font color=Red>experimental</font>)</h3>
 
-  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first letter in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right.  
+  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first letter in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   
         
 
       <h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate
@@ -817,8 +819,7 @@ PKA
         model from background sequences</h4>
       This is activated when both <code>-markov</code> and <code>-bgfile</code> are specified. The only difference from <code>-markov</code> alone is that
       the Markov model is learned from background sequences specified by <code>-bgfile</code>.
-      <h4><a class="mozTocH4" name="average-across-all-positions"></a>Average
-        across all positions (default)<br>
+      <h4><a class="mozTocH4" name="average-across-all-positions"></a>Average across all positions (default)<br>
       </h4>
       This is activated by default if none of the above model is
       specified (<code>-bgfile, -shuffle, -markov</code>).
@@ -831,6 +832,16 @@ PKA
       containing this kmer at a given position) averaged over all
       positions. <br>
       <br>
+	  	  
+      <h4><a class="mozTocH4" name="other-parameters"></a>Other parameters<br>
+      </h4>
+      <b> Min count/fraction </b> (<code>-minCount</code>): minimum number or fraction of sequences to have this kmer to include in output. Default is 5. If a value between 0 and 1 is used, it will be interpreted as the minimum fraction. 
+      <br><br>
+      <b> Pseudo-count </b> (<code>-pseudo</code>): Pseudo-count added to background counts. default=1.0. Ignored by Markov models <code>-markov</code>
+      <br><br>
+      <b> P value cutoff </b> (<code>-pc</code>): Bonferroni corrected P value cut-off. Positions containing letters with a smaller P will be highlighted by red coordinates.
+      <br><br>
+	  
       <h1><a class="mozTocH1" name="input"></a>Input</h1>
       <h2><a class="mozTocH2" name="input-type"></a>Sequence type</h2>
 		PKA is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences via the option <code>-alphabet</code>.
@@ -979,9 +990,12 @@ ers. This feature enables one to study dependence between positional kmers (see 
       <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
 <p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, letters are rescaled relative to the statistical significance (-log10(p value)) of each letter at each position. Enriched letters stack on the top, whereas depleted letters stack on the bottom. Significant positions will have coordinates colored in red.</p>
       <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
-	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single letter. Stacked letters at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. </p>
+	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single letter. Stacked letters at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. Letters can be scaled by three different values: raw P value, Bonferroni corrected P values, or test statistics. In cases where P values are too small to be represented in the computer system (P < 1E-308 ), PKA will automatically switch to test statistics.  </p>
       <h3><a class="mozTocH3" name="fix"></a>Fixed positions</h3>
 	<p>In many applications the input sequences may contain almost invariant letters at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. PKA allows user to fix positions where a single letter occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed letter will be 1.1 times of the max total height of non-fixed position. </p>
+	
+      <h3><a class="mozTocH3" name="stackorder"></a>Stacking order</h3>
+	<p>In all logo plots other than kmer logo, multiple letters can stack on top of each other. By default, letters with larger weights will be placed on top of letters with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
 	
 	
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data

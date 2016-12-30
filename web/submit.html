@@ -233,7 +233,7 @@ color: #fff;
        </td>
       </tr>
 	  
-<!-- 
+
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: right;"><strong>Positional
 shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="help"></a><br>
@@ -253,12 +253,12 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         <option value="-max_shift 4">0,1,2,3,4</option>
         <option value="-max_shift 5">0,1,2,3,4,5</option>
         <option value="-max_shift 6">0,1,2,3,4,5,6</option>		
-	</select> (by default no positional shift allowed)<br>
+	</select> (by default no positional shift allowed) (<font color=Red>CAUTION: experimental feature</font>)<br>
 	
 	 </td>
       </tr>
 	  
-	  -->
+	 
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
@@ -365,7 +365,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Min count/fraction </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Min count/fraction </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -374,7 +374,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Pseudo-count </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Pseudo-count </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -383,11 +383,11 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>P-value cutoff </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>P value cutoff </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
-        Bonferroni corrected p = <input value="0.01" name="p" id="p" size="5" type="text"></td>
+        Positions containing letters with Bonferroni corrected P < <input value="0.01" name="p" id="p" size="5" type="text"> will be highlighted by red coordinates</td>
       </tr> 
  
     <tr>
@@ -421,7 +421,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Kmer logo plot </strong> <a href="manual.html#typeofanalysis"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Scale letters by </strong> <a href="manual.html#kmer-logo"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
