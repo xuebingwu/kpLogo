@@ -44,15 +44,15 @@ void print_help()
     "                        kmer format: seq:position:shift, e.g. CNNC:47:0 \n"
     "   -remove a,b,c,...    remove sequences contain any of specified kmers.\n"  
 	"   -cdf a,b,c,...       perform KS test and generate CDF plots for specified kmers (-weighted mode only)\n"  
-    "   -fix maxFreq         fix a position with a specific letter if it occurs in more than maxFreq of the sequences\n"  
-	"                        fixed letters will be plotted as 1.1x of hight of the position with the highest total height\n"
+    "   -fix maxFreq         fix a position with a specific residual if it occurs in more than maxFreq of the sequences\n"  
+	"                        fixed residuals will be plotted as 1.1x of hight of the position with the highest total height\n"
     "Kmer counting\n"
     "   -k INT               use fixed kmer length INT\n"
 	"   -max_k INT           consider all kmers of length 1,2,...,INT. default=4 \n"
     "   -shift INT           max shift (to right) allowed for kmer positions\n"
 	"   -max_shift INT       consider shift from 0 to INT, default=0, i.e. no shift\n"	
 	"   -degenerate STR      alphabet to use for degenerate kmers. Subset of all possible IUPAC DNA \n"
-	"                        letters (ACGTRYMKWSBDHVN, equivalent to 'all'). One can use \n"
+	"                        residuals (ACGTRYMKWSBDHVN, equivalent to 'all'). One can use \n"
 	"                        ACGTN to search gapped-kmers. Only work for DNA/RNA sequences\n"
 	"   -gapped              allowing gapped kmer, equivalent to '-degenerate ACGTN' \n"
 	"   -pair                also test all possible pairs of positional monomers\n"  			 	
@@ -64,7 +64,7 @@ void print_help()
     "   -pc FLOAT            Bonferroni corrected p-value cut-off, default=0.05\n"
     "   -FDR                 adjust p value by FDR method ( default is Bonferroni correction)\n"
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
-    "   -last_letter         use a kmer's last letter position as the kmer's position. Default is first letter\n"
+    "   -last_residual       use a kmer's last residual position as the kmer's position. Default is first residual\n"
     "   -pseudo FLOAT        pseudocount added to background counts. default=1.0. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
 	"   -colorblind          use colorblind friendly color scheme\n"
@@ -73,7 +73,7 @@ void print_help()
     "   -content STR         email content (quoted, default='PKA job done')\n"
 	"   -small_sample        correct for small sample size\n"
     "   -plot STR            which statistics to plot: p: raw p-value (default), b: Bonferroni corrected p, f: FDR, s: statisitcs\n"
-    "   -stack_order -1/0/1  stack letters by frequency (1) or reverse (-1) or alphabet (0)\n"
+    "   -stack_order -1/0/1  stack residuals by frequency (1) or reverse (-1) or alphabet (0)\n"
     "   -save                save shuffled sequences (*.shuffled.input) or the learned markov model (*.markov.model)\n"
 	"                        in -predict mode, save feature matrix (*.feat.mat)\n"
     "Background model for unweighted & unranked sequences (ignore if using -ranked or -weighted)\n"
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
     int startPos= 1; // coordinates
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
-    bool last_letter = false;
+    bool last_residual = false;
 	int stack_order = 1;
 
 	// color blind
@@ -209,11 +209,11 @@ int main(int argc, char* argv[]) {
 	string mmmodel_str;
 	
 	double minCount = 5.0; // minimum number of sequences to have this kmer to be reported in output
-	double maxFrac = 0.75; // if a letter is present in more than maxFrac * 100% of the foreground, fix it
+	double maxFrac = 0.75; // if a residual is present in more than maxFrac * 100% of the foreground, fix it
 	// for fixed positions, ignore it during p value calculation
 	// for visualization, assign the p-value to be the most significant one * 1.1, color will be black?
 	vector<int> fixed_position;
-	vector<string> fixed_letter;
+	vector<string> fixed_residual;
 	
 	bool pair = false; // test all pairs of monomers
 	
@@ -334,8 +334,8 @@ int main(int argc, char* argv[]) {
                 i=i+1;
             } else if (str == "-FDR") {
                 Bonferroni = false;
-            } else if (str == "-last_letter") {
-                last_letter = true;
+            } else if (str == "-last_residual") {
+                last_residual = true;
             } else if (str == "-startPos") {
                 startPos = atoi(argv[i + 1]);
                 i=i+1;
@@ -507,8 +507,8 @@ int main(int argc, char* argv[]) {
 		double score_cutoff=1e300;
 		string ylabel="weight";
 		int seq_len1 = pwm.size2();
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
-		generate_ps_logo_from_pwm(reverse_pwm(pwm), output+".rev.eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+		generate_ps_logo_from_pwm(reverse_pwm(pwm), output+".rev.eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
 		exit(0);
 	}
 
@@ -684,12 +684,12 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-    // remove foreground/background sequences with letters not found in alphabet
+    // remove foreground/background sequences with residuals not found in alphabet
     vector<int> removed2 = filter_sequences_by_alphabet(seqs1,alphabet);
     nSeq1 = seqs1.size();
     if (removed2.size() > 0)
     {   
-        message(to_string(nSeq1)+" sequences left after removing sequences containing letters not present in alphabet");
+        message(to_string(nSeq1)+" sequences left after removing sequences containing residuals not present in alphabet");
         if(analysis == "weighted")
         {  
             for(int i=0;i<removed2.size();i++)
@@ -764,11 +764,11 @@ int main(int argc, char* argv[]) {
         message(to_string(seqs1.size())+" sequences left after filtering by kmer");
     }
 
-	/// check if sequence contains letters not in the alphabet
+	/// check if sequence contains residuals not in the alphabet
 	vector<int> badchars = bad_char(seqs1,alphabet);
 	if (badchars[0] > -1)
 	{
-		message("The letter '"+seqs1[badchars[0]].substr(badchars[1],1)+"' found in the following sequence is not allowed in the alphabet:" + seqs1[badchars[0]]);
+		message("The residual '"+seqs1[badchars[0]].substr(badchars[1],1)+"' found in the following sequence is not allowed in the alphabet:" + seqs1[badchars[0]]);
 		message("Exit with error!!");
 		system_run("touch exit_with_error");
 		exit(1);
@@ -816,18 +816,18 @@ int main(int argc, char* argv[]) {
 
 	message("making frequency logo...");
     boost::numeric::ublas::matrix<double> pwm2 = create_position_weight_matrix_from_seqs(seqs1,alphabet);
-    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,stack_order);
+    generate_ps_logo_from_pwm(pwm2, output+".freq.eps",alphabet,fixed_position, fixed_residual,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,stack_order);
     system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
     system_run("convert "+output+".freq.eps "+output+".freq.png");
 
     message("making information content logo...");
-    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_letter,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,small_sample_correction * seqs1.size(),stack_order);
+    generate_ps_logo_from_pwm(pwm2, output+".info.eps",alphabet,fixed_position, fixed_residual,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,small_sample_correction * seqs1.size(),stack_order);
     system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
     system_run("convert "+output+".info.eps "+output+".info.png");
 	
 	if (simple) exit(0);
 	
-	// extract fixed position and letter
+	// extract fixed position and residual
 	for (int i=0;i<pwm2.size1();i++)
 	{
 		for (int j=0;j<pwm2.size2();j++)
@@ -835,14 +835,14 @@ int main(int argc, char* argv[]) {
 			if ( pwm2(i,j) > maxFrac )
 			{
 				fixed_position.push_back(j);
-				fixed_letter.push_back(alphabet.substr(i,1));
+				fixed_residual.push_back(alphabet.substr(i,1));
 			}
 		}
 	}
 	if(fixed_position.size()>0)
 	{
 		message("fixed position: "+to_string(fixed_position));
-		message("fixed letter  : "+to_string(fixed_letter));
+		message("fixed residual  : "+to_string(fixed_residual));
 	}
 
 ///////////////////////////////////////////////////////////////
@@ -1072,8 +1072,8 @@ WriteFasta(seqs1,"implanted.fa");
 //			part 7: post-processing	
 ///////////////////////////////////////////////////////////////
 
-	// use the last letter's position as the motif position
-	if(last_letter) use_end_position(outtmp);
+	// use the last residual's position as the motif position
+	if(last_residual) use_end_position(outtmp);
 	
 	if(Bonferroni == false || plot == "f")
 	{
@@ -1160,7 +1160,7 @@ WriteFasta(seqs1,"implanted.fa");
 
     //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
 	
-	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",fixed_position, fixed_letter,colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
+	postscript_logo_from_PKA_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",fixed_position, fixed_residual,colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
 
 	// if monomer is included in the analysis
 	if(min_k < 2) 
@@ -1170,7 +1170,7 @@ WriteFasta(seqs1,"implanted.fa");
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_PKA_output(out,alphabet, seq_len1, startPos, cScore);
 
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_letter,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
 
 		// make barplots & heatmap
 		if(alphabet == "ACGT")

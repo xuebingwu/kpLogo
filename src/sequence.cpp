@@ -69,33 +69,33 @@ vector<int> bad_char(vector<string> str, string alphabet)
 boost::numeric::ublas::matrix<double> initialize_pwm_from_one_seq(string seq)
 {
     // nucleotide to position
-    map<char,int> letter2pos;
-    letter2pos['A'] = 0;
-    letter2pos['C'] = 1;
-    letter2pos['G'] = 2;
-    letter2pos['T'] = 3;
+    map<char,int> residual2pos;
+    residual2pos['A'] = 0;
+    residual2pos['C'] = 1;
+    residual2pos['G'] = 2;
+    residual2pos['T'] = 3;
 	
     boost::numeric::ublas::matrix<double> pwm (4,seq.size());
     for (int i = 0; i < pwm.size1(); ++ i) 
 		for (int j = 0; j < pwm.size2(); ++ j) 
 			pwm(i,j) = 0;
-    for (int i = 0; i < pwm.size2(); ++ i) pwm(letter2pos[seq[i]],i) = 1.0;
+    for (int i = 0; i < pwm.size2(); ++ i) pwm(residual2pos[seq[i]],i) = 1.0;
   
     return pwm;
 }
 
 // score a sequence by pwm
-double score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq)
+double score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> residual2pos, string seq)
 {
 	double score = 0;
-	for (int i = 0; i < pwm.size2(); ++ i) score += pwm(letter2pos[seq[i]],i);
+	for (int i = 0; i < pwm.size2(); ++ i) score += pwm(residual2pos[seq[i]],i);
 	return score;
 }
 
 // find best match by pwm in a seq
 // pos: position of best match
 // return best match score
-double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> letter2pos, string seq, int &pos)
+double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int> residual2pos, string seq, int &pos)
 {
 	double max_score = -100000;
 	double score;
@@ -103,7 +103,7 @@ double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int
 	for(int i=0;i< int(seq.size())-motif_size;i++)
 	{
 		//cout << i << "," << seq.size()-motif_size << "," << motif_size << endl;
-		score =  score_by_pwm(pwm,letter2pos,seq.substr(i,motif_size));
+		score =  score_by_pwm(pwm,residual2pos,seq.substr(i,motif_size));
 		if (score > max_score)
 		{
 			max_score = score;
@@ -116,7 +116,7 @@ double best_score_by_pwm(boost::numeric::ublas::matrix<double> pwm, map<char,int
 // update pwm from sequences
 // scores: normalized to 0-1 ()
 // weight from each sequence: pwm score of the match * sequence score
-boost::numeric::ublas::matrix<double> update_pwm_from_seqs(vector<string> seqs, vector<double> scores, boost::numeric::ublas::matrix<double> pwm,  map<char,int> letter2pos)
+boost::numeric::ublas::matrix<double> update_pwm_from_seqs(vector<string> seqs, vector<double> scores, boost::numeric::ublas::matrix<double> pwm,  map<char,int> residual2pos)
 {
 	// initialize a zero matrix
     boost::numeric::ublas::matrix<double> pwm2 (4,pwm.size2());
@@ -130,9 +130,9 @@ boost::numeric::ublas::matrix<double> update_pwm_from_seqs(vector<string> seqs, 
 	double composite_score;
 	for(int i=0;i<seqs.size();i++)
 	{
-		max_score = best_score_by_pwm(pwm,letter2pos,seqs[i],max_pos);
+		max_score = best_score_by_pwm(pwm,residual2pos,seqs[i],max_pos);
 		composite_score = max_score * scores[i];
-		for (int j = 0; j < pwm2.size2(); ++ j) pwm2(letter2pos[seqs[i][max_pos+j]],j) += composite_score; 
+		for (int j = 0; j < pwm2.size2(); ++ j) pwm2(residual2pos[seqs[i][max_pos+j]],j) += composite_score; 
 	}
 
 	// normalize so that each column sum up to 1
@@ -322,15 +322,15 @@ string reverse(string str)
 	return res;
 }
 
-// seq can not have letters not in valid_letters
-bool valid_sequence(string seq, string valid_letters)
+// seq can not have residuals not in valid_residuals
+bool valid_sequence(string seq, string valid_residuals)
 {
 	for (int i=0;i<seq.size();i++)
 	{
 		bool valid = false;
-		for(int j=0;j<valid_letters.size();j++)
+		for(int j=0;j<valid_residuals.size();j++)
 		{
-			if (seq[i] == valid_letters[j])
+			if (seq[i] == valid_residuals[j])
 			{
 				valid = true;
 				break;
@@ -341,9 +341,9 @@ bool valid_sequence(string seq, string valid_letters)
 	return true;
 }
 
-// homopolymer: find the longest runs of any letter of letters in s
+// homopolymer: find the longest runs of any residual of residuals in s
 // return length and start position (0-based)
-array<int,2> find_longest_run(string s, string letters)
+array<int,2> find_longest_run(string s, string residuals)
 {
 	int max_L = 0;
 	int start=-1;
@@ -351,12 +351,12 @@ array<int,2> find_longest_run(string s, string letters)
 	// starting at each position
 	for(int i =0;i<s.size();i++)
 	{
-		if (letters.find(s[i])!=std::string::npos) 
+		if (residuals.find(s[i])!=std::string::npos) 
 		{
 			int j;
 			for(j=i+1;j<s.size();j++)
 			{
-				if (letters.find(s[j])==std::string::npos) break;
+				if (residuals.find(s[j])==std::string::npos) break;
 			}
 			L = j - i;
 			if(L > max_L)
@@ -1269,11 +1269,11 @@ void plot_most_significant_kmers(string infile, string outfile, int lSeq, int co
 		"dnaColor[[\"T\"]] = \"magenta\"\n"
 
 		"color_dna <-function(x,y,txt,col,cex) {  \n"
-		"    letters=unlist(strsplit(txt,'')) \n"
+		"    residuals=unlist(strsplit(txt,'')) \n"
 		"    thisy<-y \n"
-		"    for(txtstr in 1:length(letters)) { \n"
-		"        text(x,thisy,letters[txtstr],col=col[[letters[txtstr]]],adj=0,srt=90,cex=cex) \n"
-		"        thisy<-thisy+strheight(letters[txtstr],cex=cex)*1.1 \n"
+		"    for(txtstr in 1:length(residuals)) { \n"
+		"        text(x,thisy,residuals[txtstr],col=col[[residuals[txtstr]]],adj=0,srt=90,cex=cex) \n"
+		"        thisy<-thisy+strheight(residuals[txtstr],cex=cex)*1.1 \n"
 		"    } \n"
 		"} \n"
 			
@@ -2135,23 +2135,23 @@ map<char,string> interpret_IUPAC()
 }
 */
 
-// generate all possible combinations of letters in alphabet of fixed length k, i.e. kmer
+// generate all possible combinations of residuals in alphabet of fixed length k, i.e. kmer
 vector<string> generate_kmers(int k, string alphabet)
 {
     vector<string> kmers;
     
-    // first position, each letter in alphabet
+    // first position, each residual in alphabet
     for(int i = 0; i< alphabet.size(); i++)
     {
         string s(1,alphabet[i]);
         kmers.push_back(s);
     }
 
-    // for the rest k-1 positions, fill all possible letters 
+    // for the rest k-1 positions, fill all possible residuals 
     for(int i = 0; i< k-1;i++)
     {
         int n = kmers.size();
-        // for each current kmer, append all possible letters
+        // for each current kmer, append all possible residuals
         for(int j=0; j< n; j++)
         {
             string tmp = kmers[j];
@@ -2252,10 +2252,10 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
     //cout << "matrix initiaze ok" << endl;
 
     // nucleotide to position
-    map<string,int> letter2pos;
+    map<string,int> residual2pos;
 	for(int i=0;i<alphabet.size();i++)
 	{
-		letter2pos[alphabet.substr(i,1)] = i;
+		residual2pos[alphabet.substr(i,1)] = i;
 	}
  
  	ifstream fin(filename.c_str());
@@ -2266,7 +2266,7 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 		getline(fin,line);
 		if(line.length() == 0) continue;
 		flds = string_split(line);
-		if(letter2pos.find(flds[cSeq]) != letter2pos.end())
+		if(residual2pos.find(flds[cSeq]) != residual2pos.end())
 		{
 			double score = stof(flds[cScore]);
 			if (stof(flds[cStat]) < 0) 
@@ -2277,9 +2277,9 @@ boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(str
 			if (pos < 0) pos += 1;
 			pos = pos + startPos - 2;
 			//cout << pos << "," << line << endl;
-			if(abs(pwm(letter2pos[flds[cSeq]],pos)) < abs(score)) // for multiple shift values
+			if(abs(pwm(residual2pos[flds[cSeq]],pos)) < abs(score)) // for multiple shift values
 			{
-				pwm(letter2pos[flds[cSeq]],pos) = score;
+				pwm(residual2pos[flds[cSeq]],pos) = score;
 			}
 		}
 	}
@@ -2322,8 +2322,8 @@ string postscript_line(double x1, double y1, double x2, double y2)
 // if nSeq == 0, do not calculate information content
 // if nSeq < 0, calculate info content without small sample correction
 // small sample correction: subtract the following term from each value: (alphabet.size-1)/ln2/2/n
-// descending: false. if true, will put important letter at the bottom
-void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet,vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, int bottom_up)
+// descending: false. if true, will put important residual at the bottom
+void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string filename, string alphabet,vector<int> fixed_position, vector<string> fixed_residual, map<char,string> colors, double score_cutoff, int startPos, int fontsize, string y_label, double max_scale, int nSeq, int bottom_up)
 {
 
 	// fontsize
@@ -2382,7 +2382,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	{
 		for(int j=0;j<alphabet.size();j++)
 		{
-			if(fixed_letter[i] == alphabet.substr(j,1))
+			if(fixed_residual[i] == alphabet.substr(j,1))
 			{
 				pwm(j,fixed_position[i]) = 1.1 * max_col_sum;
 			}
@@ -2484,7 +2484,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 
 		for(int j=0;j<alphabet.size();j++) w.push_back(pwm(j,i));
 		vector<size_t> idx = sort_indexes(w,bottom_up);
-		//for(int j=0;j<4;j++) cout << i << "\t" << letters[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
+		//for(int j=0;j<4;j++) cout << i << "\t" << residuals[idx[j]] << "\t"<< idx[j] << "\t" << w[idx[j]] << endl;
 		
 		for(int j=0;j<alphabet.size();j++)
 		{
@@ -2592,7 +2592,7 @@ void remove_kmers_overlapping_with_fixed_positions(string infile,vector<int> fix
 }
 	
 
-void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
+void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_residual, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -2728,7 +2728,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> 
 	// fixed positions
 	for(int i=0;i<fixed_position.size();i++)
 	{
-		string s = string(fixed_letter[i]);
+		string s = string(fixed_residual[i]);
 		cout << s << endl;
 		out << postscript_kmer(s, x0+ xstep * (fixed_position[i]), y0+coord_size, fontsize, scaley, 1, 1.1*maxv/ absmax * max_scale, colors, 0);
 	}
@@ -2819,10 +2819,10 @@ void write_pwm_in_meme_format(boost::numeric::ublas::matrix<double> pwm, string 
     out << "MEME version 4.4\n\n";
     out << "ALPHABET= ACGT\n\n";
     out << "strands: + -\n\n";
-    out << "Background letter frequencies\n";
+    out << "Background residual frequencies\n";
     out << "A 0.25 C 0.25 G 0.25 T 0.25" << "\n\n";
     out << "MOTIF "<<motifname<<"\n\n";
-    out << "letter-probability matrix: alength= 4 w= "<<pwm.size2()<<" nsites= 1000 E= 0"<<endl;
+    out << "residual-probability matrix: alength= 4 w= "<<pwm.size2()<<" nsites= 1000 E= 0"<<endl;
     for (int i = 0; i < pwm.size2(); ++ i)
     {
         for (int j = 0; j < pwm.size1(); ++ j)
@@ -2852,14 +2852,14 @@ boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(ve
     //cout << "matrix initiaze ok" << endl;
 
     // nucleotide to position
-    map<char,int> letter2pos;
-	for(int i=0;i<alphabet.size();i++) letter2pos[alphabet[i]] = i;
+    map<char,int> residual2pos;
+	for(int i=0;i<alphabet.size();i++) residual2pos[alphabet[i]] = i;
  
     for(int k=0;k<seqs.size();k++)
     {
         for( int i =0;i<L;i++)
         {
-        	pwm(letter2pos[seqs[k][i]],i) += 1;
+        	pwm(residual2pos[seqs[k][i]],i) += 1;
         }
     }
 	
@@ -2896,11 +2896,11 @@ boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_kmer(ve
     //cout << "matrix initiaze ok" << endl;
 
     // nucleotide to position
-    map<char,int> letter2pos;
-    letter2pos['A'] = 0;
-    letter2pos['C'] = 1;
-    letter2pos['G'] = 2;
-    letter2pos['T'] = 3;
+    map<char,int> residual2pos;
+    residual2pos['A'] = 0;
+    residual2pos['C'] = 1;
+    residual2pos['G'] = 2;
+    residual2pos['T'] = 3;
  
     // expand kmer
     vector<string> dkmersexp = expand_degenerate_kmer(kmer,iupac); 
@@ -2916,7 +2916,7 @@ boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_kmer(ve
                 // update matrix
                 for( int j=start;j<=end;j++)
                 {
-                    pwm(letter2pos[seqs[k][j]],j-start) += 1;
+                    pwm(residual2pos[seqs[k][j]],j-start) += 1;
                 }                
                 total_positive_seq ++;
                 break;
@@ -3606,7 +3606,7 @@ vector<string> last_n_bases(vector<string> seqs,int n){
 // if a or b < 1: distance from end
 // examples
 // from position 10 to the end: a=10, b=0
-// the last 10 letters except the last one: a=-10,b=-1
+// the last 10 residuals except the last one: a=-10,b=-1
 // first 10: a=1;b=10
 // last 10: a=-9,b=0;
 vector<string> sub_sequences(vector<string> seqs, int a, int b)
@@ -3635,8 +3635,8 @@ vector<string> sub_sequences(vector<string> seqs, int a, int b)
 
     return res;
 }
-// convert fasta file to a letter matrix
-void fasta_to_letter_matrix(string input, string output){
+// convert fasta file to a residual matrix
+void fasta_to_residual_matrix(string input, string output){
 	ofstream out(output.c_str());
 	map<string,string> seqs = ReadFasta(input);
 	
@@ -3657,8 +3657,8 @@ void fasta_to_letter_matrix(string input, string output){
 	out.close();
 }
 
-// convert fasta file to a letter matrix, no header
-void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col){
+// convert fasta file to a residual matrix, no header
+void tab_seq_to_residual_matrix(string input, string output, int k_min, int k_max, int col){
 	col = col - 1;
 		
 	ifstream in(input.c_str());
@@ -3678,7 +3678,7 @@ void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max,
 		{
 			if(i != col) out << flds[i] << "\t";
 		}
-		// split sequence as letters
+		// split sequence as residuals
 		for(int k = k_min;k<=k_max;k++)
 			for(int i=0;i<=flds[col].size()-k;i++) 
 				out << flds[col].substr(i,k) << "\t" ;

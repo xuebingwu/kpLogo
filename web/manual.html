@@ -130,7 +130,7 @@ href="#download">Download</a></li>
             <li><a href="#positional-kmer">Positional K-mer with shift and degeneracy</a>
               <ul>
                 <li><a href="#positional-shift">Positional shift (<font color=Red>experimental</font>)</a></li></
-                <li><a href="#degenerate-letter">Degenerate letter</a></li>
+                <li><a href="#degenerate-residual">Degenerate residual</a></li>
               </ul>
             </li>
             <li><a href="#statistical-models">Statistical models</a>
@@ -208,7 +208,7 @@ href="#download">Download</a></li>
       Compare to existing sequence logo tools, the two most prominant
       features of PKA is the detection and visualization of motifs
       longer
-      than one letters and the incorporation of weights for each input
+      than one residuals and the incorporation of weights for each input
       sequence.
       <br>
       <br>
@@ -269,7 +269,7 @@ href="#download">Download</a></li>
         <li><span style="font-weight: bold;">sequence shuffling</span>:
           if
           choose to shuffle sequence to generate the
-          background,&nbsp; one can only preserve upto 4-letter
+          background,&nbsp; one can only preserve upto 4-residual
           frequency. <br>
         </li>
         <li><span style="font-weight: bold;">model prediction</span>:
@@ -381,26 +381,26 @@ href="#download">Download</a></li>
 
       <h2><a class="mozTocH2" name="positional-kmer"></a>Positional k-mer with shift and degeneracy</h2>
 
-		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer has the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first letter is used as the position of the kmer. </p>
+		<p> A positional k-mer (or simply kmer in this document) is a short sequence of length k associated with a specific position. Throughout this document, a positional kmer has the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first residual is used as the position of the kmer. </p>
 		
         <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift (<font color=Red>experimental</font>)</h3>
 
-  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first letter in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   
+  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first residual in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   
         
 
-      <h3><a class="mozTocH3" name="degenerate-letter"></a>Degenerate
-        letter</h3>
+      <h3><a class="mozTocH3" name="degenerate-residual"></a>Degenerate
+        residual</h3>
 		
 		Biological sequence signals can also tolerate some mismatches, leading to degeneracy in the motif. For example, in addition to AAUAAA, AUUAAA is also used as a polyadenylatoin signal. Therefore a more general form of the polyadenylation signal is <code>AWUAAA:-23:5</code>, where W is either A or U. PKA supports all degenerate codes defined in the <a
         href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below). <br>
       <br>
-      In default mode, PKA does not report kmers with degenerate letters. To enable kmer with degeneracy, use <code>-degenerate</code> to specify
-      all allowed letters, <span style="color: red;">including
-        non-degenerate letters</span>. For example, to include R and Y
+      In default mode, PKA does not report kmers with degenerate residuals. To enable kmer with degeneracy, use <code>-degenerate</code> to specify
+      all allowed residuals, <span style="color: red;">including
+        non-degenerate residuals</span>. For example, to include R and Y
       in addition to ACGT in DNA sequences, use <code>-degenerate ACGTRY</code> instead of <code>-degenerate RY</code>. <br>
       <br>
-      Two special cases: 1) to allow all IUPAC letters, use <code>-degenerate all</code>. 2) to
-      allow kmers with gaps, use <code>-degenerate ACGTN</code> or simply <code>-gapped</code>. Note that the letter <code>N</code> can not be the first letter or the last letter.<br>
+      Two special cases: 1) to allow all IUPAC residuals, use <code>-degenerate all</code>. 2) to
+      allow kmers with gaps, use <code>-degenerate ACGTN</code> or simply <code>-gapped</code>. Note that the residual <code>N</code> can not be the first residual or the last residual.<br>
       <br>
       <table style="width: 445px; height: 470px;" border="1"
         cellpadding="2" cellspacing="2">
@@ -645,7 +645,7 @@ href="#download">Download</a></li>
 
 		<p>
       For a given value of k, PKA enumerates all possible kmers
-      (allowing degenerate letters when specified), determine their presence /
+      (allowing degenerate residuals when specified), determine their presence /
       absence at every possible positions in all input sequences, and report their
       enrichment / depletion using statistical models specified by
       users.</p>
@@ -663,7 +663,7 @@ PKA
       <br>
       1. positive sequences: sequences containing this kmer at this
       position,
-      allowing position shift and degenerate letters, if specified.<br>
+      allowing position shift and degenerate residuals, if specified.<br>
       2. negative sequences: all other sequences, i.e., sequences that
       do not contain this kmer at this position.<br>
       <br>
@@ -738,11 +738,11 @@ PKA
       <h4><a class="mozTocH4" name="shuffle-input-sequences"></a>Shuffle
         input sequences</h4>
       This is implemented in the option <code>-shuffle n,m</code> (shuffle each sequence n times
-      preserving m-letter frequency). PKA uses the <a
+      preserving m-residual frequency). PKA uses the <a
         href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
       code to shuffle input sequences while preserving the frequency of
       all
-      possible letter combinations of length specified by users. For
+      possible residual combinations of length specified by users. For
       example,
       in many genomic applications, DNA sequences are shuffled while
       preserving di-nucleotide frequences. Each sequence can be shuffled
@@ -757,8 +757,8 @@ PKA
       <h4><a class="mozTocH4" name="markov-model-from-input"></a>Markov
         model from input sequences</h4>
       This is activated by <code>-markov</code>
-      specifying the order of the Markov model, which summarizes letter
-      frequency and dependence between neighboring letters in input
+      specifying the order of the Markov model, which summarizes residual
+      frequency and dependence between neighboring residuals in input
       sequences. Currently PKA supports zero, first, and second order
       Markov
       models. The hypothesized probability of a sequence containing a
@@ -767,7 +767,7 @@ PKA
       <br>
       For example, the first-order Markov model learned from input
       sequences
-      includes all mono- and di-letter frequencies, which directly serve
+      includes all mono- and di-residual frequencies, which directly serve
       as
       the hypothesized probability for kmers of length 1 and 2. For
       longer
@@ -785,7 +785,7 @@ PKA
       <br>
       Where p(AB), p(BC), p(CD), p(B), and p(C) are the fraction of AB,
       BC,
-      and CD di-letters and the fraction of the letter B and C in the
+      and CD di-residuals and the fraction of the residual B and C in the
       input
       sequences, respectively.<br>
       <br>
@@ -814,7 +814,7 @@ PKA
       (email
       authors for details), and does not support higher order Markov
       models. Please choose other background models when either
-      positional shift or degenerate letters is used. <br>
+      positional shift or degenerate residuals is used. <br>
       <h4><a class="mozTocH4" name="markov-model-from-background"></a>Markov
         model from background sequences</h4>
       This is activated when both <code>-markov</code> and <code>-bgfile</code> are specified. The only difference from <code>-markov</code> alone is that
@@ -825,7 +825,7 @@ PKA
       specified (<code>-bgfile, -shuffle, -markov</code>).
       It is preferred because it is fast, less noisy, handles both
       positional
-      shift and degenerate letters. In this model, the hypothesized
+      shift and degenerate residuals. In this model, the hypothesized
       probability of a sequence with a certain kmer at a certain
       position is
       the average observed success rate (fraction of input sequences
@@ -839,7 +839,7 @@ PKA
       <br><br>
       <b> Pseudo-count </b> (<code>-pseudo</code>): Pseudo-count added to background counts. default=1.0. Ignored by Markov models <code>-markov</code>
       <br><br>
-      <b> P value cutoff </b> (<code>-pc</code>): Bonferroni corrected P value cut-off. Positions containing letters with a smaller P will be highlighted by red coordinates.
+      <b> P value cutoff </b> (<code>-pc</code>): Bonferroni corrected P value cut-off. Positions containing residuals with a smaller P will be highlighted by red coordinates.
       <br><br>
 	  
       <h1><a class="mozTocH1" name="input"></a>Input</h1>
@@ -850,7 +850,7 @@ PKA
       <h3><a class="mozTocH3" name="input-type-protein"></a>Protein/Other</h3> 
 	  <p> To run PKA on protein sequences, please set <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>. </p>
 	  
-	  <p> Similarly, to run PKA on other types of sequences, use <code>-alphabet </code> to specify all allowed letters.</p>
+	  <p> Similarly, to run PKA on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
 
       <h2><a class="mozTocH2" name="input-format"></a>Format</h2>
       <a>PKA currently supports both FASTA format and Tabular format. <font
@@ -950,22 +950,22 @@ PKA
       <h3><a class="mozTocH3" name="subregion"></a>Analyze a sub-region</h3>
       <p>Use <code>-region</code> option to specify the sub-region to be
         analyzed. Specifically, <code>-region n1,n2</code> specifies two numbers, <code>n1</code>,
-        and <code>n2</code>, where <code>n1</code> is the position of the first letter to be
-        included, and <code>n2</code> is the position of the last letter to be
+        and <code>n2</code>, where <code>n1</code> is the position of the first residual to be
+        included, and <code>n2</code> is the position of the last residual to be
         included. For example, <code>-region 1,20</code> tells PKA to analyze the first
-        20 letters. This option allows one to analyze sequences of
+        20 residuals. This option allows one to analyze sequences of
         different length. In addition, <code>n1</code> and <code>n2</code> can take non-positive
         integers, which PKA interpreted as the distance from the end.
         For example, the default setting <code>-region 1,0</code> means take the entire
         sequence without trimming. Another example is <code>-region -9,0</code>, which
-        tells PKA to analyze the last 10 letters.</p>
+        tells PKA to analyze the last 10 residuals.</p>
       <h3><a class="mozTocH3" name="filter-by-kmer"></a>Filter by positional kmer</h3>
 		<h4><a class="mozTocH4" name="filter-by-kmer-why"></a>Why</h4>
         <p> PKA allows user to filter input sequences by the presence (<code>-select</code>) or absence (<code>-remove</code>) of a list of positional km
 ers. This feature enables one to study dependence between positional kmers (see examples ***).</p>
                 <h4><a class="mozTocH4" name="filter-by-kmer-format"></a>Format</h4>
-<p>A positional kmer is specified in the form of <strong>sequence:position:shift</strong>, such as GT:3:0, which means GT starting at position 3 with no shift. Note that sequence can contain degenerate DNA letters. Position coordinates start at 1
- for the first letter in sequence. </p>
+<p>A positional kmer is specified in the form of <strong>sequence:position:shift</strong>, such as GT:3:0, which means GT starting at position 3 with no shift. Note that sequence can contain degenerate DNA residuals. Position coordinates start at 1
+ for the first residual in sequence. </p>
         <p> If using multiple positional kmers, separate each by comma (,). For example, GT:3:0,ACT:11:0,GGG:45:0. Note that when multiple positional kmers specified, the presence of any positional kmer is defined as a match. <font color="red">DO NOT</font> leave a space before or after the comma! </p>
         <h4><a class="mozTocH4" name="filter-by-kmer-example"></a>Examples</h4>
         <p>Here are two more examples: </p>
@@ -981,21 +981,21 @@ ers. This feature enables one to study dependence between positional kmers (see 
 
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
       <h3><a class="mozTocH3" name="frequency-logo"></a>Frequency logo</h3>
-      <p>In frequency logos, letters are rescaled relative to their frequency at each position, and then stacked on top of each other with more frequent letter on top of less frequent letter.</p>
+      <p>In frequency logos, residuals are rescaled relative to their frequency at each position, and then stacked on top of each other with more frequent residual on top of less frequent residual.</p>
       <h3><a class="mozTocH3" name="information-content-logo"></a>Information content logo</h3>
-	<p>Similar to fequency logos, in information content logo (conventional sequence logo) letters are rescaled by frequency and stacked, and the total height of each position is further scaled relative to the information content, which is defined as </p>
+	<p>Similar to fequency logos, in information content logo (conventional sequence logo) residuals are rescaled by frequency and stacked, and the total height of each position is further scaled relative to the information content, which is defined as </p>
 <img src="./infocont.png">
 
-<p>Here N is the number of letters in the alphabet (all possible letters that can occur at a position), and p<small>i</small> is the frequency of letter i at this position. </p> 
+<p>Here N is the number of residuals in the alphabet (all possible residuals that can occur at a position), and p<small>i</small> is the frequency of residual i at this position. </p> 
       <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
-<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, letters are rescaled relative to the statistical significance (-log10(p value)) of each letter at each position. Enriched letters stack on the top, whereas depleted letters stack on the bottom. Significant positions will have coordinates colored in red.</p>
+<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, residuals are rescaled relative to the statistical significance (-log10(p value)) of each residual at each position. Enriched residuals stack on the top, whereas depleted residuals stack on the bottom. Significant positions will have coordinates colored in red.</p>
       <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
-	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single letter. Stacked letters at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. Letters can be scaled by three different values: raw P value, Bonferroni corrected P values, or test statistics. In cases where P values are too small to be represented in the computer system (P < 1E-308 ), PKA will automatically switch to test statistics.  </p>
+	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single residual. Stacked residuals at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. residuals can be scaled by three different values: raw P value, Bonferroni corrected P values, or test statistics. In cases where P values are too small to be represented in the computer system (P < 1E-308 ), PKA will automatically switch to test statistics.  </p>
       <h3><a class="mozTocH3" name="fix"></a>Fixed positions</h3>
-	<p>In many applications the input sequences may contain almost invariant letters at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. PKA allows user to fix positions where a single letter occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed letter will be 1.1 times of the max total height of non-fixed position. </p>
+	<p>In many applications the input sequences may contain almost invariant residuals at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. PKA allows user to fix positions where a single residual occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed residual will be 1.1 times of the max total height of non-fixed position. </p>
 	
       <h3><a class="mozTocH3" name="stackorder"></a>Stacking order</h3>
-	<p>In all logo plots other than kmer logo, multiple letters can stack on top of each other. By default, letters with larger weights will be placed on top of letters with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
+	<p>In all logo plots other than kmer logo, multiple residuals can stack on top of each other. By default, residuals with larger weights will be placed on top of residuals with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
 	
 	
       <h2><a class="mozTocH2" name="tabular-data-file"></a>Tabular data
@@ -1070,18 +1070,154 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           </ol>
         </small> </div>
       <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
-		Here are two examples discussed in detail <font color=Red> (more details to be added)</font>. 
-		<h2><a class="mozTocH2" name="example1"></a>Unranked: MicroRNA precursor / Drosha specificity </h2>
-        <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
-
+		Here are two examples discussed in the PKA paper: 
+		
+        <div style="border: 0px solid ; padding: 10px 40px; background:
+          rgb(222, 222, 222) none repeat scroll 0% 50%;
+          -moz-background-clip: -moz-initial; -moz-background-origin:
+          -moz-initial; -moz-background-inline-policy: -moz-initial;
+          font-family: Monaco;">
+		  <p>
+		   Xuebing Wu and David Bartel (2017) Positional k-mer analysis: uncover hidden specificity in biological sequences, in preparation. 
+	      </p>
+	   </div>
+	   
+		<h2><a class="mozTocH2" name="example1"></a>1. Unweighted input: sequence features defining human microRNA genes </h2>
+		
         <h4><a class="mozTocH4" name="example1-input"></a>Data set </h4>
+						
+		50 nt centered on the 3' end cleavage site of human microRNA hairpin <a href="../test/input/premir50p3.fa" target="_blank"> [Download] </a>  <br>
 
         <h4><a class="mozTocH4" name="example1-setting"></a>Parameter setting </h4>
 
-        <h4><a class="mozTocH4" name="example1-result"></a>Result </h4>
+		<p>Web: no need to change default settings. If you want to re-number the coordinates such that the two nucleotides flanking the cleavage site are numbered as -1 and 1, respectively, set 'Position 1' to be 26 in the 'Output' option groups. </p>
+		
+		<p>Full command line:</p>
+         <div style="border: 0px solid ; padding: 10px 40px; background:
+           rgb(222, 222, 222) none repeat scroll 0% 50%;
+           -moz-background-clip: -moz-initial; -moz-background-origin:
+           -moz-initial; -moz-background-inline-policy: -moz-initial;
+           font-family: Monaco;">
+ 		  <p>
+		   PKA pka.input.txt -gapped -startPos 26 -pc 0.01
+ 	      </p>
+ 	   </div>
+		
+
+        <h4><a class="mozTocH4" name="example1-result"></a>Output </h4>
+		
+		<p> PKA outputs four types of logos:</p>
+
+        <div style="border: 0px solid ; padding: 10px 40px; background:
+          rgb(222, 222, 222) none repeat scroll 0% 50%;
+          -moz-background-clip: -moz-initial; -moz-background-origin:
+          -moz-initial; -moz-background-inline-policy: -moz-initial;
+          font-family: Monaco;"><small>
+
+<table border-spacing="0" border-collapse="collapse" display="block" cellspacing="0" cellpadding="0" border="0">
+	<tbody>
+		<tr>
+			<td><strong>Frequency Logo</strong></td>
+			<td><a href="../test/output/miRNA-3p-50nt/PKA.freq.png">  <img src="../test/output/miRNA-3p-50nt/PKA.freq.png" style="display:block" width="100%"> </a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><strong>Information Content Logo</strong></td>
+			<td><a href="../test/output/miRNA-3p-50nt/PKA.info.png">  <img src="../test/output/miRNA-3p-50nt/PKA.info.png" style="display:block" width="100%"> </a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><strong>Probability Logo</strong></td>
+			<td><a href="../test/output/miRNA-3p-50nt/PKA.png">  <img src="../test/output/miRNA-3p-50nt/PKA.png" style="display:block" width="100%"> </a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><strong>Kmer Logo</strong></td>
+			<td><a href="../test/output/miRNA-3p-50nt/PKA.most.significant.each.position.png">  <img src="../test/output/miRNA-3p-50nt/PKA.most.significant.each.position.png" style="display:block" width="100%"> </a>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+		
+		    </small> </div>
 
 		<p> </p>
-        <h2><a class="mozTocH2" name="example2"></a>Weighted/Ranked: CRISPR/Cas9 cutting efficiency </h2>
+        <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
+
+<p> In the Kmer logo PKA correctly identified the GAG motif at position 3 and the CNNC motif at positions 17 and 18, both have been discovered by high throughput selection studies (Fang and Bartel 2015).  </p>
+
+
+        <h2><a class="mozTocH2" name="example2"></a>Weighted/Ranked: Sequence features for CRISPR/Cas9 guide RNA efficiency </h2>
+		
+		        <h4><a class="mozTocH4" name="example1-input"></a>Data set </h4>
+						
+				30-nucleotide sequences around target regions of 1841 guide RNAs and associated cutting efficiency <a href="../test/input/gRNA.txt" target="_blank"> [Download] </a>  <br>
+
+		        <h4><a class="mozTocH4" name="example1-setting"></a>Parameter setting </h4>
+
+				<p>Web: select 'Weighted' or 'Ranked' in the 'Input' option groups. They give similar results. If you want to re-number the coordinates such that the first nucleotide of the guide RNA match is numbered as 1, set 'Position 1' to be 5 in the 'Output' option groups. </p>
+		
+				<p>Full command line:</p>
+		         <div style="border: 0px solid ; padding: 10px 40px; background:
+		           rgb(222, 222, 222) none repeat scroll 0% 50%;
+		           -moz-background-clip: -moz-initial; -moz-background-origin:
+		           -moz-initial; -moz-background-inline-policy: -moz-initial;
+		           font-family: Monaco;">
+		 		  <p>
+				   PKA pka.input.txt -weighted -gapped -startPos 5 -pc 0.01 <br>
+				   PKA pka.input.txt -ranked -gapped -startPos 5 -pc 0.01
+		 	      </p>
+		 	   </div>
+		
+
+		        <h4><a class="mozTocH4" name="example1-result"></a>Output </h4>
+		
+				<p> PKA outputs four types of logos:</p>
+
+		        <div style="border: 0px solid ; padding: 10px 40px; background:
+		          rgb(222, 222, 222) none repeat scroll 0% 50%;
+		          -moz-background-clip: -moz-initial; -moz-background-origin:
+		          -moz-initial; -moz-background-inline-policy: -moz-initial;
+		          font-family: Monaco;"><small>
+
+		<table border-spacing="0" border-collapse="collapse" display="block" cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<tr>
+					<td><strong>Frequency Logo</strong></td>
+					<td><a href="../test/output/gRNA-efficiency/PKA.freq.png">  <img src="../test/output/gRNA-efficiency/PKA.freq.png" style="display:block" width="100%"> </a>
+					</td>
+				</tr>
+		
+				<tr>
+					<td><strong>Information Content Logo</strong></td>
+					<td><a href="../test/output/gRNA-efficiency/PKA.info.png">  <img src="../test/output/gRNA-efficiency/PKA.info.png" style="display:block" width="100%"> </a>
+					</td>
+				</tr>
+		
+				<tr>
+					<td><strong>Probability Logo</strong></td>
+					<td><a href="../test/output/gRNA-efficiency/PKA.png">  <img src="../test/output/gRNA-efficiency/PKA.png" style="display:block" width="100%"> </a>
+					</td>
+				</tr>
+		
+				<tr>
+					<td><strong>Kmer Logo</strong></td>
+					<td><a href="../test/output/gRNA-efficiency/PKA.most.significant.each.position.png">  <img src="../test/output/gRNA-efficiency/PKA.most.significant.each.position.png" style="display:block" width="100%"> </a>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+		
+				    </small> </div>
+
+				<p> </p>
+		        <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
+
+		<p>   </p>
+		
         <p> </p>
         <p> </p>
 

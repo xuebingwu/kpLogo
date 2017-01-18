@@ -53,62 +53,64 @@ color: #fff;
 <?php // get values of all variables
 
 
-$p=$_POST['p'];
-
-$small_sample=$_POST['small_sample'];
-
-$email=$_POST['email'];
-$jobname=$_POST['jobname'];
-
 $foregroundpaste=$_POST['foregroundpaste'];	// foreground sequences
 $foregroundfile=$_POST['foregroundfile'];	// forgroundfile
 $backgroundpaste=$_POST['backgroundpaste'];	// foreground sequences
 $backgroundfile=$_POST['backgroundfile'];	// forgroundfile
 
-$inputtype=$_POST['inputtype']; // (none), -ranked, -weighted
 
-$col_seq=$_POST['col_seq'];
-$col_weight=$_POST['col_weight'];
+$p= scrub_alphanum($_POST['p']);
 
-$select_pkmers=$_POST['select_pkmers'];
+$small_sample=scrub_alphanum($_POST['small_sample']);
+
+$email=scrub_alphanum($_POST['email']);
+$jobname=scrub_alphanum($_POST['jobname']);
+
+
+$inputtype=scrub_alphanum($_POST['inputtype']); // (none), -ranked, -weighted
+
+$col_seq=scrub_alphanum($_POST['col_seq']);
+$col_weight=scrub_alphanum($_POST['col_weight']);
+
+$select_pkmers=scrub_alphanum($_POST['select_pkmers']);
 if($select_pkmers != "")
 {
 	$select_pkmers = " -select ". $select_pkmers;
 }
-$remove_pkmers=$_POST['remove_pkmers'];
+$remove_pkmers=scrub_alphanum($_POST['remove_pkmers']);
 if($remove_pkmers != "")
 {
     $remove_pkmers = " -remove ". $remove_pkmers;
 }
 
 
-$alphabet=$_POST['alphabet'];		// alphabet: DNA, protein, other
-$other_alphabet=$_POST['other_alphabet'];		// alphabet: DNA, protein, other
+$alphabet=scrub_alphanum($_POST['alphabet']);		// alphabet: DNA, protein, other
+$other_alphabet=scrub_alphanum($_POST['other_alphabet']);		// alphabet: DNA, protein, other
 if($alphabet == "other")
 {
 	$alphabet = $other_alphabet;
 }
 
-$region_first=$_POST['region_first'];
-$region_last=$_POST['region_last'];
+$region_first=scrub_alphanum($_POST['region_first']);
+$region_last=scrub_alphanum($_POST['region_last']);
 
 
-$plottype=$_POST['plottype'];
+$plottype=scrub_alphanum($_POST['plottype']);
 
-$last_letter=$_POST['last_letter'];
+$last_residual=scrub_alphanum($_POST['last_residual']);
 
-$mincount = $_POST['mincount'];
+$mincount = scrub_alphanum($_POST['mincount']);
 if($mincount < 0)
 {
 	$mincount = 0;
 }
 
-$kmer_length = $_POST['kmer_length'];
+$kmer_length = scrub_alphanum($_POST['kmer_length']);
 
-$shift = $_POST['shift'];
+$shift = scrub_alphanum($_POST['shift']);
 
-$degenerate = $_POST['degenerate'];
-$degenerate_alphabet = $_POST['degenerate_alphabet'];
+$degenerate = scrub_alphanum($_POST['degenerate']);
+$degenerate_alphabet = scrub_alphanum($_POST['degenerate_alphabet']);
 
 if($degenerate == "other")
 {
@@ -125,12 +127,12 @@ if($alphabet != "dna")
 	$degenerate = "";
 }
 
-$background = $_POST['background']; // 
-$markov_foreground_order = $_POST['markov_foreground_order'];
-$markov_background_order = $_POST['markov_background_order'];
-$shuffle_n = $_POST['shuffle_n'];
-$shuffle_m = $_POST['shuffle_m'];
-$markov_string = $_POST['markov_string'];
+$background = scrub_alphanum($_POST['background']); // 
+$markov_foreground_order = scrub_alphanum($_POST['markov_foreground_order']);
+$markov_background_order = scrub_alphanum($_POST['markov_background_order']);
+$shuffle_n = scrub_alphanum($_POST['shuffle_n']);
+$shuffle_m = scrub_alphanum($_POST['shuffle_m']);
+$markov_string = scrub_alphanum($_POST['markov_string']);
 
 if($background == "markov_foreground"){
 	$background = " -markov $markov_foreground_order ";
@@ -145,15 +147,15 @@ if($background == "markov_foreground"){
 	$background = " -markov $markov_string";
 }
 
-$pseudo = $_POST['pseudo'];
+$pseudo = scrub_alphanum($_POST['pseudo']);
 
-$maxFrac = $_POST['maxFrac'];
+$maxFrac = scrub_alphanum($_POST['maxFrac']);
 
 	
-$startPos = $_POST['startPos'];
-$colorblind = $_POST['colorblind'];
+$startPos = scrub_alphanum($_POST['startPos']);
+$colorblind = scrub_alphanum($_POST['colorblind']);
 
-$stack_order = $_POST['stack_order'];
+$stack_order = scrub_alphanum($_POST['stack_order']);
 
 
 // clean up folders older than 3 days
@@ -219,7 +221,7 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_letter $stack_order -fix $maxFrac";
+$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
@@ -251,6 +253,11 @@ touch("submission_notification_not_sent");
 header("Location: $tmpfolder/result.php");
 
 
+function scrub_alphanum($str){
+  $str = preg_replace("/\.+/",".",$str); # All repeating dots to single dots
+  $str = preg_replace("/[^@0-9a-zA-Z-_:,. ]/","",$str); # Remove all non alphanum, comma, period, at, hyphen
+  return $str;
+}
 
 
 ?>
