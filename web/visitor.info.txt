@@ -860,3 +860,4 @@
 10.5.200.227	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 31 -gapped  -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01  -stack_order 1 -fix 0.75
 10.5.200.227	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 26 -gapped  -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01 -last_residual -stack_order 1 -fix 0.75
 10.5.200.227	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 26 -gapped  -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01 -last_residual -stack_order 1 -fix 0.75
+10.9.9.226	xxx@yyy.com	PKA pka.input.txt -o pka.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01  -stack_order 1 -fix 0.75
