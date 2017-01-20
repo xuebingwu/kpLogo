@@ -1,0 +1,23 @@
+[Tue Jan 17 14:54:18 2017] Summary: 
+[Tue Jan 17 14:54:18 2017]    Input       :   pka.input.txt
+[Tue Jan 17 14:54:18 2017]    Background  :   local
+[Tue Jan 17 14:54:18 2017]    Output      :   pka.output.*
+[Tue Jan 17 14:54:18 2017]    alphabet    :   ACGT
+[Tue Jan 17 14:54:18 2017]    min_kmer    :   1
+[Tue Jan 17 14:54:18 2017]    max_kmer    :   4
+[Tue Jan 17 14:54:18 2017]    min_shift   :   0
+[Tue Jan 17 14:54:18 2017]    max_shift   :   0
+[Tue Jan 17 14:54:18 2017]    degenerate  :   ACGTN
+[Tue Jan 17 14:54:18 2017]    p           :   1.010000
+[Tue Jan 17 14:54:18 2017]    start at    :   1
+[Tue Jan 17 14:54:18 2017] Input file is FASTA format
+[Tue Jan 17 14:54:18 2017] 186 sequences loaded from pka.input.txt
+[Tue Jan 17 14:54:18 2017] making frequency logo...
+[Tue Jan 17 14:54:18 2017] making information content logo...
+[Tue Jan 17 14:54:19 2017] 340 exact kmers to be tested
+[Tue Jan 17 14:54:19 2017] 500 k-mers allowing degenerate bases
+[Tue Jan 17 14:54:19 2017] 23624 tests (kmer x position x shifts) will be performed
+[Tue Jan 17 14:54:21 2017] 16299 significant positional kmers identified in total
+[Tue Jan 17 14:54:22 2017] plotting the most significant kmer at each position...
+[Tue Jan 17 14:54:22 2017] plotting single nucleotide profile...
+[Tue Jan 17 14:54:25 2017] Done!

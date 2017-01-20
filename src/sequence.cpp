@@ -1208,7 +1208,7 @@ int find_significant_pairs_from_weighted_sequences(
     return nSig;
 } // end of function
 
-// nucleotide plot from PKA2 weighted output
+// nucleotide plot from kpLogo2 weighted output
 // no shift, k=1
 // plot column 
 void plot_nucleotide_profile(string infile, string outfile, int lSeq, int column, int startPos){
@@ -1417,7 +1417,7 @@ void use_end_position(string filename)
 }
 
 // note input should be sorted by weight
-vector<positional_kmer> build_model_from_PKA_output(string filename, int startPos)
+vector<positional_kmer> build_model_from_kpLogo_output(string filename, int startPos)
 {
 	int cKmer = 0;
 	int cStart = 1;
@@ -1590,7 +1590,7 @@ vector<positional_kmer> load_model_from_file(string filename)
 
 
 // ignore group information
-double score_sequence_using_PKA_model(vector<positional_kmer> ranked_kmers,  string seq)
+double score_sequence_using_kpLogo_model(vector<positional_kmer> ranked_kmers,  string seq)
 {
 	double score = 0;
 	for( int i=0;i<ranked_kmers.size();i++)
@@ -1639,7 +1639,7 @@ double score_sequence_using_paired_kmer_model(vector<paired_kmer> model,  string
 }
 
 // use group information, worse
-double score_sequence_using_PKA_model_use_group(vector<positional_kmer> ranked_kmers,  string seq)
+double score_sequence_using_kpLogo_model_use_group(vector<positional_kmer> ranked_kmers,  string seq)
 {
 	double score = 0;
 	set<int> scored;
@@ -1662,8 +1662,8 @@ double score_sequence_using_PKA_model_use_group(vector<positional_kmer> ranked_k
 	return score;
 }
 
-// for both PKA and PKA2
-void score_fasta_using_PKA_model(string seqfile, string outputfile, vector<positional_kmer> ranked_kmers)
+// for both kpLogo and kpLogo2
+void score_fasta_using_kpLogo_model(string seqfile, string outputfile, vector<positional_kmer> ranked_kmers)
 {
     ifstream fin(seqfile.c_str());
 	ofstream fout(outputfile.c_str());
@@ -1672,7 +1672,7 @@ void score_fasta_using_PKA_model(string seqfile, string outputfile, vector<posit
     while(fin.good())
     {
 		ReadOneSeqFromFasta(fin,name,seq);
-     	double score = score_sequence_using_PKA_model(ranked_kmers, seq);
+     	double score = score_sequence_using_kpLogo_model(ranked_kmers, seq);
   		fout << name << "\t" << seq << "\t" << score << endl;		
     }
     fin.close();
@@ -1680,7 +1680,7 @@ void score_fasta_using_PKA_model(string seqfile, string outputfile, vector<posit
 }
 
 // sequence in column col, 1 based
-void score_tabular_using_PKA_model(string tabfile, int col, string outputfile, vector<positional_kmer> ranked_kmers)
+void score_tabular_using_kpLogo_model(string tabfile, int col, string outputfile, vector<positional_kmer> ranked_kmers)
 {
 	col = col - 1;
 	
@@ -1695,7 +1695,7 @@ void score_tabular_using_PKA_model(string tabfile, int col, string outputfile, v
 		getline(fin,line);
 		if(line.length() == 0) continue;
 		flds = string_split(line);
-     	double score = score_sequence_using_PKA_model(ranked_kmers, flds[col]);
+     	double score = score_sequence_using_kpLogo_model(ranked_kmers, flds[col]);
   		fout << line << "\t" << score << endl;		
     }
     fin.close();
@@ -1773,7 +1773,7 @@ void save_feature_matrix(map<string,string> seqs, vector<string> kmers, string o
 	}
 } // end of function
 
-// read PKA output into two vectors
+// read kpLogo output into two vectors
 void read_significant_positional_kmer_from_file(string inputfile, vector<string> &kmers, vector<int> &positions)
 {
 	ifstream fin;
@@ -1797,8 +1797,8 @@ void read_significant_positional_kmer_from_file(string inputfile, vector<string>
 	fin.close();
 }
 
-// read PKA2 output into two vectors
-void read_significant_positional_kmer_from_PKA2_output(string inputfile, vector<string> &kmers, vector<int> &positions)
+// read kpLogo2 output into two vectors
+void read_significant_positional_kmer_from_kpLogo2_output(string inputfile, vector<string> &kmers, vector<int> &positions)
 {
 	ifstream fin;
 	fin.open(inputfile.c_str());
@@ -1887,7 +1887,7 @@ void significant_feature_matrix(map<string,string> seqs, vector<string> kmers, v
 
 
 // should work for ranked kmer with degenerate nucleotides
-void significant_feature_matrix_PKA2(vector<string> seqs, vector<double> weights, vector<positional_kmer> ranked_kmers, string outfile)
+void significant_feature_matrix_kpLogo2(vector<string> seqs, vector<double> weights, vector<positional_kmer> ranked_kmers, string outfile)
 {
     int nSeq = seqs.size();		// total number of sequences
 	int lSeq = seqs[0].size(); // length of the first sequence, assume all have the same length
@@ -1942,7 +1942,7 @@ void significant_feature_matrix_PKA2(vector<string> seqs, vector<double> weights
 	outstream.close();
 } // end of function
 
-// PKA: remove overlapping motifs
+// kpLogo: remove overlapping motifs
 // input: all significant motifs
 int non_overlapping_sig_motifs(string inputfile, string outputfile)
 {
@@ -2236,7 +2236,7 @@ void implant_motif(map<string,string> &seqs, int position, string motif, double 
 
 
 // for max_shift > 0: take the most strongest
-boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos, int cScore)
+boost::numeric::ublas::matrix<double> position_weight_matrix_from_kpLogo_output(string filename, string alphabet, int seqLen, int startPos, int cScore)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -2427,7 +2427,7 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 	string header = ""
 		"%!PS-Adobe-3.0 EPSF-3.0            \n"
 		"%%Title: Sequence Logo : Logo      \n"
-		"%%Creator: PKA 					\n"
+		"%%Creator: kpLogo 					\n"
 		"%%CreationDate: "+current_time()+" \n"
 		"%%BoundingBox:   0  0  "+to_string(L * xstep + x0 * 1.5)+" "+to_string( (height_pos+height_neg + 6) * ystep )+" \n"
 		"%%Pages: 0                         \n"
@@ -2592,7 +2592,7 @@ void remove_kmers_overlapping_with_fixed_positions(string infile,vector<int> fix
 }
 	
 
-void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_residual, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
+void postscript_logo_from_kpLogo_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_residual, map<char,string> colors, int seqLen, double score_cutoff, int startPos, int fontsize, int cScore,string y_label, double max_scale)
 {
 	int cSeq = 0;
 	int cPos = 1; 
@@ -2660,7 +2660,7 @@ void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> 
 	string header = ""
 		"%!PS-Adobe-3.0 EPSF-3.0            \n"
 		"%%Title: Sequence Logo : Logo      \n"
-		"%%Creator: PKA 					\n"
+		"%%Creator: kpLogo 					\n"
 		"%%CreationDate: "+current_time()+" \n"
 		"%%BoundingBox:   0  0  "+to_string(L * xstep + x0 * 1.5)+" "+to_string( (height_pos+height_neg + 5) * ystep )+" \n"
 		"%%Pages: 0                         \n"
@@ -2939,7 +2939,7 @@ boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_kmer(ve
     return pwm;
 }
 
-//PKA : create logo for a single kmer
+//kpLogo : create logo for a single kmer
 void create_logo_for_kmer(vector<string> seqs, string kmer, int position, map<char,string> iupac, int d, int startPos,string output)
 {
     boost::numeric::ublas::matrix<double> pwm;
@@ -3101,7 +3101,7 @@ map<string,vector<int> > count_all_kmer_in_seqs(vector<string> kmers, vector<str
     return data;
 }   
 
-//PKA
+//kpLogo
 void print_kmer_positional_profile(map<string,vector<int> > data)
 {   
     for (map<string,vector<int> >::iterator it=data.begin();it!=data.end();it++)

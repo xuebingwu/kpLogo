@@ -5,7 +5,7 @@
 
 
   
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>PKA:positional K-mer analysis</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>kpLogo</title>
   
 
   
@@ -40,7 +40,7 @@ color: #fff;
   </style></head><body style="margin-left: 101px; width: 970px;">
 
 <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;" id="title"> <br>
-<h1><span class="title"> PKA: Positional K-mer Analysis</span><br> </h1>
+<h1><span class="title"> <i>k</i>pLogo:  <i>k</i>-mer probability logo</span><br> </h1>
 </div>
 
 <div style=" border-top: 8px solid DimGray; width: 970px"></div>
@@ -139,9 +139,9 @@ if($background == "markov_foreground"){
 } elseif ($background == "shuffle") {
 	$background = " -shuffle $shuffle_n,$shuffle_m ";
 } elseif ($background == "bgfile") {
-	$background = " -bgfile pka.background.txt ";
+	$background = " -bgfile kpLogo.background.txt ";
 } elseif ($background == "markov_background") {
-	$background = " -markov $markov_background_order -bgfile pka.background.txt ";
+	$background = " -markov $markov_background_order -bgfile kpLogo.background.txt ";
 } elseif ($background == "markov_string") 
 {
 	$background = " -markov $markov_string";
@@ -179,14 +179,14 @@ chdir($tmpfolder);
 // input
 if (strlen($foregroundpaste) > 0) // sequence pasted, save to file
 {
-	$h = fopen("pka.input.txt", 'w');
+	$h = fopen("kpLogo.input.txt", 'w');
 	fwrite($h, $foregroundpaste);
 	fclose($h); 
 }
 else
 {
 	$file1 = $_FILES['foregroundfile'];
-	if(move_uploaded_file($file1['tmp_name'], "pka.input.txt")) 
+	if(move_uploaded_file($file1['tmp_name'], "kpLogo.input.txt")) 
 	{
 		//echo "The file ".basename( $_FILES['uploadedfile']['name'])." has been uploaded";
 	}
@@ -198,17 +198,17 @@ else
 }
 
 // background
-if ($background == " -bgfile pka.background.txt " || $background == " -markov $markov_background_order -bgfile pka.background.txt ") {
+if ($background == " -bgfile kpLogo.background.txt " || $background == " -markov $markov_background_order -bgfile kpLogo.background.txt ") {
 	if (strlen($backgroundpaste) > 0) // sequence pasted, save to file
 	{
-		$hb = fopen("pka.background.txt", 'w');
+		$hb = fopen("kpLogo.background.txt", 'w');
 		fwrite($hb, $backgroundpaste);
 		fclose($hb); 
 	}
 	else 
 	{
 		$file2 = $_FILES['backgroundfile'];
-		if(move_uploaded_file($file2['tmp_name'], "pka.background.txt"))
+		if(move_uploaded_file($file2['tmp_name'], "kpLogo.background.txt"))
 		{
 		}
 		else 
@@ -221,18 +221,18 @@ if ($background == " -bgfile pka.background.txt " || $background == " -markov $m
 
 //
 
-$command = "PKA pka.input.txt -o pka.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
+$command = "kpLogo kpLogo.input.txt -o kpLogo.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
 
 $ip = $_SERVER['REMOTE_ADDR'];
 file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
 $totalLines=intval(exec('wc -l ../../visitor.info.txt'));
-$jobID="PKA-".$totalLines;
+$jobID="kpLogo-".$totalLines;
 
 
 //email
-$subject = "PKA results available: $jobID ($jobname)";
+$subject = "kpLogo results available: $jobID ($jobname)";
 $url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-$content = "Your PKA job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n $url";
+$content = "Your kpLogo job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n $url";
 
 $result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
 

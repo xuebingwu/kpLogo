@@ -5,7 +5,7 @@
 # 'make clean'  removes all .o and executable files
 #
 
-PROGS = PKA
+PROGS = kpLogo
 # sequence_feature
 
 # define the C++ compiler to use
@@ -23,7 +23,7 @@ INCLUDES = -I../include
 
 all: $(PROGS) install
 
-PKA: sequence.o markov.o positional_kmer.o container.o utility.o text.o stat.o ushuffle.o PKA.o
+kpLogo: sequence.o markov.o positional_kmer.o container.o utility.o text.o stat.o ushuffle.o kpLogo.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 #sequence_feature: sequence_feature.o utility.o sequence.o ushuffle.o  positional_kmer.o stat.o container.o

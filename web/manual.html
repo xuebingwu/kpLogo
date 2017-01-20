@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gbk">
-    <title>PKA:positional K-mer Analysis</title>
+    <title><i>k</i>pLogo: <i>k</i>-mer probability logo
+		[]</title>
     <style>
 input[type="submit"]{
 /* change these properties to whatever you want */
@@ -63,7 +64,7 @@ color: #fff;
   <body style="margin:0 auto; width: 970px; text-align: center">
     <div style="font-family: Helvetica,Arial,sans-serif;text-align:
       left;" id="title"> <br>
-      <h1><span class="title"> PKA: Positional K-mer Analysis</span><br>
+      <h1><span class="title"><i>k</i>pLogo: <i>k</i>-mer probability logo</span><br>
       </h1>
     </div>
     <div style=" border-top: 8px solid DimGray; width: 970px"></div>
@@ -82,7 +83,7 @@ color: #fff;
                 type="submit"></form>
           </td>
           <td style="vertical-align: top; width: 0px;">
-            <form action="./manual.html#install-pka-locally"> <input
+            <form action="./manual.html#install-kpLogo-locally"> <input
                 value="Code" type="submit"></form>
           </td>
           <td style="vertical-align: top; width: 69px;">
@@ -104,9 +105,9 @@ color: #fff;
       text-align: left;"><span style="font-weight: bold;"></span><br>
       <ul id="mozToc">
         <!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6-->
-        <li><a href="#What-is-PKA">What is PKA </a></li>
-        <li><a href="#unique-featues-of-pka">Unique features of PKA </a></li>
-        <li><a href="#using-pka">Using PKA</a>
+        <li><a href="#What-is-kpLogo">What is <i>k</i>pLogo </a></li>
+        <li><a href="#unique-featues-of-kpLogo">Unique features of <i>k</i>pLogo </a></li>
+        <li><a href="#using-kpLogo">Using <i>k</i>pLogo</a>
           <ul>
             <li><a href="#web-server">Web server</a>
               <ul>
@@ -114,18 +115,17 @@ color: #fff;
                 <li><a href="#limitations">Limitations</a></li>
               </ul>
             </li>
-            <li><a href="#install-pka-locally">Install PKA locally</a>
+            <li><a href="#install-kpLogo-locally">Install <i>k</i>pLogo locally</a>
               <ul>
                 <li><a href="#requirements">Requirements</a></li>
                 <li><a
 href="#download">Download</a></li>
                 <li><a href="#installation">Installation</a></li>
-                <li><a href="#test">Test</a></li>
               </ul>
             </li>
           </ul>
         </li>
-        <li><a href="#how-pka-works">How PKA works</a>
+        <li><a href="#how-kpLogo-works">How <i>k</i>pLogo works</a>
           <ul>
             <li><a href="#positional-kmer">Positional K-mer with shift and degeneracy</a>
               <ul>
@@ -194,27 +194,27 @@ href="#download">Download</a></li>
     </div>
     <div style="font-family: Helvetica,Arial,sans-serif; text-align:
       left;">
-      <h1><a class="mozTocH1" name="What-is-PKA"></a>What is PKA </h1>
-      <font color="Blue">Positional K-mer Analysis (PKA)</font> is a
+      <h1><a class="mozTocH1" name="What-is-kpLogo"></a>What is <i>k</i>pLogo </h1>
+      <font color="Blue"><i>k</i>-mer probability logo (<i>k</i>pLogo)</font> is a
       computational tool for the identification and visualization of
       positionally enriched or depleted k-mers (subsequences of length
       k)
       from a set of aligned sequences, typically nucleic acids (DNA or
       RNA)
       or amino acids (protein).
-      <h1><a class="mozTocH1" name="unique-featues-of-pka"></a>Unique
+      <h1><a class="mozTocH1" name="unique-featues-of-kpLogo"></a>Unique
         features of
-        PKA </h1>
+        <i>k</i>pLogo </h1>
       Compare to existing sequence logo tools, the two most prominant
-      features of PKA is the detection and visualization of motifs
+      features of <i>k</i>pLogo is the detection and visualization of motifs
       longer
       than one residuals and the incorporation of weights for each input
       sequence.
       <br>
       <br>
-      PKA combines motif discovery with visualization. Compared to
+      <i>k</i>pLogo combines motif discovery with visualization. Compared to
       existing
-      sequence logo generating tools, PKA is unique in several ways:<br>
+      sequence logo generating tools, <i>k</i>pLogo is unique in several ways:<br>
       1. visualize not only single nucleotides but also short motifs,
       i.e. K-mer logo<br>
       2. plot frequency logo, information content logo, probability
@@ -225,21 +225,21 @@ href="#download">Download</a></li>
       6. logos can be generated with colorblind friendly colors<br>
       7. allow users to score new sequenes using the learned positional
       sequence features <br>
-      <h1><a class="mozTocH1" name="using-pka"></a>Using PKA</h1>
-      PKA can be accessed as an online tool at: <a
-        href="http://pka.wi.mit.edu">http://pka.wi.mit.edu</a>. In
+      <h1><a class="mozTocH1" name="using-kpLogo"></a>Using <i>k</i>pLogo</h1>
+      <i>k</i>pLogo can be accessed as an online tool at: <a
+        href="http://kplogo.wi.mit.edu">http://kplogo.wi.mit.edu</a>. In
       addition,
       the C++ source code as well as the php/html web code can be
       downloaded
       and installed locally. <br>
       <h2><a class="mozTocH2" name="web-server"></a>Web server</h2>
-      To use PKA online, please visit <a href="http://pka.wi.mit.edu/">http://pka.wi.mit.edu</a><br>
+      To use <i>k</i>pLogo online, please visit <a href="http://kplogo.wi.mit.edu/">http://kplogo.wi.mit.edu</a><br>
       <h3><a class="mozTocH3" name="usage"></a>Usage</h3>
       Users paste or upload sequences to the server and the job will run
       on
       the background. Once submitted, users are redirected to the result
       page
-      which displays PKA screen output and refreshes every second. Users
+      which displays <i>k</i>pLogo screen output and refreshes every second. Users
       are
       encouraged to provide an email address when submitting the job. If
       provided, two emails will be sent, one immediately after
@@ -256,12 +256,12 @@ href="#download">Download</a></li>
       receive a notification.<br>
       <br>
       <h3><a class="mozTocH3" name="limitations"></a>Limitations</h3>
-      The web server implements most functionality of PKA, and should be
+      The web server implements most functionality of <i>k</i>pLogo, and should be
       sufficient for most users. However, for simplicity and to avoid
       excess
       demand of server resources, a few restricitons have been imposed
       on the
-      web version of PKA:<br>
+      web version of <i>k</i>pLogo:<br>
       <ol>
         <li><span style="font-weight: bold;">kmer length</span>: the max
           length of kmer is limited to 6.<br>
@@ -280,17 +280,17 @@ href="#download">Download</a></li>
           moment.<br>
         </li>
       </ol>
-      <h2><a class="mozTocH2" name="install-pka-locally"></a>Install PKA
+      <h2><a class="mozTocH2" name="install-kpLogo-locally"></a>Install <i>k</i>pLogo
         locally</h2>
-      <p>PKA is a open-source project and users can download the source
+      <p><i>k</i>pLogo is a open-source project and users can download the source
         code, compile and install locally to enable all functionality.</p>
       <h3><a class="mozTocH3" name="requirements"></a>Requirements</h3>
-      PKA has been successfully tested on Linux and Mac.<br>
+      <i>k</i>pLogo has been successfully tested on Linux and Mac.<br>
       <br>
       <span style="font-weight: bold;">To compile: GCC</span><br>
-      PKA is written in C++ and reuses some libraries from <a
+      <i>k</i>pLogo is written in C++ and reuses some libraries from <a
         href="http://www.boost.org/">Boost</a> version 1.57.0. To
-      compile PKA
+      compile <i>k</i>pLogo
       locally, one should have a recent version of <a
         href="https://gcc.gnu.org/">GCC</a> that is compatible with the
       g++
@@ -307,8 +307,8 @@ href="#download">Download</a></li>
       is used to convert postscript files to PDF files.<br>
       <br>
       <h3><a class="mozTocH3" name="download"></a>Download</h3>
-      The PKA source code (including web code) is hosted on GitHub: <a
-        href="https://github.com/xuebingwu/PKA">https://github.com/xuebingwu/PKA</a><br>
+      The <i>k</i>pLogo source code (including web code) is hosted on GitHub: <a
+        href="https://github.com/xuebingwu/kpLogo">https://github.com/xuebingwu/kpLogo</a><br>
       <br>
       To clone the latest (may not be stable) version:<br>
       <br>
@@ -318,11 +318,11 @@ href="#download">Download</a></li>
         -moz-initial; -moz-background-inline-policy: -moz-initial;
         font-family: Monaco;"><small>git
             clone
-            https://github.com/xuebingwu/PKA.git</small></div>
+            https://github.com/xuebingwu/kpLogo.git</small></div>
       <br>
       <br>
-      To download stable releases of PKA: <a
-        href="https://github.com/xuebingwu/PKA/releases/">https://github.com/xuebingwu/PKA/releases/
+      To download stable releases of <i>k</i>pLogo: <a
+        href="https://github.com/xuebingwu/kpLogo/releases/">https://github.com/xuebingwu/kpLogo/releases/
       </a><br>
       <br>
       <h3><a class="mozTocH3" name="installation"></a>Installation</h3>
@@ -344,40 +344,11 @@ href="#download">Download</a></li>
       The compiled programs are in the folder <code>bin</code>.<br>
       To recompile, type <code>make clean</code> then <code>make</code>.<br>
       <br>
-      <h3><a class="mozTocH3" name="test"></a>Test</h3>
-      Go to the folder <code>bin</code>, and run the following examples:<br>
-      <br>
-      1. Unweighted sequences in fasta, default background (relative to
-      other
-      positions)<br>
-      <br>
-      <div style="border: 0px solid ; padding: 10px 40px; background:
-        rgb(221, 221, 221) none repeat scroll 0% 50%;
-        -moz-background-clip: -moz-initial; -moz-background-origin:
-        -moz-initial; -moz-background-inline-policy: -moz-initial;
-        font-family: Monaco;"><small>./PKA
-          ../test/input/input-fixed-length.fa -o
-          ../test/output/unweighted-default</small></div>
-      <br>
-      2. Weighted sequences<br>
-      <br>
-      <div style="border: 0px solid ; padding: 10px 40px; background:
-        rgb(221, 221, 221) none repeat scroll 0% 50%;
-        -moz-background-clip: -moz-initial; -moz-background-origin:
-        -moz-initial; -moz-background-inline-policy: -moz-initial;
-        font-family: Courier New,Courier,monospace;"><small><span
-            style="font-family: Monaco;">./PKA
-            ../test/input/input.weighted.txt
-            -weighted -o ../test/output/weighted</span> </small></div>
-      <br>
-      If PKA works then the screen should output no errors. Please refer
-      to
-      the manual for other examples and explanation of the output files.<br>
-      <br>
+      
  
-     <h1><a class="mozTocH1" name="how-pka-works"></a>How PKA works</h1>
+     <h1><a class="mozTocH1" name="how-kpLogo-works"></a>How <i>k</i>pLogo works</h1>
 
-	  <p>Below is a detailed description of PKA's concept and statistical models.</p>
+	  <p>Below is a detailed description of <i>k</i>pLogo's concept and statistical models.</p>
 
       <h2><a class="mozTocH2" name="positional-kmer"></a>Positional k-mer with shift and degeneracy</h2>
 
@@ -385,16 +356,16 @@ href="#download">Download</a></li>
 		
         <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift (<font color=Red>experimental</font>)</h3>
 
-  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In PKA, the position of a kmer is defined as the position of the first residual in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   
+  In many other cases, sequence motifs are well positioned but also allow some flexibility, and this is modeled by the positional shift. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In <i>k</i>pLogo, the position of a kmer is defined as the position of the first residual in the kmer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   
         
 
       <h3><a class="mozTocH3" name="degenerate-residual"></a>Degenerate
         residual</h3>
 		
-		Biological sequence signals can also tolerate some mismatches, leading to degeneracy in the motif. For example, in addition to AAUAAA, AUUAAA is also used as a polyadenylatoin signal. Therefore a more general form of the polyadenylation signal is <code>AWUAAA:-23:5</code>, where W is either A or U. PKA supports all degenerate codes defined in the <a
+		Biological sequence signals can also tolerate some mismatches, leading to degeneracy in the motif. For example, in addition to AAUAAA, AUUAAA is also used as a polyadenylatoin signal. Therefore a more general form of the polyadenylation signal is <code>AWUAAA:-23:5</code>, where W is either A or U. <i>k</i>pLogo supports all degenerate codes defined in the <a
         href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> (see table below). <br>
       <br>
-      In default mode, PKA does not report kmers with degenerate residuals. To enable kmer with degeneracy, use <code>-degenerate</code> to specify
+      In default mode, <i>k</i>pLogo does not report kmers with degenerate residuals. To enable kmer with degeneracy, use <code>-degenerate</code> to specify
       all allowed residuals, <span style="color: red;">including
         non-degenerate residuals</span>. For example, to include R and Y
       in addition to ACGT in DNA sequences, use <code>-degenerate ACGTRY</code> instead of <code>-degenerate RY</code>. <br>
@@ -644,7 +615,7 @@ href="#download">Download</a></li>
         models</h2>
 
 		<p>
-      For a given value of k, PKA enumerates all possible kmers
+      For a given value of k, <i>k</i>pLogo enumerates all possible kmers
       (allowing degenerate residuals when specified), determine their presence /
       absence at every possible positions in all input sequences, and report their
       enrichment / depletion using statistical models specified by
@@ -652,7 +623,7 @@ href="#download">Download</a></li>
 
       <h3><a class="mozTocH3" name="weighted"></a>Weighted: two-sample t-test</h3>
       When turned on by <code>-weighted</code>,
-PKA
+<i>k</i>pLogo
       searches for kmers at certain positions whose presence / absence
       in
       a sequence is associated with higher / lower weight, respectively.
@@ -677,7 +648,7 @@ PKA
       Note that the input sequences need not to be sorted by weight.<br>
       <h3><a class="mozTocH3" name="ranked"></a>Ranked: rank-sum test</h3>
       When
-      turned on (by <code>-ranked</code>), PKA assumes the input sequences (FASTA
+      turned on (by <code>-ranked</code>), <i>k</i>pLogo assumes the input sequences (FASTA
       or
       Tabular) are ranked, and enrichment / depletion of a kmer at a
       position
@@ -700,10 +671,10 @@ PKA
       Note that this model is activated by the option <code>-ranked</code>, which
       will
       ignore <code>-weight</code> if specified. Also note that sequences need to be
-      sorted prior to PKA analysis. <br>
+      sorted prior to <i>k</i>pLogo analysis. <br>
       <h3><a class="mozTocH3" name="unweighted"></a>Unranked (default): binomial test</h3>
-      When neither <code>-ranked</code> nor <code>-weighted</code> is specified, PKA assumes
-      the input is unweighted. PKA uses <code>one-sided Binomial test</code>
+      When neither <code>-ranked</code> nor <code>-weighted</code> is specified, <i>k</i>pLogo assumes
+      the input is unweighted. <i>k</i>pLogo uses <code>one-sided Binomial test</code>
       to determine the significance of a kmer at a position.
       Specifically,
       the number of trials is the total nubmer of sequences, and the
@@ -738,7 +709,7 @@ PKA
       <h4><a class="mozTocH4" name="shuffle-input-sequences"></a>Shuffle
         input sequences</h4>
       This is implemented in the option <code>-shuffle n,m</code> (shuffle each sequence n times
-      preserving m-residual frequency). PKA uses the <a
+      preserving m-residual frequency). <i>k</i>pLogo uses the <a
         href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
       code to shuffle input sequences while preserving the frequency of
       all
@@ -759,7 +730,7 @@ PKA
       This is activated by <code>-markov</code>
       specifying the order of the Markov model, which summarizes residual
       frequency and dependence between neighboring residuals in input
-      sequences. Currently PKA supports zero, first, and second order
+      sequences. Currently <i>k</i>pLogo supports zero, first, and second order
       Markov
       models. The hypothesized probability of a sequence containing a
       particular kmer at a particular position is then determined by the Markov model.
@@ -844,21 +815,21 @@ PKA
 	  
       <h1><a class="mozTocH1" name="input"></a>Input</h1>
       <h2><a class="mozTocH2" name="input-type"></a>Sequence type</h2>
-		PKA is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences via the option <code>-alphabet</code>.
+		<i>k</i>pLogo is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences via the option <code>-alphabet</code>.
       <h3><a class="mozTocH3" name="input-type-dna"></a>DNA/RNA</h3>
-	  When <code>-alphabet</code> is not specified by users, PKA use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>. 
+	  When <code>-alphabet</code> is not specified by users, <i>k</i>pLogo use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>. 
       <h3><a class="mozTocH3" name="input-type-protein"></a>Protein/Other</h3> 
-	  <p> To run PKA on protein sequences, please set <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>. </p>
+	  <p> To run <i>k</i>pLogo on protein sequences, please set <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>. </p>
 	  
-	  <p> Similarly, to run PKA on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
+	  <p> Similarly, to run <i>k</i>pLogo on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
 
       <h2><a class="mozTocH2" name="input-format"></a>Format</h2>
-      <a>PKA currently supports both FASTA format and Tabular format. <font
+      <a><i>k</i>pLogo currently supports both FASTA format and Tabular format. <font
           color="red">Note that all sequences will be converted to upper
           case by default</font>. Lines start with <font color="blue">
           # </font> will be treated as comments and ignored.</a>
       <h3><a class="mozTocH3" name="tabular"></a>Tabular / Column file</h3>
-      <a>PKA will treat <font color="red">ANY</font> of the following
+      <a><i>k</i>pLogo will treat <font color="red">ANY</font> of the following
         characters as delimiter: tab ("\t"), comma (","), vertical bar ("|"), and space (" ").
         <br>
         <br>
@@ -935,7 +906,7 @@ PKA
         Notes on FASTA file format: <br>
         1. Each sequence include an ID line and a sequence line <br>
         2. IDs always start with '&gt;' <br>
-        3. IDs are not used by PKA and thus do not need to be unique <br>
+        3. IDs are not used by <i>k</i>pLogo and thus do not need to be unique <br>
         4. Sequences do not need to be of the same length (see option
         <code>-region</code>)<br>
         5. Can be treated as ranked (see option <code>-ranked</code>) but not
@@ -952,16 +923,16 @@ PKA
         analyzed. Specifically, <code>-region n1,n2</code> specifies two numbers, <code>n1</code>,
         and <code>n2</code>, where <code>n1</code> is the position of the first residual to be
         included, and <code>n2</code> is the position of the last residual to be
-        included. For example, <code>-region 1,20</code> tells PKA to analyze the first
+        included. For example, <code>-region 1,20</code> tells <i>k</i>pLogo to analyze the first
         20 residuals. This option allows one to analyze sequences of
         different length. In addition, <code>n1</code> and <code>n2</code> can take non-positive
-        integers, which PKA interpreted as the distance from the end.
+        integers, which <i>k</i>pLogo interpreted as the distance from the end.
         For example, the default setting <code>-region 1,0</code> means take the entire
         sequence without trimming. Another example is <code>-region -9,0</code>, which
-        tells PKA to analyze the last 10 residuals.</p>
+        tells <i>k</i>pLogo to analyze the last 10 residuals.</p>
       <h3><a class="mozTocH3" name="filter-by-kmer"></a>Filter by positional kmer</h3>
 		<h4><a class="mozTocH4" name="filter-by-kmer-why"></a>Why</h4>
-        <p> PKA allows user to filter input sequences by the presence (<code>-select</code>) or absence (<code>-remove</code>) of a list of positional km
+        <p> <i>k</i>pLogo allows user to filter input sequences by the presence (<code>-select</code>) or absence (<code>-remove</code>) of a list of positional km
 ers. This feature enables one to study dependence between positional kmers (see examples ***).</p>
                 <h4><a class="mozTocH4" name="filter-by-kmer-format"></a>Format</h4>
 <p>A positional kmer is specified in the form of <strong>sequence:position:shift</strong>, such as GT:3:0, which means GT starting at position 3 with no shift. Note that sequence can contain degenerate DNA residuals. Position coordinates start at 1
@@ -972,12 +943,12 @@ ers. This feature enables one to study dependence between positional kmers (see 
 <p><code>-select G:35:3,CNC:47:0</code> </p>
 <p> Select (keep) sequences with G at position 35, 36, 37, or 38 (note shift=3), <strong>OR</strong> with CNC at position 47. Here N means any nucleotide, thus can be any of CAC, CGC, CTC, and CCC. This will remove sequences that contain none of these positional kmers.</p>
 <p><code>-remove G:35:0,CNC:47:0</code><p>
-<p> Remove sequences containing either G at position 35, or CNC at position 47. Sequences contain neither of these two kmers will be analyzed by PKA. </p>
+<p> Remove sequences containing either G at position 35, or CNC at position 47. Sequences contain neither of these two kmers will be analyzed by <i>k</i>pLogo. </p>
 
 
       <h1><a class="mozTocH1" name="output"></a>Output</h1>
 
-		<p>PKA outputs both sequence logo plots and tabular data file.</p>
+		<p><i>k</i>pLogo outputs both sequence logo plots and tabular data file.</p>
 
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
       <h3><a class="mozTocH3" name="frequency-logo"></a>Frequency logo</h3>
@@ -988,11 +959,11 @@ ers. This feature enables one to study dependence between positional kmers (see 
 
 <p>Here N is the number of residuals in the alphabet (all possible residuals that can occur at a position), and p<small>i</small> is the frequency of residual i at this position. </p> 
       <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
-<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. PKA extended the concept to ranked and weighted sequences. In probability logos, residuals are rescaled relative to the statistical significance (-log10(p value)) of each residual at each position. Enriched residuals stack on the top, whereas depleted residuals stack on the bottom. Significant positions will have coordinates colored in red.</p>
+<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. <i>k</i>pLogo extended the concept to ranked and weighted sequences. In probability logos, residuals are rescaled relative to the statistical significance (-log10(p value)) of each residual at each position. Enriched residuals stack on the top, whereas depleted residuals stack on the bottom. Significant positions will have coordinates colored in red.</p>
       <h3><a class="mozTocH3" name="kmer-logo"></a>Kmer logo</h3>
-	<p>PKA generates a new type of logo called kmer logo to visualize motifs in addition to single residual. Stacked residuals at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. residuals can be scaled by three different values: raw P value, Bonferroni corrected P values, or test statistics. In cases where P values are too small to be represented in the computer system (P < 1E-308 ), PKA will automatically switch to test statistics.  </p>
+	<p><i>k</i>pLogo generates a new type of logo called kmer logo to visualize motifs in addition to single residual. Stacked residuals at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depletd on the bottom. Both read from top to bottom. residuals can be scaled by three different values: raw P value, Bonferroni corrected P values, or test statistics. In cases where P values are too small to be represented in the computer system (P < 1E-308 ), <i>k</i>pLogo will automatically switch to test statistics.  </p>
       <h3><a class="mozTocH3" name="fix"></a>Fixed positions</h3>
-	<p>In many applications the input sequences may contain almost invariant residuals at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. PKA allows user to fix positions where a single residual occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed residual will be 1.1 times of the max total height of non-fixed position. </p>
+	<p>In many applications the input sequences may contain almost invariant residuals at certain positions, such as GG in sgRNA target sequences (see example). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. <i>k</i>pLogo allows user to fix positions where a single residual occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. P-values for fixed positions will be ignored for probability logo, and the height of the fixed residual will be 1.1 times of the max total height of non-fixed position. </p>
 	
       <h3><a class="mozTocH3" name="stackorder"></a>Stacking order</h3>
 	<p>In all logo plots other than kmer logo, multiple residuals can stack on top of each other. By default, residuals with larger weights will be placed on top of residuals with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
@@ -1070,7 +1041,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           </ol>
         </small> </div>
       <h1><a class="mozTocH1" name="examples"></a>Examples</h1>
-		Here are two examples discussed in the PKA paper: 
+		Here are two examples discussed in the <i>k</i>pLogo paper: 
 		
         <div style="border: 0px solid ; padding: 10px 40px; background:
           rgb(222, 222, 222) none repeat scroll 0% 50%;
@@ -1078,7 +1049,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           -moz-initial; -moz-background-inline-policy: -moz-initial;
           font-family: Monaco;">
 		  <p>
-		   Xuebing Wu and David Bartel (2017) Positional k-mer analysis: uncover hidden specificity in biological sequences, in preparation. 
+		   Xuebing Wu and David Bartel (2017) <i>k</i>pLogo: positional <i>k</i>-mer analysis reveals hidden specificity in biological sequences, submitted. 
 	      </p>
 	   </div>
 	   
@@ -1099,14 +1070,14 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
            -moz-initial; -moz-background-inline-policy: -moz-initial;
            font-family: Monaco;">
  		  <p>
-		   PKA pka.input.txt -gapped -startPos 26 -pc 0.01
+		   kpLogo premir50p3.fa -gapped -startPos 26 -pc 0.01
  	      </p>
  	   </div>
 		
 
         <h4><a class="mozTocH4" name="example1-result"></a>Output </h4>
 		
-		<p> PKA outputs four types of logos:</p>
+		<p> <i>k</i>pLogo outputs four types of logos:</p>
 
         <div style="border: 0px solid ; padding: 10px 40px; background:
           rgb(222, 222, 222) none repeat scroll 0% 50%;
@@ -1118,25 +1089,25 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 	<tbody>
 		<tr>
 			<td><strong>Frequency Logo</strong></td>
-			<td><a href="./examples/miRNA-3p-50nt/PKA.freq.png">  <img src="./examples/miRNA-3p-50nt/PKA.freq.png" style="display:block" width="100%"> </a>
+			<td><a href="./examples/miRNA-3p-50nt/kpLogo.freq.png">  <img src="./examples/miRNA-3p-50nt/kpLogo.freq.png" style="display:block" width="100%"> </a>
 			</td>
 		</tr>
 		
 		<tr>
 			<td><strong>Information Content Logo</strong></td>
-			<td><a href="./examples/miRNA-3p-50nt/PKA.info.png">  <img src="./examples/miRNA-3p-50nt/PKA.info.png" style="display:block" width="100%"> </a>
+			<td><a href="./examples/miRNA-3p-50nt/kpLogo.info.png">  <img src="./examples/miRNA-3p-50nt/kpLogo.info.png" style="display:block" width="100%"> </a>
 			</td>
 		</tr>
 		
 		<tr>
 			<td><strong>Probability Logo</strong></td>
-			<td><a href="./examples/miRNA-3p-50nt/PKA.png">  <img src="./examples/miRNA-3p-50nt/PKA.png" style="display:block" width="100%"> </a>
+			<td><a href="./examples/miRNA-3p-50nt/kpLogo.png">  <img src="./examples/miRNA-3p-50nt/kpLogo.png" style="display:block" width="100%"> </a>
 			</td>
 		</tr>
 		
 		<tr>
 			<td><strong>Kmer Logo</strong></td>
-			<td><a href="./examples/miRNA-3p-50nt/PKA.most.significant.each.position.png">  <img src="./examples/miRNA-3p-50nt/PKA.most.significant.each.position.png" style="display:block" width="100%"> </a>
+			<td><a href="./examples/miRNA-3p-50nt/kpLogo.most.significant.each.position.png">  <img src="./examples/miRNA-3p-50nt/kpLogo.most.significant.each.position.png" style="display:block" width="100%"> </a>
 			</td>
 		</tr>
 	</tbody>
@@ -1147,7 +1118,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 		<p> </p>
         <h4><a class="mozTocH4" name="example1-background"></a>Background </h4>
 
-<p> In the Kmer logo PKA correctly identified the GAG motif at position 3 and the CNNC motif at positions 17 and 18, both have been discovered by high throughput selection studies (Fang and Bartel 2015).  </p>
+<p> In the Kmer logo <i>k</i>pLogo correctly identified the GAG motif at position 3 and the CNNC motif at positions 17 and 18, both have been discovered by high throughput selection studies (Fang and Bartel 2015).  </p>
 
 
         <h2><a class="mozTocH2" name="example2"></a>Weighted/Ranked: Sequence features for CRISPR/Cas9 guide RNA efficiency </h2>
@@ -1167,15 +1138,15 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 		           -moz-initial; -moz-background-inline-policy: -moz-initial;
 		           font-family: Monaco;">
 		 		  <p>
-				   PKA pka.input.txt -weighted -gapped -startPos 5 -pc 0.01 <br>
-				   PKA pka.input.txt -ranked -gapped -startPos 5 -pc 0.01
+				   kpLogo gRNA.txt -weighted -gapped -startPos 5 -pc 0.01 <br>
+				   kpLogo gRNA.txt -ranked -gapped -startPos 5 -pc 0.01
 		 	      </p>
 		 	   </div>
 		
 
 		        <h4><a class="mozTocH4" name="example1-result"></a>Output </h4>
 		
-				<p> PKA outputs four types of logos:</p>
+				<p> <i>k</i>pLogo outputs four types of logos:</p>
 
 		        <div style="border: 0px solid ; padding: 10px 40px; background:
 		          rgb(222, 222, 222) none repeat scroll 0% 50%;
@@ -1187,25 +1158,25 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 			<tbody>
 				<tr>
 					<td><strong>Frequency Logo</strong></td>
-					<td><a href="./examples/gRNA-efficiency/PKA.freq.png">  <img src="./examples/gRNA-efficiency/PKA.freq.png" style="display:block" width="100%"> </a>
+					<td><a href="./examples/gRNA-efficiency/kpLogo.freq.png">  <img src="./examples/gRNA-efficiency/kpLogo.freq.png" style="display:block" width="100%"> </a>
 					</td>
 				</tr>
 		
 				<tr>
 					<td><strong>Information Content Logo</strong></td>
-					<td><a href="./examples/gRNA-efficiency/PKA.info.png">  <img src="./examples/gRNA-efficiency/PKA.info.png" style="display:block" width="100%"> </a>
+					<td><a href="./examples/gRNA-efficiency/kpLogo.info.png">  <img src="./examples/gRNA-efficiency/kpLogo.info.png" style="display:block" width="100%"> </a>
 					</td>
 				</tr>
 		
 				<tr>
 					<td><strong>Probability Logo</strong></td>
-					<td><a href="./examples/gRNA-efficiency/PKA.png">  <img src="./examples/gRNA-efficiency/PKA.png" style="display:block" width="100%"> </a>
+					<td><a href="./examples/gRNA-efficiency/kpLogo.png">  <img src="./examples/gRNA-efficiency/kpLogo.png" style="display:block" width="100%"> </a>
 					</td>
 				</tr>
 		
 				<tr>
 					<td><strong>Kmer Logo</strong></td>
-					<td><a href="./examples/gRNA-efficiency/PKA.most.significant.each.position.png">  <img src="./examples/gRNA-efficiency/PKA.most.significant.each.position.png" style="display:block" width="100%"> </a>
+					<td><a href="./examples/gRNA-efficiency/kpLogo.most.significant.each.position.png">  <img src="./examples/gRNA-efficiency/kpLogo.most.significant.each.position.png" style="display:block" width="100%"> </a>
 					</td>
 				</tr>
 			</tbody>
@@ -1229,7 +1200,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 
       <h1><a class="mozTocH1" name="copyright"></a>Copyright</h1>
       <p>Copyright (c) 2015 Xuebing Wu. </p>
-      <p>PKA reuses the following library/code:<br>
+      <p><i>k</i>pLogo reuses the following library/code:<br>
         - <a href="http://www.boost.org/">Boost</a> library (version
         1.57.0)<br>
         - The <a href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
@@ -1267,7 +1238,7 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
               SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</small></p>
         </a></div>
       <h1><a class="mozTocH1" name="author"></a>Author</h1>
-      <p>PKA is developed and maintained by Xuebing Wu in the Bartel lab
+      <p><i>k</i>pLogo is developed and maintained by Xuebing Wu in the Bartel lab
         at Whitehead Institute.</p>
       <h1><a class="mozTocH1" name="acknowlegements"></a>Acknowledgements</h1>
       <p>I would like to thank Whitehead Institute IT system team (especially Paul McCabe, Andy Nutter-Upham, Craig Andrew, Alexan Mardigian) for help with the server setup. </p>

@@ -72,11 +72,11 @@ void generate_ps_logo_from_pwm(boost::numeric::ublas::matrix<double> pwm, string
 
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_seqs(vector<string> seqs, string alphabet);
 
-boost::numeric::ublas::matrix<double> position_weight_matrix_from_PKA_output(string filename, string alphabet, int seqLen, int startPos=1,int cScore=5);
+boost::numeric::ublas::matrix<double> position_weight_matrix_from_kpLogo_output(string filename, string alphabet, int seqLen, int startPos=1,int cScore=5);
 
 void remove_kmers_overlapping_with_fixed_positions(string infile,vector<int> fixed_positions,int startPos);
 
-void postscript_logo_from_PKA_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
+void postscript_logo_from_kpLogo_output(string infile, string outfile, vector<int> fixed_position, vector<string> fixed_letter, map<char,string> colors,int seqLen, double score_cutoff, int startPos=1, int fontsize=20, int cScore=5,  string y_label="-log10(p)", double max_scale=6.0);
 
 string postscript_kmer(string text, double x, double y, int fontsize, double scaley, double width, double height, map<char,string> colormap, double rotate);
 
@@ -87,18 +87,18 @@ void ReadFastaToVectors(string filename, vector<string> &names, vector<string> &
 vector<bool> filter_sequences_by_kmer(vector<string> &seqs, vector<string> &positives, vector<positional_kmer> pkmers);
 bool seq_has_any_of_positional_kmer(string seq, vector<positional_kmer> pkmers);
 
-vector<positional_kmer> build_model_from_PKA2_output(string filename, double pCutoff);
-vector<positional_kmer> build_model_from_PKA_output(string filename, int startPos);
+vector<positional_kmer> build_model_from_kpLogo2_output(string filename, double pCutoff);
+vector<positional_kmer> build_model_from_kpLogo_output(string filename, int startPos);
 void save_model_to_file(vector<positional_kmer> ranked_kmers, string filename);
 
 vector<positional_kmer> load_model_from_file(string filename);
 
-double score_sequence_using_PKA_model(vector<positional_kmer> ranked_kmers, string seq);
+double score_sequence_using_kpLogo_model(vector<positional_kmer> ranked_kmers, string seq);
 
 
 
-void score_fasta_using_PKA_model(string seqfile, string outputfile, vector<positional_kmer> ranked_kmers);
-void score_tabular_using_PKA_model(string tabfile, int col, string outputfile, vector<positional_kmer> ranked_kmers);
+void score_fasta_using_kpLogo_model(string seqfile, string outputfile, vector<positional_kmer> ranked_kmers);
+void score_tabular_using_kpLogo_model(string tabfile, int col, string outputfile, vector<positional_kmer> ranked_kmers);
 
 
 class paired_kmer
@@ -164,11 +164,11 @@ void read_significant_positional_kmer_from_file(string inputfile, vector<string>
 
 map<string, string> seq_vector2map(vector<string> seqs);
 
-void read_significant_positional_kmer_from_PKA2_output(string inputfile, vector<string> &kmers, vector<int> &positions);
+void read_significant_positional_kmer_from_kpLogo2_output(string inputfile, vector<string> &kmers, vector<int> &positions);
 
 void significant_feature_matrix(map<string,string> seqs, vector<string> kmers, vector<int> positions, string outfile, string label, bool append=false, int shift=0);
 
-void significant_feature_matrix_PKA2(vector<string> seqs, vector<double> weights, vector<positional_kmer> ranked_kmers, string outfile);
+void significant_feature_matrix_kpLogo2(vector<string> seqs, vector<double> weights, vector<positional_kmer> ranked_kmers, string outfile);
 
 vector<int> filter_sequences_by_size(vector<string> &seqs, int lSeq=0);
 
@@ -178,7 +178,7 @@ void fasta_to_letter_matrix(string input, string output);
 // convert fasta file to a letter matrix, no header
 void tab_seq_to_letter_matrix(string input, string output, int k_min, int k_max, int col);
 
-// PKA: remove overlapping motifs
+// kpLogo: remove overlapping motifs
 // input: all significant motifs
 int non_overlapping_sig_motifs(string inputfile, string outputfile);
 
@@ -228,7 +228,7 @@ void write_pwm_in_meme_format(boost::numeric::ublas::matrix<double> pwm, string 
 // build position weight matrix for a positional kmer, can include flanking sequence
 boost::numeric::ublas::matrix<double> create_position_weight_matrix_from_kmer(vector<string> seqs, string kmer, int position, map<char,string> iupac, int d, int startPos);
 
-//PKA : create logo for a single kmer
+//kpLogo : create logo for a single kmer
 void create_logo_for_kmer(vector<string> seqs, string kmer, int position, map<char,string> iupac, int d, int startPos,string output);
 
 // create logos for top 1 kmer passing pCutoff_B
@@ -243,7 +243,7 @@ void create_logo_for_topN_sig_kmer_per_position(vector<string> seqs, string file
 // for each kmer, count its freq at each position(start), allowing shifts (to the right)
 map<string,vector<int> > count_all_kmer_in_seqs(vector<string> kmers, vector<string> seqs, int shift);  
 
-//PKA
+//kpLogo
 void print_kmer_positional_profile(map<string,vector<int> > data);
 
 

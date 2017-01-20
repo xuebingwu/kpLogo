@@ -1,0 +1,23 @@
+[Thu Jan 19 21:58:26 2017] Summary: 
+[Thu Jan 19 21:58:26 2017]    Input       :   kpLogo.input.txt
+[Thu Jan 19 21:58:26 2017]    Background  :   local
+[Thu Jan 19 21:58:26 2017]    Output      :   kpLogo.output.*
+[Thu Jan 19 21:58:26 2017]    alphabet    :   ACDEFGHIJKLMNOPQRSTUVWY
+[Thu Jan 19 21:58:26 2017]    min_kmer    :   1
+[Thu Jan 19 21:58:26 2017]    max_kmer    :   1
+[Thu Jan 19 21:58:26 2017]    min_shift   :   0
+[Thu Jan 19 21:58:26 2017]    max_shift   :   0
+[Thu Jan 19 21:58:26 2017]    p           :   1.010000
+[Thu Jan 19 21:58:26 2017]    start at    :   1
+[Thu Jan 19 21:58:26 2017] 101 sequences loaded from kpLogo.input.txt
+[Thu Jan 19 21:58:26 2017] making frequency logo...
+[Thu Jan 19 21:58:26 2017] making information content logo...
+[Thu Jan 19 21:58:27 2017] fixed position: 7
+[Thu Jan 19 21:58:27 2017] fixed residual  : S
+[Thu Jan 19 21:58:27 2017] 23 exact kmers to be tested
+[Thu Jan 19 21:58:27 2017] 345 tests (kmer x position x shifts) will be performed
+[Thu Jan 19 21:58:27 2017] 209 significant positional kmers identified in total
+[Thu Jan 19 21:58:27 2017] plotting the most significant kmer at each position...
+S
+[Thu Jan 19 21:58:27 2017] plotting single nucleotide profile...
+[Thu Jan 19 21:58:28 2017] Done!
