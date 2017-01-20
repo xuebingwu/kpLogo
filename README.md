@@ -1,15 +1,15 @@
-# PKA: Positional K-mer Analysis
+# kpLogo: k-mer probability logo
 
-PKA is tool for identifying well-positioned short motifs from a set of aligned sequences.
+kpLogo is tool for identifying well-positioned short motifs from a set of aligned sequences.
 
 Developed by Xuebing Wu (wuxbl@wi.mit.edu) at Whitehead Institute.
 
 ## Web server
 
-PKA is also available as an online tool (under-construction): http://pka.wi.mit.edu
+kpLogo is also available as an online tool: http://kpLogo.wi.mit.edu
 
 ## Installation
-Download the source code from github: https://github.com/xuebingwu/PKA/releases/
+Download the source code from github: https://github.com/xuebingwu/kpLogo/releases/
 
 Unzip, enter the subfolder 'src', then type 'make':
 
@@ -22,35 +22,16 @@ The compiled programs are in the folder 'bin'.
 
 To recompile, type 'make clean' then 'make'.
 
-## Test examples
-
-Go to the folder 'bin', and run the following examples:
-
-Unweighted sequences in fasta, default background (relative to other positions)
-
-```sh
-./PKA ../test/input/input-fixed-length.fa -o ../test/output/unweighted-default
-```
-
-Weighted sequences 
-
-```sh
- ./PKA ../test/input/input.weighted.txt -weighted -o ../test/output/weighted 
-```
-
-Please refer to the manual for other examples and explanation of the output files.
-
-
 ## Project home page
 
 Source code, compiled binaries (Linux), documentation, and examples can be found on github page:
 
-https://github.com/xuebingwu/PKA
+https://github.com/xuebingwu/kpLogo
 
 
 ## Cite
 
-This software is currently unpublished, so please just cite the homepage (thanks!).
+Xuebing Wu and David Bartel (2017) kpLogo: positional k-mer analysis reveals hidden specificity in biological sequences, submitted.
 
 ## Copyright
 
