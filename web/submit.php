@@ -5,7 +5,7 @@
 
 
   
-  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>kpLogo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>kpLogo: k-mer probability logo</title>
   
 
   
