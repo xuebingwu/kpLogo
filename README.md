@@ -1,6 +1,6 @@
 # kpLogo: k-mer probability logo
 
-kpLogo is tool for identifying well-positioned short motifs from a set of aligned sequences.
+k-mer probability logo (kpLogo) is a computational tool for sensitive discovery and visualization of position-specific ultra-short sequence motifs from a set of sequences with precisely defined positions.
 
 Developed by Xuebing Wu (wuxbl@wi.mit.edu) at Whitehead Institute.
 
@@ -21,12 +21,6 @@ make
 The compiled programs are in the folder 'bin'.
 
 To recompile, type 'make clean' then 'make'.
-
-## Project home page
-
-Source code, compiled binaries (Linux), documentation, and examples can be found on github page:
-
-https://github.com/xuebingwu/kpLogo
 
 
 ## Cite
