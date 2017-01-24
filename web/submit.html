@@ -207,7 +207,7 @@ color: #fff;
       </tr>
 
     <tr>
-        <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue">K-mer </font></big> 
+        <td colspan="2" style="vertical-align: center; text-align: left;">        <div style="text-align: left;"><big><font color="Blue"><i>k</i>-mer </font></big> 
         </div>
         </td>
     </tr>     
@@ -215,11 +215,11 @@ color: #fff;
 	  
       <tr>
         <td colspan="1" style="vertical-align: center;">
-        <div style="text-align: right;vertical-align: center;"><strong>K-mer length </strong> <a href="manual.html#positional-kmer"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;vertical-align: center;"><strong><i>k</i>-mer length </strong> <a href="manual.html#positional-kmer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;">
-			k = 
+			<i>k</i> = 
         <select name="kmer_length" id="kmer_length">
         <option value="-k 1">1</option>
         <option value="-k 2">2</option>
@@ -232,7 +232,7 @@ color: #fff;
         <option value="-max_k 4" selected="selected">1,2,3,4</option>
         <option value="-max_k 5">1,2,3,4,5</option>
         <option value="-max_k 6">1,2,3,4,5,6</option>		
-	</select> (to use larger k, please install <i>k</i>pLogo locally)<br>
+	</select> (to use larger <i>k</i>, please install <i>k</i>pLogo locally)<br>
        </td>
       </tr>
 	  
@@ -246,7 +246,7 @@ color: #fff;
         <td colspan="1" rowspan="1" style="vertical-align: center;">
 	   <select name="degenerate" id="degenerate" onchange='check_other_degenerate(this.value)' >
               <option value=""  > None (no degenerate residuals)</option>
-              <option value="-gapped" selected="selected" >ACGTN, i.e. gapped K-mer</option>
+              <option value="-gapped" selected="selected" >ACGTN, i.e. gapped <i>k</i>-mer</option>
 			  <option value="-degenerate all">all IUPAC residuals: ACGTRYMKWSBDHVN</option>
 	          <option value="other">Other</option>
 	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" style='display:none' size="40" value="Other: enter all allowed residuals here" type="text" onfocus="if(this.value == 'Other: enter all allowed residuals here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed residuals here'; }"> 
@@ -282,7 +282,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Filter by k-mers </strong> <a href="manual.html#filter-by-kmer"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Filter by <i>k</i>-mers </strong> <a href="manual.html#filter-by-kmer"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;"> 
@@ -406,11 +406,11 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	
     <tr>
       <td colspan="1" style="vertical-align: center; text-align: center;">
-      <div style="text-align: right;"><strong>P value cutoff </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
+      <div style="text-align: right;"><strong><i>P</i> value cutoff </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
       </div>
       </td>
       <td rowspan="1" colspan="1" style="vertical-align: center;">
-      Positions containing residuals with Bonferroni corrected P < <input value="0.01" name="p" id="p" size="5" type="text"> will be highlighted by red coordinates</td>
+      Positions containing residuals with Bonferroni corrected <i>P</i> < <input value="0.01" name="p" id="p" size="5" type="text"> will be highlighted by red coordinates</td>
     </tr>
 	
     <tr>
@@ -443,9 +443,9 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
         <select name="plottype" id="plottype" style="vertical-align: center;">
-        <option value="-plot p" selected="selected">p-value</option>
-        <option value="-plot b">Bonferroni corrected p-value</option>
-        <option value="-plot s">test statistics</option>
+        <option value="-plot p" selected="selected"><i>P</i> value</option>
+        <option value="-plot b">Bonferroni corrected <i>P</i> value</option>
+        <option value="-plot s">Test statistics</option>
     </select> </td>
       </tr>
 

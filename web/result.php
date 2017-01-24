@@ -142,6 +142,14 @@ if (file_exists('./kpLogo.output.most.significant.each.position.png')) {
 	echo "<h3>Tabular output </h3>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;the most significant kmer at each position : <a href=\"./kpLogo.output.most.significant.each.position.txt\">TXT</a> <br>";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;all significant kmer : <a href=\"./kpLogo.output.pass.p.cutoff.txt\">TXT</a> <br>";
+	
+	if (file_exists("./result_email_not_sent")){
+    $subject = "kpLogo results available: $jobID ($jobname)";
+    $message = "Your job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $message = wordwrap($message, 70, "\r\n");
+    mail($email, $subject, $message);
+	exec("rm ./result_email_not_sent");
+	}
 } else {
 
     header("refresh: 1;");
