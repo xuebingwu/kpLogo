@@ -9,13 +9,13 @@
 void print_help()
 {
     string txt = "\n"
-    "kpLogo: Positional Kmer Analysis (version 0.3)\n"
+    "kpLogo: k-mer probability logo (version 1.0)\n"
     "\n"
     "   -by Xuebing Wu (wuxbl@wi.mit.edu), Bartel lab, Whitehead Institute\n"
     "\n"
     "   Identify statistically enriched/depleted short sequences of length k (kmer)\n"
 	"   at every position in a set of aligned sequences, weighted or unweighted. \n"
-	"   Degenerate nucleotides and small shift in positions can be allowed.\n"
+	"   Degenerate nucleotides can be allowed.\n"
     "\n"
     "Usage: kpLogo inpu_file [options]\n"
     "\n"

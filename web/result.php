@@ -52,28 +52,27 @@ a:link {
 <div style=" border-top: 8px solid DimGray; width: 970px"></div>
 <div style=" border-top: 8px solid White; width: 970px" ></div>
 
-
 <table style="text-align: left; width: 436px; height: 32px; margin-left: auto; margin-right: 0px;" border="0" cellpadding="0" cellspacing="0">
   <tbody>
     <tr>
       <td style="vertical-align: top; width: 69px;">
-      <form action="http://kpLogo.wi.mit.edu/index.html"> <input value="Home" type="submit" style="color: GreenYellow" ></form>
+      <form action="./index.html"> <input value="Home" type="submit" style="color: GreenYellow" ></form>
       </td>
       <td style="vertical-align: top; width: 69px;">
-      <form action="http://kpLogo.wi.mit.edu/submit.html"> <input value="Server" type="submit"></form>
+      <form action="./submit.html"> <input value="Server" type="submit"></form>
       </td>
       <td style="vertical-align: top; width: 0px;">
-        <form action="http://kpLogo.wi.mit.edu/manual.html#install-kpLogo-locally"> <input value="Code" type="submit"></form>
+        <form action="./manual.html#install-kpLogo-locally"> <input value="Code" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 69px;">
-        <form action="http://kpLogo.wi.mit.edu/manual.html"> <input value="Manual" type="submit"></form>
+        <form action="./manual.html"> <input value="Manual" type="submit"></form>
         </td>
         <td style="vertical-align: top; width: 69px;">
-        <form action="http://kpLogo.wi.mit.edu/manual.html#examples"> <input value="Examples" type="submit"></form>
+        <form action="./manual.html#examples"> <input value="Examples" type="submit"></form>
       </td>
-      <td style="vertical-align: top; width: 0px;">
-      <form action="http://kpLogo.wi.mit.edu/feedback.html"> <input value="Feedback" type="submit"></form>
-      </td>
+	  <td style="vertical-align: top; width: 0px;">
+	  <form action="./feedback.html"> <input value="Feedback" type="submit"></form>
+	  </td>
     </tr>
   </tbody>
 </table>
