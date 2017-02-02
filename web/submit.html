@@ -104,8 +104,9 @@ color: #fff;
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
            	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
 				
-			<br><br> Or paste sequences below:<br>
+			<br><br> Or paste sequences below: (<a href="#" onclick="loadSample()" >Load sample data</a>)<br>
 	        <textarea name="foregroundpaste" cols="40" rows="8" id="foregroundpaste"></textarea>
+		
         </td>
 
         <td style="vertical-align: top;" ><br>
@@ -509,7 +510,19 @@ function check_other_degenerate(val)
        document.getElementById('degenerate_alphabet').style.display='none'; 
 }
 
+function loadSample() {
+var textarea = document.getElementById("foregroundpaste");
+var client = new XMLHttpRequest();
+client.open('GET', './examples/miRNA-3p-50nt/premir50p3.fa'); 
+client.onreadystatechange = function() {
+			textarea.value = client.responseText;	
+		}
+		client.send();
+}
+
 </script>
+
+
 
 </div>
 
