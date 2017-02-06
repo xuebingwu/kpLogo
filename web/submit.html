@@ -100,7 +100,7 @@ color: #fff;
 		
       <tr>
 	    <td style="vertical-align: top;" ><br>
-        	<strong>Upload input sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a><br><br>
+        	<strong>Upload input sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#input"><img src="./info.gif" alt="help"></a><br><br>
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
            	 	<input name="foregroundfile" type="file" style="vertical-align: top;">
 				
@@ -110,7 +110,7 @@ color: #fff;
         </td>
 
         <td style="vertical-align: top;" ><br>
-            <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#input-format"><img src="./info.gif" alt="help"></a> </strong> <br><br>
+            <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#unweighted"><img src="./info.gif" alt="help"></a> </strong> <br><br>
                 <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
                 <input name="backgroundfile" type="file" style="vertical-align: top;">
             <br><br> Or paste sequences below:<br>
@@ -158,7 +158,7 @@ color: #fff;
 
             <tr>
               <td colspan="1" style="vertical-align: center; text-align: center;">
-              <div style="text-align: right;"><strong>Sequence type </strong><a href="manual.html#input-type"><img src="info.gif" alt="help"></a><br>
+              <div style="text-align: right;"><strong>Sequence type </strong><a href="manual.html#sequence-type"><img src="info.gif" alt="help"></a><br>
               </div>
               </td>
               <td colspan="1" rowspan="1" style="vertical-align: center;">
@@ -174,7 +174,7 @@ color: #fff;
 
 		      <tr>
 		        <td colspan="1" style="vertical-align: center; text-align: center;">
-		        <div style="text-align: right;"><strong>Weighted or Ranked </strong> <a href="manual.html#input-format"><img src="info.gif" alt="help"></a><br>
+		        <div style="text-align: right;"><strong>Weighted or Ranked </strong> <a href="manual.html#file-format"><img src="info.gif" alt="help"></a><br>
 		        </div>
 		        </td>
 		        <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -183,7 +183,7 @@ color: #fff;
 		        <option value="-ranked">             Ranked&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(FASTA or Tab-delimited)</option>
 		        <option value="-weighted">           Weighted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Tab-delimited)</option>
 		    </select> <br>
-		(change if not ture: sequence in column <input value="1" name="col_seq" id="col_seq" size="5" type="text">, weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> )
+		(change if not true: sequence in column <input value="1" name="col_seq" id="col_seq" size="5" type="text">, weight in column <input value="2" name="col_weight" id="col_weight" size="5" type="text"> )
 		 </td>
 		      </tr>
 
@@ -216,7 +216,7 @@ color: #fff;
 	  
       <tr>
         <td colspan="1" style="vertical-align: center;">
-        <div style="text-align: right;vertical-align: center;"><strong><i>k</i>-mer length </strong> <a href="manual.html#positional-kmer"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;vertical-align: center;"><strong><i>k</i>-mer length </strong> <a href="manual.html#kmer-length"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" style="vertical-align: center;">
@@ -390,7 +390,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
         <tr>
           <td colspan="1" style="vertical-align: center; text-align: center;">
-          <div style="text-align: right;"><strong>Small sample </strong><a href="manual.html#small_sample"><img src="info.gif" alt="help"></a></div>
+          <div style="text-align: right;"><strong>Small sample </strong><a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a></div>
           </td>
           <td colspan="1" style="vertical-align: center; ">
 
@@ -407,7 +407,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 	
     <tr>
       <td colspan="1" style="vertical-align: center; text-align: center;">
-      <div style="text-align: right;"><strong><i>P</i> value cutoff </strong> <a href="manual.html#other-parameters"><img src="info.gif" alt="help"></a><br>
+      <div style="text-align: right;"><strong><i>P</i> value cutoff </strong> <a href="manual.html#p-value-cutoff"><img src="info.gif" alt="help"></a><br>
       </div>
       </td>
       <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -439,7 +439,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Scale residuals by </strong> <a href="manual.html#kmer-logo"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Scale residuals by </strong> <a href="manual.html#scaling"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -465,7 +465,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
         <tr>
           <td colspan="1" style="vertical-align: center; text-align: center;">
-          <div style="text-align: right;"><strong>Position 1 </strong> <a href="manual.html#format"><img src="info.gif" alt="help"></a><br>
+          <div style="text-align: right;"><strong>Position 1 </strong> <a href="manual.html#position1"><img src="info.gif" alt="help"></a><br>
           </div>
           </td>
           <td rowspan="1" colspan="1" style="vertical-align: center;">
