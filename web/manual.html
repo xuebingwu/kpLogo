@@ -104,6 +104,10 @@ color: #fff;
         <li><a href="#using-kpLogo">Using <i>k</i>pLogo</a>
           <ul>
             <li><a href="#web-server">Web server</a>
+				<ul>
+                	<li><a href="#email">Email and data security</a></li>
+                	<li><a href="#server-limit">Limitations</a></li>				
+				</ul>
                 <li><a href="#input">Input</a></li>
 				<ul>
                 	<li><a href="#sequence-type">Sequence type: DNA/RNA-Protein-Other</a></li>
@@ -130,6 +134,10 @@ color: #fff;
                 	<li><a href="#tabular-data-file">Tabular data file</a></li>				
                  </ul>
                 </li>
+	            <li><a href="#run-time">Run time</a>
+	            </li>
+	            <li><a href="#galaxy">Galaxy Tool Shed</a>
+	            </li>
             <li><a href="#install-kpLogo-locally">Install <i>k</i>pLogo locally</a>
             </li>
             <li><a href="#command-line-options">Command Line Options</a></li>
@@ -159,9 +167,9 @@ color: #fff;
 	  Given a set of sequences of identical length, either weighted or unweighted, <i>k</i>pLogo performs statistical tests to find the most enriched and depleted short motif (<i>k</i>-mer) at each position, and visualizes the results using a new type of logo called <i>k</i>-mer logo, in which the most enriched/depleted <i>k</i>-mer at each position is plotted vertically and scaled by its statistical significance. In addition, <i>k</i>pLogo also outputs traditional logo plots for letter frequency, information content, and probability logo. </p>
 	  <p>
 	  
-	  An example of a <i>k</i>-mer logo highlighting two overlapping CNNC motifs at position 17 or 18 that are important for human microRNA processing (see <a href="#examples">Examples</a>):
+	  The diagram below highlights two overlapping CNNC motifs at position 17 or 18 that are important for human microRNA processing (see <a href="#examples">Examples</a>):
 	  
-	  <a href="./examples/miRNA-3p-50nt/kpLogo.most.significant.each.position.png">  <img src="./examples/miRNA-3p-50nt/kpLogo.most.significant.each.position.png" style="display:block" width="100%"> </a>
+	  			<img src="./diagram.jpg" style="display:block" width="100%"> 
 	      
   	</p>
 	  
@@ -207,26 +215,22 @@ color: #fff;
 	  
 	  <p style="text-align:center;"><img src="./manual/main.png" width="80%"></p>
 	  
-		<p>Users paste or upload sequences to the server and the job will run
-      on
-      the background. Once submitted, users are redirected to the result
-      page
-      which displays <i>k</i>pLogo screen output and refreshes every second. Users
-      are
-      encouraged to provide an email address when submitting the job. If
-      provided, two emails will be sent, one immediately after
-      submitting the
-      job, and the other after results are available. Both emails
-      contain the
-      link to the result page. <br>
-      <br>
-      Note that user data will be <span style="color: red;">removed 72
-        hours</span>
-      after the job is finished. Please download the data as soon as it
-      is
+		<p>Users paste or upload sequences to the server, choose sequence type (DNA/RNA, protein, or other) and analysis type (unweighted, weighted, or ranked), then submit the job using default setting. Once submitted, the job will run
+      on the background, and users are redirected to the result page which displays <i>k</i>pLogo screen output and refreshes every second. 
+	  
+      <h3><a class="mozTocH3" name="email"></a>Email and data security</h3>
+      Note that user data will be <span style="color: red;">removed 10 days</span>
+      after the job is submitted. Please download the data as soon as it is
       available. It is recommended user to provide an email address to
-      receive a notification.</p>
-		<p><b>Limitations</b></p>
+      receive a notification. All data related to the job can be immediately deleted if the user is concerned about the security of data, via a button in the result page. No copy of the data will be stored or used for other purposes.</p>
+	  
+	  Users are encouraged to provide an email address when submitting the job. If provided, two emails will be sent, one immediately after
+      submitting the job, and the other after results are available. Both emails contain the link to the result page. The second email contains a PDF file with all logo plots. Note that users need to <span style="color: red;">keep the result page open</span>  for the second email to be sent. If the result page is closed before the job is finished, the second email will not be sent but users will still be able to open the result page using the link in the first email.<br>
+      <br>
+    
+      <h3><a class="mozTocH3" name="server-limit"></a>Limitations</h3>
+
+
       The web server implements most functionality of <i>k</i>pLogo, and should be
       sufficient for most users. However, for simplicity and to avoid
       excess
@@ -234,14 +238,16 @@ color: #fff;
       on the
       web version of <i>k</i>pLogo:<br>
       <ol>
+          <li><span style="font-weight: bold;">Input file size</span>: Each input file should not exceed 2MB in size.<br>
+          </li>
         <li><span style="font-weight: bold;"><i>k</i>-mer length</span>: the max
-          length of <i>k</i>-mer is limited to 6.<br>
+          length of <i>k</i>-mer is limited to 4.<br>
         </li>
         <li><span style="font-weight: bold;">sequence shuffling</span>:
           if
           choose to shuffle sequence to generate the
           background,&nbsp; one can only preserve upto 4-residual
-          frequency. <br>
+          frequency, and for each sequence, shuffle no more than 1000 times. <br>
         </li>
         <li><span style="font-weight: bold;">model prediction</span>:
           the binary version allows user to score a new
@@ -252,6 +258,8 @@ color: #fff;
         </li>
       </ol>
       
+	 
+	  
      <h2><a class="mozTocH2" name="input"></a>Input</h2>
       <h3><a class="mozTocH3" name="sequence-type"></a>Sequence type: DNA/RNA/protein/other</h3>
 	  
@@ -368,8 +376,8 @@ color: #fff;
 		<p> A positional <i>k</i>-mer (or simply <i>k</i>-mer in this document) is a short sequence of length<i>k</i> associated with a specific position. Throughout this document, a positional <i>k</i>-mer has the format of <code>sequence:position:shift</code>. For example, most introns start with a GU dinucleotide, and this dinucleotide motif (k=2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first residual is used as the position of the <i>k</i>-mer.		</p>
 		<h3><a class="mozTocH3" name="kmer-length"></a><i>k</i>-mer length</h3>
 		
-		<i>k</i>-mers upto 6 residuls are supported in the webserver, with the default being 1 to 4. The commandline tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus needs much longer time to fininsh. 
-      <p style="text-align:center;"><img src="./manual/kmer-length.png" width="60%"></p>
+		<i>k</i>-mers upto 4 residuls are supported in the webserver, with the default being 1 to 4 for DNA/RNA and 1 to 2 for protein and other sequences. The commandline tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus needs much longer time to fininsh. 
+      <p style="text-align:center;"><img src="./manual/kmer-length.png" width="80%"></p>
 
 
 
@@ -961,8 +969,31 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           </ol>
         </small> </div>
 		
+      <h2><a class="mozTocH2" name="run-time"></a>Run time</h2>
+	  
+	  <p>
+		  
+		  For typical DNA/RNA analysis, the job should finish within a minute. Run time increases dramatically with increased <i>k</i>-mer length, and even faster with protein sequences. The program imposes a limit of 10 million tests per job, which is basically the nubmer of <i>k</i>-mers multiplied by the number of positions (length of each sequence). 
+		  
+		  <br><br>
+		  
+		  Here are a few examples:
+		  
+		  <br><br>
+		  42,481 protein sequences, each 40 amino acids long. It took 8 seconds, 1.5 minutes, and 34 minutes to run with a k-mer length upto 1, 2, and 3, respectively. 
+		  <br><br>
+		  186 RNA sequences, each 50 nt long. It took 6 seconds to run with a k-mer length upto 4, allowing gaps (i.e. the degenerate letter N), but 14 minutes if allowing all degenerate letters (ACGTRYMKWSBDHVN).
+		  
+	  </p>
       
-      
+      <h2><a class="mozTocH2" name="galaxy"></a>Galaxy Tool Shed</h2>
+	  
+	  <p>
+		  
+	  	<i>k</i>pLogo has been wrapped as a Galaxy tool and available in Galaxy Tool Shed (<a href="https://toolshed.g2.bx.psu.edu/view/xuebing/kplogo">click here</a>). To run <i>k</i>pLogo in a local instance of Galaxy, one still needs to compile and install <i>k</i>pLogo locally (see next section), and add the executable <i>k</i>pLogo to the path, such that one can directly call <i>k</i>pLogo by typing "kpLogo" in a terminal window.  
+		
+	  </p>
+		
       <h2><a class="mozTocH2" name="install-kpLogo-locally"></a>Install <i>k</i>pLogo
         locally</h2>
       <p><i>k</i>pLogo is a open-source project and users can download the source

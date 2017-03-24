@@ -252,7 +252,7 @@ int main(int argc, char* argv[]) {
 	{
 		print_help();
 		message("ERROR: the first argument needs to be input file name! ");
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 
     // other arguments
@@ -351,9 +351,9 @@ int main(int argc, char* argv[]) {
 				small_sample_correction = 1;
             } else if (str == "-markov") {
 				str = argv[i+1];
-				if(str.find(',') == std::string::npos)
+				if(str == "0" || str == "1" || str == "2")
 				{
-					markov_order = atoi(argv[i + 1]);
+					markov_order = atoi(argv[i+1]);
 				} else {
 					mmmodel_str = str;
 				}
@@ -395,7 +395,7 @@ int main(int argc, char* argv[]) {
             } else {
                 message("ERROR: Unknown options: "+str);
                 print_help();
-				exit(1);
+				system_run("touch exit_with_error");exit(1);
             }
         }
     }
@@ -486,6 +486,8 @@ int main(int argc, char* argv[]) {
     	message( "                   preserving " + to_string(preserve) + "-nuceotide frequency");
         }
     }
+	if (mmmodel_str.size()>0)
+    	message("   Markov model:   " +mmmodel_str);  
         message("   Output      :   " +output +".*");  
         message("   alphabet    :   " + alphabet);
         message("   min_kmer    :   " + to_string(min_k) );
@@ -523,7 +525,7 @@ int main(int argc, char* argv[]) {
 		if(analysis == "weighted")
 		{
 			message("ERROR: You used -weighted option which requires input to be tabular instead of fasta");
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}
 		message("Input file is FASTA format");
 		ReadFastaToVectors(seqfile1, names, seqs1);
@@ -536,7 +538,7 @@ int main(int argc, char* argv[]) {
     if (seqs1.size() == 0)
     {
         message("No sequence present in file: " + seqfile1);
-        exit(1);
+        system_run("touch exit_with_error");exit(1);
     }
     // show the number of sequences loaded
     message(to_string(seqs1.size()) + " sequences loaded from " + seqfile1);
@@ -609,7 +611,7 @@ int main(int argc, char* argv[]) {
 	        if (seqs2.size() == 0)
 	        {
 	            message("No sequence present in file: " + seqfile2);
-	            exit(1);
+	            system_run("touch exit_with_error");exit(1);
 	        }
 	        // show the number of sequences loaded
 	        message(to_string(seqs2.size()) + " sequences loaded from " + seqfile2);
@@ -673,15 +675,15 @@ int main(int argc, char* argv[]) {
 			filter_sequences_by_size(seqs2,seqs1[0].size());
 			if(seqs2.size()<2)
 			{
-				message("ERROR: less than 2 background sequences left after filtering by size");
-				exit(1);
+				message("ERROR: less than 2 background sequences left after filtering by size. Make sure your input sequences are of the same length or set sub-region options");
+				system_run("touch exit_with_error");exit(1);
 			}
 		}
 	}
     else
 	{
 		message("ERROR: less than 2 input sequences left after filtering by size");
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 
     // remove foreground/background sequences with residuals not found in alphabet
@@ -712,14 +714,14 @@ int main(int argc, char* argv[]) {
             if(seqs2.size()<2)
             {
                 message("ERROR: less than 2 background sequences left after alphabet filter");
-                exit(1);
+                system_run("touch exit_with_error");exit(1);
             }
         }
     }
     else
     {
         message("ERROR: less than 2 input sequences left after alphabet filter");
-        exit(1);
+        system_run("touch exit_with_error");exit(1);
     }
 
 
@@ -783,7 +785,7 @@ int main(int argc, char* argv[]) {
 		int nEachGroup = nTotal / gradient;
 		if (nEachGroup < 10){
 			message("ERROR: too few sequences! Need at least "+to_string(10*gradient));
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}
 		for (int k = 0; k < gradient; k++){
 			string output_k = output+"-"+to_string(k);
@@ -969,7 +971,7 @@ WriteFasta(seqs1,"implanted.fa");
 	message(to_string(nTest) + " tests (kmer x position x shifts) will be performed");
 	if (nTest > 10000000) {
 		message("ERROR: too many tests to perform! Exit");
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 
 
@@ -1034,7 +1036,7 @@ WriteFasta(seqs1,"implanted.fa");
 			}
 			message(to_string(nTest1)+" tests (kmer x position) to perform");
 			int nSig2 = find_significant_pairs_from_weighted_sequences(
-				seqs1,weights, paired_kmers, output+".significant.pair", 100, pCutoff,Bonferroni, startPos,minCount);
+				seqs1,weights, paired_kmers, output+".significant.pair", 100, pCutoff,Bonferroni, startPos,minCount,alphabet);
 	
 			message(to_string(nSig2)+" significant paired_kmers identified");
 		}
@@ -1045,21 +1047,25 @@ WriteFasta(seqs1,"implanted.fa");
 		if(local)
 		{
 			if(degenerate) nSig = find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
-				seqs1, dkmers,outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift,startPos,minCount);
-			else nSig = find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
-				seqs1, kmers,outtmp, nTest, pCutoff,Bonferroni, min_shift, max_shift,startPos,minCount);
+				seqs1, dkmers,outtmp, nTest, pCutoff, Bonferroni, min_shift, max_shift,startPos,minCount,alphabet);
+			else 
+			{
+				nSig = find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
+				seqs1, kmers,outtmp, nTest, pCutoff,Bonferroni, min_shift, max_shift,startPos,minCount,alphabet);
+				//message("debug: here");
+			}
 		}
 	    else if (seqs2.size()>0){
 	        // find significant kmers by comparing two set of sequences
 	        nSig = find_significant_kmer_from_two_seq_sets(
 				seqs1,seqs2,kmers,dkmers,min_shift,max_shift,degenerate,
-			pCutoff,Bonferroni,pseudo,startPos,nTest,outtmp,output_freq,minCount);
+			pCutoff,Bonferroni,pseudo,startPos,nTest,outtmp,output_freq,minCount,alphabet);
 	    }else{
 	        // find significant kmers using markov model as background
 			kmer_probs = markov.probs(kmers);
 	        nSig = find_significant_kmer_from_one_seq_set(
 				seqs1,kmer_probs,kmers,dkmers,min_shift,max_shift,degenerate,
-			pCutoff,Bonferroni, startPos,nTest,outtmp,output_freq,minCount); 
+			pCutoff,Bonferroni, startPos,nTest,outtmp,output_freq,minCount,alphabet); 
 	    }
 
 	    message( to_string (nSig) +  " significant positional kmers identified in total"); 
@@ -1115,7 +1121,7 @@ WriteFasta(seqs1,"implanted.fa");
 
 	// column to plot, 1 based
 	int cScore = 6; // bonferroni
-	string ylabel = "-log10(p)";
+	string ylabel = "-log10(P)";
 	double score_cutoff = -log10(pCutoff_corrected);
 
 	if (plot == "f") // fdr
@@ -1156,12 +1162,6 @@ WriteFasta(seqs1,"implanted.fa");
 	
 	
 	
-    //string plotfilename = output+".most.significant.each.position.pdf";
-
-    //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
-	
-	postscript_logo_from_kpLogo_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",fixed_position, fixed_residual,colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
-
 	// if monomer is included in the analysis
 	if(min_k < 2) 
 	{
@@ -1215,23 +1215,33 @@ WriteFasta(seqs1,"implanted.fa");
     		R_run(script);
 			
 		}
+		system_run("ps2pdf -dEPSCrop "+output+".eps "+output+".pdf");
+		system_run("convert "+output+".eps "+output+".png");
 	}
+	
+	
+    //string plotfilename = output+".most.significant.each.position.pdf";
 
+    //plot_most_significant_kmers(output+".most.significant.each.position.txt", output+".most.significant.each.position.pdf", seq_len1, cScore,startPos);
+	
+	postscript_logo_from_kpLogo_output(output+".most.significant.each.position.txt", output+".most.significant.each.position.eps",fixed_position, fixed_residual,colors, seq_len1, score_cutoff, startPos, fontsize,cScore,ylabel,sqrt(seq_len1)/1.5);	
+
+	system_run("convert "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.png");
 		
-	system_run("ps2pdf -dEPSCrop "+output+".eps "+output+".pdf");
 	system_run("ps2pdf -dEPSCrop "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.pdf");
 	
+
 	// merge pdf
-	system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+".info.pdf "+output+".freq.pdf "+output+".pdf "+output+".most.significant.each.position.pdf");
-	
-	// ps to png
-	system_run("convert "+output+".eps "+output+".png");
-	system_run("convert "+output+".most.significant.each.position.eps "+output+".most.significant.each.position.png");
-	
+	if(min_k < 2) system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+".most.significant.each.position.pdf "+output+".info.pdf "+output+".freq.pdf "+output+".pdf ");
+	else system_run("gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="+output+".all.pdf "+output+".most.significant.each.position.pdf "+output+".info.pdf "+output+".freq.pdf ");	
+		
 	// add header to data file
 	insert_header(out,header);
 	insert_header(output+".most.significant.each.position.txt",header);
     message("Done!");
+	
+	system_run("touch done");
+	
 
 	// send email once done
 	if(email.size()>1) system_run("echo '"+content+"' | mailx -s '"+subject+"' "+email);

@@ -159,14 +159,14 @@ $stack_order = scrub_alphanum($_POST['stack_order']);
 
 
 // clean up folders older than 3 days
-$clean = "find ./files_to_be_removed_72_hrs_after_creation -mtime +3 -exec rm -rf {} \;";
+$clean = "find ./files_to_be_removed_10_days_after_creation -mtime +10 -exec rm -rf {} \;";
 exec('nohup '. $clean . ' > /dev/null 2>&1 &');
 
 
 // make a folder with randome name for each job
 $jobID = substr(str_shuffle(md5(time())),0,20);
  
-$tmpfolder = "./files_to_be_removed_72_hrs_after_creation/".$jobID;
+$tmpfolder = "./files_to_be_removed_10_days_after_creation/".$jobID;
 
 $oldmask = umask(0);
 if (!mkdir($tmpfolder, 0777, true)) {
@@ -224,15 +224,15 @@ if ($background == " -bgfile kpLogo.background.txt " || $background == " -markov
 $command = "kpLogo kpLogo.input.txt -o kpLogo.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
 
 $ip = $_SERVER['REMOTE_ADDR'];
-file_put_contents("../../visitor.info.txt", $ip."\t".$email."\t".$command."\n", FILE_APPEND | LOCK_EX);
-$totalLines=intval(exec('wc -l ../../visitor.info.txt'));
+file_put_contents("../../job.info.txt", date("Y-m-d")."\n", FILE_APPEND | LOCK_EX);
+$totalLines=intval(exec('wc -l ../../job.info.txt'));
 $jobID="kpLogo-".$totalLines;
 
 
 //email
 $subject = "kpLogo results available: $jobID ($jobname)";
 $url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-$content = "Your kpLogo job $jobID ($jobname) is finished and results are available here for *** 72 hours ***: \r\n\r\n $url";
+$content = "Your kpLogo job $jobID ($jobname) is finished and results are available here for *** 10 days ***: \r\n\r\n $url";
 
 //$result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
 $result = exec('nohup ../../'. $command .' >> log 2>&1 &');

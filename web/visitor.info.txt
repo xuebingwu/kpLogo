@@ -1,2 +1,0 @@
-10.5.200.94	xxx@yyy.com	kpLogo kpLogo.input.txt -o kpLogo.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped  -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01  -stack_order 1 -fix 0.75
-10.5.200.102	xxx@yyy.com	kpLogo kpLogo.input.txt -o kpLogo.output  -seq 1 -weight 2 -alphabet dna  -max_k 4 -shift 0  -startPos 1 -gapped -colorblind -minCount 0.01 -pseudo 1 -region 1,0   -plot p  -pc 0.01  -stack_order 1 -fix 0.75

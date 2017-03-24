@@ -43,7 +43,11 @@ int bad_char(string str, string alphabet)
 		{
 			if (str[i] == alphabet[j]) break;
 		}
-		if (j == alphabet.size()) return i;
+		if (j == alphabet.size()) 
+			{ 
+				//message(str+"_"+to_string(i)+"_"+str[i]+"_");
+				return i; 
+			}
 	}
 	return -1; // if not found
 }
@@ -791,7 +795,8 @@ int find_significant_kmer_from_ranked_sequences(
 	int min_shift/*=0*/, 
 	int max_shift/*=0*/,
 	int startPos/*=0*/,
-	int minCount/*=5*/ )
+	int minCount/*=5*/,
+	string alphabet/*=ACGT*/ )
 {
     int nSeq = seqs.size();		// total number of sequences
 	int lSeq = seqs[0].size(); // length of the first sequence, assume all have the same length
@@ -814,7 +819,10 @@ int find_significant_kmer_from_ranked_sequences(
 	{
 		// expand a degenerate kmer to all possible element/exact kmers
 		//cout << kmers[i] << endl;
-        vector<string> exp_kmers = expand_degenerate_kmer(kmers[i],define_iupac);
+		vector<string> exp_kmers;
+		if (alphabet == "ACGT") exp_kmers = expand_degenerate_kmer(kmers[i],define_iupac);
+		else exp_kmers = {kmers[i]};
+		
 		int k = kmers[i].size();
 		for (int shift = min_shift; shift <= max_shift; shift ++)
 		{
@@ -1000,8 +1008,11 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	int min_shift/*=0*/, 
 	int max_shift/*=2*/,
 	int startPos/*=0*/,
-	int minCount/*=5*/) 
+	int minCount/*=5*/,
+	string alphabet/*=ACGT*/) 
 {
+	//message(alphabet);
+	
     int nSeq = seqs.size();		// total number of sequences
 	int lSeq = seqs[0].size(); // length of the first sequence, assume all have the same length
 	
@@ -1022,7 +1033,13 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	for( int i=0; i<kmers.size();i++) // for each kmer
 	{
 		// expand a degenerate kmer to all possible element/exact kmers		
-        vector<string> exp_kmers = expand_degenerate_kmer(kmers[i],define_iupac);
+        //vector<string> exp_kmers = expand_degenerate_kmer(kmers[i],define_iupac);
+		
+		vector<string> exp_kmers;
+		if (alphabet == "ACGT") exp_kmers = expand_degenerate_kmer(kmers[i],define_iupac);
+		else exp_kmers = {kmers[i]};
+		
+		
 		int k = kmers[i].size();
 		for (int shift = min_shift; shift <= max_shift; shift ++)
 		{
@@ -1140,7 +1157,8 @@ int find_significant_pairs_from_weighted_sequences(
 	double pCutoff/*=0.05*/, 
 	bool Bonferroni/*=true*/,
 	int startPos/*=0*/,
-	int minCount/*=5*/) 
+	int minCount/*=5*/,
+	string alphabet) 
 {
     int nSeq = seqs.size();		// total number of sequences
 	int lSeq = seqs[0].size(); // length of the first sequence, assume all have the same length
@@ -2194,7 +2212,7 @@ string degenerate_kmer_to_regex(string kmer,map<char,string> iupac)
 
 // expand a degenerate kmer to all possible exact kmers
 vector<string> expand_degenerate_kmer(string seq, map<char,string> iupac)
-{
+{	
     vector<string> res (1,"");
     vector<string> tmp;
 
@@ -2729,7 +2747,7 @@ void postscript_logo_from_kpLogo_output(string infile, string outfile, vector<in
 	for(int i=0;i<fixed_position.size();i++)
 	{
 		string s = string(fixed_residual[i]);
-		cout << s << endl;
+		//cout << s << endl;
 		out << postscript_kmer(s, x0+ xstep * (fixed_position[i]), y0+coord_size, fontsize, scaley, 1, 1.1*maxv/ absmax * max_scale, colors, 0);
 	}
 	
@@ -3147,7 +3165,8 @@ int find_significant_kmer_from_one_seq_set(
 	int nTest, 
 	string outfile, 
 	string output_count_file,
-	int minCount)
+	int minCount,
+	string alphabet)
 {
     int nSeq1 = seqs1.size();
     int nSig = 0;
@@ -3299,7 +3318,7 @@ int find_significant_kmer_from_one_seq_set(
 
 
 // two file comparison, not allow shift and degenerate at the same time
-int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift,bool degenerate,double pCutoff, bool Bonferroni/*=true*/,double pseudo,int startPos,int nTest, string outfile,string output_count_file,int minCount)
+int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift,bool degenerate,double pCutoff, bool Bonferroni/*=true*/,double pseudo,int startPos,int nTest, string outfile,string output_count_file,int minCount,string alphabet)
 {
     int nSeq1 = seqs1.size();
     int nSeq2 = seqs2.size();
@@ -3397,7 +3416,11 @@ int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>s
 	            if ( find(kmers.begin(), kmers.end(), dkmers[i])!=kmers.end() ) continue;
 
 	            // expand a degenerate kmer to all possible element/exact kmers
-	            vector<string> dkmersexp = expand_degenerate_kmer(dkmers[i],define_iupac);
+	            //vector<string> dkmersexp = expand_degenerate_kmer(dkmers[i],define_iupac);
+				
+				vector<string> dkmersexp;
+				if (alphabet == "ACGT") dkmersexp = expand_degenerate_kmer(dkmers[i],define_iupac);
+				else dkmersexp = {kmers[i]};
 
 	            // for output only, also generate regex version of the degenerate kmer
 	            string dkmersexp_readable = degenerate_kmer_to_regex(dkmers[i],define_iupac);
@@ -3529,6 +3552,7 @@ void ReadOneSeqFromFasta(ifstream& infile, string& name, string& seq){
   while(infile.peek() != '>' && infile.good())
   {// before next '>' and before hitting the end of the file
         getline(infile,str);
+	    str.erase(str.find_last_not_of(" \n\r\t")+1);
         seq.append(str);
     }
   seq = to_upper(seq);

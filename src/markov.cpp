@@ -29,7 +29,7 @@ markov_model::markov_model(string alphabet, string model)
 	else
 	{
 		message("ERROR: markov model format error: order "+model);
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 
 //	cout << model << endl;
@@ -57,7 +57,7 @@ markov_model::markov_model(string alphabet, string model)
 		if(tmp.size() != 2)
 		{ 
 			message("ERROR: : markov model format error: "+flds[i]);
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}  
 		double freq = stof(tmp[1]);
 
@@ -66,7 +66,7 @@ markov_model::markov_model(string alphabet, string model)
 		if(freq < 0)
 		{
 			message("ERROR: markov model error: negative value: "+ tmp[1]);
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}
 		if(tmp[0].size() == 1)
 		{
@@ -74,7 +74,7 @@ markov_model::markov_model(string alphabet, string model)
 			if(found == std::string::npos)
 			{ 
 				message("ERROR: : markov model format error: "+tmp[0]+" not in alphabet "+alphabet);
-				exit(1);
+				system_run("touch exit_with_error");exit(1);
 			}  	
 			this->f1[alphabet[found]] = freq;
 			//cout << alphabet[found] << "->" << this->f1[alphabet[found]] << endl;
@@ -84,7 +84,7 @@ markov_model::markov_model(string alphabet, string model)
 			if(this->f2.find(tmp[0]) == f2.end())
             {   
                 message("ERROR: : markov model key error: "+tmp[0]+" is not two-letter of "+alphabet);
-                exit(1);
+                system_run("touch exit_with_error");exit(1);
             }
 			this->f2[tmp[0]] = freq;
 		}
@@ -93,7 +93,7 @@ markov_model::markov_model(string alphabet, string model)
             if(this->f3.find(tmp[0]) == f3.end())
             {
                 message("ERROR: : markov model key error: "+tmp[0]+" is not three-letter of "+alphabet);
-                exit(1);
+                system_run("touch exit_with_error");exit(1);
             }
             this->f3[tmp[0]] = freq;
         }
@@ -325,6 +325,6 @@ map<string,double> markov_model::probs(vector<string> kmers)
 
     // other orders
     cerr << "Not supported: order = " << order << endl;
-    exit(1);
+    system_run("touch exit_with_error");exit(1);
 }
 

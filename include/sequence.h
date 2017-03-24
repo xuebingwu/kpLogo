@@ -143,7 +143,8 @@ int find_significant_pairs_from_weighted_sequences(
 	double pCutoff=0.05, 
 	bool Bonferroni=true,
 	int startPos=0,
-	int minCount=5) ;
+	int minCount=5,
+	string alphabet="ACGT") ;
 
 	
 void plot_nucleotide_profile(string infile, string outfile, int lSeq, int col, int startPos);
@@ -154,7 +155,7 @@ void load_weighted_sequences_to_vectors(string filename, vector<string> &seqs, v
 
 vector<string> load_ranked_sequences_to_vectors(string filename, int cSeq=1);
 
-int find_significant_kmer_from_ranked_sequences(vector<string> seqs, vector<string> kmers, string outfile, int nTest, double pCutoff=0.05,bool Bonferroni=true,int min_shift=0, int max_shift=0, int startPos=0, int minCount=5 );
+int find_significant_kmer_from_ranked_sequences(vector<string> seqs, vector<string> kmers, string outfile, int nTest, double pCutoff=0.05,bool Bonferroni=true,int min_shift=0, int max_shift=0, int startPos=0, int minCount=5, string alphabet="ACGT" );
 
 int find_significant_kmer_from_weighted_sequences(vector<string> seqs,vector<double> weights, vector<string> kmers, string outfile, int nTest, double pCutoff=0.05, 	bool Bonferroni=true,int shift_min=0, int shift_max=2, int startPos=0, int minCount=5);
 
@@ -249,10 +250,10 @@ void print_kmer_positional_profile(map<string,vector<int> > data);
 
 map<string,vector<int> > degenerate_kmer_counts(vector<string> dkmers,map<string,vector<int> > data, map<char,string> define_iupac);
 
-int find_significant_kmer_from_one_seq_set(vector<string>seqs1, map<string,double> probs_kmer,vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni, int startPos,int nTest, string outfile, string output_count_file, int minCount);
+int find_significant_kmer_from_one_seq_set(vector<string>seqs1, map<string,double> probs_kmer,vector<string>kmers, vector<string> dkmers, int min_shift,int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni, int startPos,int nTest, string outfile, string output_count_file, int minCount, string alphabet);
 
 // two file comparison, not allow shift and degenerate at the same time
-int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift, int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni,double pseudo,int startPos,int nTest, string outfile,string output_count_file, int minCount);
+int find_significant_kmer_from_two_seq_sets(vector<string>seqs1, vector<string>seqs2, vector<string>kmers, vector<string> dkmers, int min_shift, int max_shift, bool degenerate,double pCutoff, 	bool Bonferroni,double pseudo,int startPos,int nTest, string outfile,string output_count_file, int minCount, string alphabet);
 
 int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	vector<string> seqs,
@@ -264,7 +265,8 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 	int min_shift=0, 
 	int max_shift=2,
 	int startPos=0,
-	int minCount=5);
+	int minCount=5,
+	string alphabet="ACGT");
 
 void plot_frequency_for_significant_kmer(string inputfile, string outputfile);
    

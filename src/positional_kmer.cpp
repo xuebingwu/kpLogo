@@ -32,7 +32,7 @@ vector<positional_kmer> positional_kmer_vector_from_string(string str, map<char,
 		vector<string> flds = string_split(all_pkmers[i],":");// seq, pos, shift
 		if (flds.size() == 1){
 			cerr << "ERROR: incorrect positional kmer string: "+all_pkmers[i] << endl;
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		} else if (flds.size() == 2){
 			flds.push_back("0");
 		}
