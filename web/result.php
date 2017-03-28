@@ -83,19 +83,21 @@ a:link {
 <?php 
 
 // load job info
-$handle = @fopen("jobinfo.txt", "r");
+$handle = @fopen("job.info", "r");
 $folder = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
-$email = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 $jobname = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 $command = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 $jobID = str_replace(array("\r", "\n"), '', fgets($handle, 4096));
 fclose($handle);
+
+$email = "";
 
 // if exit due to error
 if(file_exists("exit_with_error") == true){
 	echo "<font color='red'>Exit due to error!</font><br>";
 	sleep(1);
     echo nl2br(file_get_contents( "log" ));
+	exec("rm *");
 	exit();
 }
 
@@ -157,6 +159,11 @@ if (file_exists('./done')) {
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;all significant kmer : <a href=\"./kpLogo.output.pass.p.cutoff.txt\">TXT</a> <br>";
 	
 	if (file_exists("./result_email_not_sent")){
+
+		$handle1 = @fopen("result_email_not_sent", "r");
+		$email = str_replace(array("\r", "\n"), '', fgets($handle1, 4096));
+		fclose($handle1);
+		
     $subject = "kpLogo results available: $jobID ($jobname)";
     $message = "Your job $jobID ($jobname) is finished. The logo plots depicting k-mer probability, information content, frequency, and monomer probability (if k=1 included) are attached. More detailed resutls can be found here (to be removed in *** 10 days ***): \r\n\r\n http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $message = wordwrap($message, 70, "\r\n");
@@ -214,16 +221,19 @@ if (file_exists('./done')) {
     // email reminder
     if (file_exists("submission_notification_not_sent") )
     {
+		$handle1 = @fopen("submission_notification_not_sent", "r");
+		$email = str_replace(array("\r", "\n"), '', fgets($handle1, 4096));
+		fclose($handle1);
+		
         $subject = "kpLogo job submitted: $jobID ($jobname)";
-        $message = "Your job $jobID ($jobname) has been submitted. The results will be available at the link below. Once available, the data will be retained on the server 10 days, or the user can delete the data from the server immediately. To receive another email when the results are available, please click the following link and keep it open: \r\n\r\n $url";
+        $message = "Your job $jobID ($jobname) has been submitted. The results will be available at the link below. Once available, the data will be retained on the server for 10 days, or you can delete the data from the server immediately. To receive another email when the results are available, please click the following link and keep it open: \r\n\r\n $url";
         $message = wordwrap($message, 70, "\r\n");
-        mail($email, $subject, $message);
-        exec("rm submission_notification_not_sent");
-    } elseif ($email != "xxx@yyy.com" )
-    {
-        echo "An email has been sent to $email. Another email will be sent once results are available.<br><br>";
+		if(mail($email, $subject, $message)){
+	        exec("mv submission_notification_not_sent result_email_not_sent");
+		} else {
+			echo "<font color='red'>Failed to send email to $email! Make sure you entered a correct email address</font><br>";
+		}
     }
-
 }
 
     echo "<h3> Job ID & Name </h3>";

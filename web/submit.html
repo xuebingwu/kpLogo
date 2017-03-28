@@ -255,16 +255,18 @@ color: #fff;
 				
 			<i>k</i> = 
         <select name="kmer_length" id="kmer_length">
-        <option value="-max_k 4" selected="selected">1,2,3,4</option>	
-        <option value="-max_k 3">1,2,3</option>
-        <option value="-max_k 2">1,2</option>
-        <option value="-k 4">4</option>
-        <option value="-k 3">3</option>
-        <option value="-k 2">2</option>
-        <option value="-k 1">1</option>
-		
-		
-	</select>(to use larger <i>k</i>, please install <i>k</i>pLogo locally)
+			<option value="-max_k 6">1,2,3,4,5,6</option>
+			<option value="-max_k 5">1,2,3,4,5</option>
+    		<option value="-max_k 4" selected="selected">1,2,3,4</option>	
+   			<option value="-max_k 3">1,2,3</option>
+   			<option value="-max_k 2">1,2</option>
+    		<option value="-k 6">6</option>
+   		  	<option value="-k 5">5</option>
+   		 	<option value="-k 4">4</option>
+   		 	<option value="-k 3">3</option>
+    		<option value="-k 2">2</option>
+   		 	<option value="-k 1">1</option>
+		</select>(to use larger <i>k</i>, please install <i>k</i>pLogo locally)
 		
        </td>
       </tr>
@@ -514,7 +516,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
   </table>
 </form>
 
-<hr> <p align="center">Copyright (c) 2015 Xuebing Wu <br><br><br>
+<hr> <p align="center">Copyright (c) 2017 Xuebing Wu <br><br><br>
 
 <script>
 function check_other_alphabet(val)
@@ -526,11 +528,19 @@ function check_other_alphabet(val)
 	if(val==="other" || val==="protein"){
 		document.getElementById('degenerate').style.display='none'; 
 		document.getElementById('degenerate_div1').style.display='none'; 
-		document.getElementById("kmer_length").selectedIndex = 2;
+		document.getElementById("kmer_length").options[0].style.display='none'; 
+		document.getElementById("kmer_length").options[1].style.display='none'; 
+		document.getElementById("kmer_length").options[5].style.display='none'; 
+		document.getElementById("kmer_length").options[6].style.display='none'; 
+		document.getElementById("kmer_length").selectedIndex = 4;
 	} else {
 		document.getElementById('degenerate').style.display='block'; 
 		document.getElementById('degenerate_div1').style.display='block'; 
-		document.getElementById("kmer_length").selectedIndex = 0;
+		document.getElementById("kmer_length").selectedIndex = 2;
+		document.getElementById("kmer_length").options[0].style.display='block'; 
+		document.getElementById("kmer_length").options[1].style.display='block'; 
+		document.getElementById("kmer_length").options[5].style.display='block'; 
+		document.getElementById("kmer_length").options[6].style.display='block'; 
 	}
 }
 

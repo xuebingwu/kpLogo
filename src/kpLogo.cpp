@@ -675,14 +675,14 @@ int main(int argc, char* argv[]) {
 			filter_sequences_by_size(seqs2,seqs1[0].size());
 			if(seqs2.size()<2)
 			{
-				message("ERROR: less than 2 background sequences left after filtering by size. Make sure your input sequences are of the same length or set sub-region options");
+				message("ERROR: less than 2 BACKGROUND sequences left after filtering by size. Make sure your input sequences are of the same length or set sub-region options");
 				system_run("touch exit_with_error");exit(1);
 			}
 		}
 	}
     else
 	{
-		message("ERROR: less than 2 input sequences left after filtering by size");
+		message("ERROR: less than 2 sequences left after filtering by size. Make sure your input sequences are of the same length or set sub-region options");
 		system_run("touch exit_with_error");exit(1);
 	}
 
@@ -713,14 +713,14 @@ int main(int argc, char* argv[]) {
             filter_sequences_by_alphabet(seqs2,alphabet);
             if(seqs2.size()<2)
             {
-                message("ERROR: less than 2 background sequences left after alphabet filter");
+                message("ERROR: less than 2 BACKGROUND sequences left after alphabet filter. Make sure you choose the right type of sequences (DNA/RNA/protein/other)");
                 system_run("touch exit_with_error");exit(1);
             }
         }
     }
     else
     {
-        message("ERROR: less than 2 input sequences left after alphabet filter");
+        message("ERROR: less than 2 sequences left after alphabet filter. Make sure you choose the right type of sequences (DNA/RNA/protein/other)");
         system_run("touch exit_with_error");exit(1);
     }
 
@@ -1170,7 +1170,7 @@ WriteFasta(seqs1,"implanted.fa");
 		
 		boost::numeric::ublas::matrix<double> pwm = position_weight_matrix_from_kpLogo_output(out,alphabet, seq_len1, startPos, cScore);
 
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5*4/alphabet.size(),0,stack_order);	
+	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
 
 		// make barplots & heatmap
 		if(alphabet == "ACGT")

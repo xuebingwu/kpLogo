@@ -76,35 +76,30 @@ color: #fff;
    		</div>
 
        <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">
-	   
-    <font color="Blue"><i>k</i>-mer probability logo (<i>k</i>pLogo)</font> is a motif tool for integrated detection and visualization of
-    positionally enriched or depleted <i>k</i>-mers from one or two sets of sequences of identical length.
-  
-  <p>
-  Given a set of sequences, either weighted or unweighted, <i>k</i>pLogo performs statistical tests to find the most enriched and depleted short motif (<i>k</i>-mer) at each position, and visualizes the results using a new type of logo called <i>k</i>-mer logo, in which the most enriched/depleted <i>k</i>-mer at each position is plotted vertically and scaled by its statistical significance. In addition, <i>k</i>pLogo also outputs traditional logo plots for letter frequency, information content, and probability logo. </p>  
-		  <p>
-		   <b>Cite:</b> <p>Xuebing Wu and David Bartel (2017) <i>k</i>pLogo: positional <i>k</i>-mer analysis reveals hidden specificity in biological sequences, see preprint in <a href="http://biorxiv.org/content/early/2017/01/25/102921">bioRxiv</a>. 
-	      </p>
+	
+	  
+	  
+      <font color="Blue"><i>k</i>-mer probability logo (<i>k</i>pLogo)</font> is a probability-based logo tool for integrated detection and visualization of position-specific ultra-short motifs from a set of aligned sequences. <i>k</i>pLogo also overcomes the limitations of conventional motif-visualization tools in handling positional interdependencies and utilizing ranked or weighted sequences increasingly available from high-throughput assays. 
+	  
+	  <p>
+	  Given a set of sequences of identical length, either unweighted, weighted, or ranked, <i>k</i>pLogo enumerates all possible <i>k</i>-mers of user-specified lengths, evaluates their presence at each position in all input sequences, and reports their enrichment and depletion at each position as determined using an appropriate statistical model. To visualize the results, kpLogo generates a new type of logo plot called the <i>k</i>-mer logo, in which at each position the most significant <i>k</i>-mer is plotted vertically with the total height scaled to its <i>P</i> value (log10 transformed) or test statistics, as appropriate. In addition to <i>k</i>-mer logo, <i>k</i>pLogo also generates logo plots for monomer frequency and information content.
+	  <p>
+				
+	      
+  	</p>
+		
+
+	  
+		  The diagram below highlights two overlapping CNNC motifs at position 17 or 18 that are important for human microRNA processing (see <a href="./manual.html#examples">Examples</a>):
+	  
+		  				<p style="text-align:center;"><img src="./diagram.jpg" width="70%"></p>
+						
+			  		  <p>
+			  		   <b>Cite:</b> <p>Xuebing Wu and David Bartel (2017) <i>k</i>pLogo: positional <i>k</i>-mer analysis reveals hidden specificity in biological sequences, see preprint in <a href="http://biorxiv.org/content/early/2017/01/25/102921">bioRxiv</a>. 
+			  	      </p>
+						
  </div>
-	   
-	   <br>
-	   
-	          <div style="border: 0px solid ; padding: 10px 40px; background:
-	            rgb(255, 255, 255) none repeat scroll 0% 50%;
-	            -moz-background-clip: -moz-initial; -moz-background-origin:
-	            -moz-initial; -moz-background-inline-policy: -moz-initial;
-	            font-family: Monaco;"><small>
-
-	  <table border-spacing="0" border-collapse="collapse" display="block" cellspacing="0" cellpadding="0" border="0">
-	  	<tbody>
-	  			<img src="./diagram.jpg" style="display:block" width="100%"> 
-	  			
-		
-
-	  	</tbody>
-	  	</table>
-		
-	  		    </small> </div>
+	
 	   <br>
 	   
        <div style="font-family: Helvetica,Arial,sans-serif;text-align: left;">

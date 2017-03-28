@@ -2785,21 +2785,21 @@ boost::numeric::ublas::matrix<double> load_pwm_from_file(string filename, string
 		else if (L != flds.size())
 		{
 			message("ERROR! rows have different number of columns in pwm file: "+filename);
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}
 		i = i + 1;
 				
 		if(i > alphabet.size())
 		{
 			message("ERROR! pwm file has too many rows: "+filename);
-			exit(1);
+			system_run("touch exit_with_error");exit(1);
 		}
 	}
 	fin.close();
 	if(i < alphabet.size())
 	{
 		message("ERROR! pwm file has too few rows: "+filename);
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 	
 	// initialize an empty matrix
@@ -3654,7 +3654,7 @@ vector<string> sub_sequences(vector<string> seqs, int a, int b)
 	if(res.size()<1)
 	{
 		message("ERROR: sub_sequences: no sequences survive the triming!");
-		exit(1);
+		system_run("touch exit_with_error");exit(1);
 	}
 
     return res;

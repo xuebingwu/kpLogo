@@ -219,20 +219,20 @@ if ($background == " -bgfile kpLogo.background.txt " || $background == " -markov
 	}
 }
 
+
 //
 
 $command = "kpLogo kpLogo.input.txt -o kpLogo.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
 
-$ip = $_SERVER['REMOTE_ADDR'];
-file_put_contents("../../job.info.txt", date("Y-m-d")."\n", FILE_APPEND | LOCK_EX);
-$totalLines=intval(exec('wc -l ../../job.info.txt'));
+file_put_contents("../../num.job.each.day", date("Y-m-d")."\n", FILE_APPEND | LOCK_EX);
+$totalLines=intval(exec('wc -l ../../num.job.each.day'));
 $jobID="kpLogo-".$totalLines;
 
 
 //email
-$subject = "kpLogo results available: $jobID ($jobname)";
-$url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-$content = "Your kpLogo job $jobID ($jobname) is finished and results are available here for *** 10 days ***: \r\n\r\n $url";
+//$subject = "kpLogo results available: $jobID ($jobname)";
+//$url = str_replace("submit.php","$tmpfolder/result.php","http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+//$content = "Your kpLogo job $jobID ($jobname) is finished and results are available here for *** 10 days ***: \r\n\r\n $url";
 
 //$result = exec('nohup ../../'. $command . ' -email '. $email . ' -subject "'. $subject. '" -content "'. $content. '" >> log 2>&1 &');
 $result = exec('nohup ../../'. $command .' >> log 2>&1 &');
@@ -243,14 +243,15 @@ exec("cp ../../result.php ./");
 
 
 // save relevent information
-file_put_contents("jobinfo.txt", $folder."\n", FILE_APPEND | LOCK_EX);
-file_put_contents("jobinfo.txt", $email."\n", FILE_APPEND | LOCK_EX);
-file_put_contents("jobinfo.txt", $jobname."\n", FILE_APPEND | LOCK_EX);
-file_put_contents("jobinfo.txt", $command."\n", FILE_APPEND | LOCK_EX);
-file_put_contents("jobinfo.txt", $jobID."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("job.info", $folder."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("job.info", $jobname."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("job.info", $command."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("job.info", $jobID."\n", FILE_APPEND | LOCK_EX);
 
-touch("submission_notification_not_sent");
-touch("result_email_not_sent");
+file_put_contents("submission_notification_not_sent", $email."\n", FILE_APPEND | LOCK_EX);
+file_put_contents("submission_notification_not_sent", "This file will be deleted once the job is finished and the email is sent\n", FILE_APPEND | LOCK_EX);
+
+
 
 
 header("Location: $tmpfolder/result.php");
