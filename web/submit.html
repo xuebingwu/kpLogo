@@ -530,8 +530,22 @@ function check_other_alphabet(val)
 		document.getElementById('degenerate_div1').style.display='none'; 
 		document.getElementById("kmer_length").options[0].style.display='none'; 
 		document.getElementById("kmer_length").options[1].style.display='none'; 
+		document.getElementById("kmer_length").options[2].style.display='none'; 
 		document.getElementById("kmer_length").options[5].style.display='none'; 
 		document.getElementById("kmer_length").options[6].style.display='none'; 
+		document.getElementById("kmer_length").options[7].style.display='none'; 
+		document.getElementById("kmer_length").options[0].disabled=true; 
+		document.getElementById("kmer_length").options[1].disabled=true; 
+		document.getElementById("kmer_length").options[2].disabled=true; 
+		document.getElementById("kmer_length").options[5].disabled=true; 
+		document.getElementById("kmer_length").options[6].disabled=true; 
+		document.getElementById("kmer_length").options[7].disabled=true; 
+		document.getElementById("kmer_length").options[0].text=''; 
+		document.getElementById("kmer_length").options[1].text=''; 
+		document.getElementById("kmer_length").options[2].text=''; 
+		document.getElementById("kmer_length").options[5].text=''; 
+		document.getElementById("kmer_length").options[6].text=''; 
+		document.getElementById("kmer_length").options[7].text='';  
 		document.getElementById("kmer_length").selectedIndex = 4;
 	} else {
 		document.getElementById('degenerate').style.display='block'; 
@@ -539,8 +553,27 @@ function check_other_alphabet(val)
 		document.getElementById("kmer_length").selectedIndex = 2;
 		document.getElementById("kmer_length").options[0].style.display='block'; 
 		document.getElementById("kmer_length").options[1].style.display='block'; 
+		document.getElementById("kmer_length").options[2].style.display='block'; 
+		
 		document.getElementById("kmer_length").options[5].style.display='block'; 
 		document.getElementById("kmer_length").options[6].style.display='block'; 
+		document.getElementById("kmer_length").options[7].style.display='block'; 
+		
+		document.getElementById("kmer_length").options[0].disabled=false;
+		document.getElementById("kmer_length").options[1].disabled=false; 
+		document.getElementById("kmer_length").options[2].disabled=false; 
+		
+		document.getElementById("kmer_length").options[5].disabled=false; 
+		document.getElementById("kmer_length").options[6].disabled=false; 	
+		document.getElementById("kmer_length").options[7].disabled=false; 
+		
+		document.getElementById("kmer_length").options[0].text='1,2,3,4,5,6'; 
+		document.getElementById("kmer_length").options[1].text='1,2,3,4,5'; 
+		document.getElementById("kmer_length").options[2].text='1,2,3,4'; 
+		document.getElementById("kmer_length").options[5].text='6'; 
+		document.getElementById("kmer_length").options[6].text='5'; 
+		document.getElementById("kmer_length").options[7].text='4';  		
+			
 	}
 }
 

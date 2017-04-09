@@ -134,7 +134,7 @@ color: #fff;
                 	<li><a href="#tabular-data-file">Tabular data file</a></li>				
                  </ul>
                 </li>
-	            <li><a href="#run-time">Run time</a>
+	            <li><a href="#run-time">Run time and input limit</a>
 	            </li>
 	            <li><a href="#galaxy">Galaxy Tool Shed</a>
 	            </li>
@@ -237,7 +237,7 @@ color: #fff;
 		
   	  <p style="text-align:center;"><img src="./manual/sequence-type-other.png" width="30%"></p>
 		
-	  <p><b>Command-line options: </b>When <code>-alphabet</code> is not specified by users, <i>k</i>pLogo use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>.	   To run <i>k</i>pLogo on protein sequences, please use <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIJKLMNOPQRSTUVWY</code>.  Similarly, to run <i>k</i>pLogo on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
+	  <p><b>Command-line options: </b>When <code>-alphabet</code> is not specified by users, <i>k</i>pLogo use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>.	   To run <i>k</i>pLogo on protein sequences, please use <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIKLMNPQRSTVWY</code>.  Similarly, to run <i>k</i>pLogo on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
 
       <h3><a class="mozTocH2" name="file-format"></a>File format</h3>
 	  
@@ -343,7 +343,7 @@ color: #fff;
 		<p> A positional <i>k</i>-mer (or simply <i>k</i>-mer in this document) is a short sequence of length <i>k</i> associated with a specific position. Throughout this document, a positional <i>k</i>-mer has the format of <code>sequence:position:shift</code>, or simply <code>sequence:position</code> if no shift is allowed (default). For example, most introns start with a GU dinucleotide, and this dinucleotide motif (<i>k</i> = 2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first residual is used as the position of the <i>k</i>-mer.		</p>
 		<h3><a class="mozTocH3" name="kmer-length"></a><i>k</i>-mer length</h3>
 		
-		<i>k</i>-mers up to 6 DNA/RNA residuals or 4 protein residuals are supported in the webserver, with the default being 1 to 4 for DNA/RNA and 1 to 2 for protein and other sequences. The command-line tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus needs much longer time to finish. 
+		<i>k</i>-mers up to 6 DNA/RNA residuals or 3 protein residuals are supported in the webserver, with the default being 1 to 4 for DNA/RNA and 1 to 2 for protein and other sequences. The command-line tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus needs much longer time to finish. 
       <p style="text-align:center;"><img src="./manual/kmer-length.png" width="65%"></p>
 
 
@@ -918,18 +918,18 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
           </ol>
         </small> </div>
 		
-      <h2><a class="mozTocH2" name="run-time"></a>Run time</h2>
+      <h2><a class="mozTocH2" name="run-time"></a>Run time and input limit</h2>
 	  
 	  <p>
 		  
-		  For typical DNA/RNA analysis, the job should finish within a minute. Run time increases dramatically with increased <i>k</i>-mer length, and even faster with protein sequences. The program imposes a limit of 10 million tests per job, which is basically the number of <i>k</i>-mers multiplied by the number of positions (length of each sequence). 
+		  For typical DNA/RNA analysis, the job should finish within a minute. Run time increases dramatically with increased <i>k</i>-mer length, and even faster with protein sequences. The program imposes a limit of 10 million tests per job, which equals the number of <i>k</i>-mers multiplied by the number of positions (length of each sequence). On the webserver, the largest number of <i>k</i>-mers to be tested for protein is 20^1+20^2+20^3=8420 for <i>k</i>-mer of length (1,2,3), which limits the maximum length of each input sequence to 1188 (10,000,000 / 8420), a number large enough for most applications. This limit becomes much larger if users choose to use shorter <i>k</i>-mers. Similarly, for DNA/RNA sequence analysis, the limit on input sequence length is 1832 for <i>k</i>-mer length of (1,2,3,4,5,6) [=10,000,000/(4^1+4^2+4^3+4^4+4^5+4^6)] without considering degenerate letters. The limit will vary dramatically if users choose to use different degenerate letters. If the limit is reached, the webserver reports an error for too many tests, and users can go back and choose shorter <i>k</i>-mers and / or omit degenerate letters. 
 		  
 		  <br><br>
 		  
 		  Here are a few examples:
 		  
 		  <br><br>
-		  42,481 protein sequences, each 40 amino acids long. It took 8 seconds, 1.5 minutes, and 34 minutes to run with a <i>k</i>-mer length up to 1, 2, and 3, respectively. A <i>k</i>-mer length up to 4 requires over 10 million tests to be performed, exceeding the limit set by <i>k</i>pLogo. When this happens, the user is notified, and the job is not executed.
+		  42,481 protein sequences, each 40 amino acids long. It took 8 seconds, 1.5 minutes, and 34 minutes to run with a <i>k</i>-mer length up to 1, 2, and 3, respectively. 
 		  <br><br>
 		  186 RNA sequences, each 50 nt long. It took 6 seconds to run with a <i>k</i>-mer length up to 4, allowing gaps (i.e. the degenerate letter N), but 14 minutes if allowing all degenerate letters (ACGTRYMKWSBDHVN).
 		  

@@ -109,6 +109,10 @@ if(file_exists("./done") == false){
 	}
 	echo "Your output figures and data can be accessed here:  <a href=\"./$jobID.tar.gz\"> Download $jobID.tar.gz </a> (<font color=\"red\">to be removed after 10 days!</font>) </a> <br>";
 	
+	
+	
+}
+
 	echo
 	"<form action='' method='post'>
 	<input type='submit' name='delete_data' value='Delete all data from the server' style='color: Yellow'  />
@@ -121,9 +125,6 @@ if(file_exists("./done") == false){
 		header("Location: ../../index.html");
 		exit();
 	}
-	
-	
-}
 
 	echo "<div style=\"font-family: Helvetica,Arial,sans-serif;\" id=\"figures\"> <br> ";
 

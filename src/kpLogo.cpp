@@ -35,7 +35,7 @@ void print_help()
     "Input\n"
     "   -alphabet STR        alphabet for generating kmers, default=ACGT, case insensitive\n"
     "                        note: 'dna' is equivalent to 'ACGT', 'U' will be converted to 'T'\n"
-	"                              'protein' is equivalent to 'ACDEFGHIJKLMNOPQRSTUVWY'\n"
+	"                              'protein' is equivalent to 'ACDEFGHIKLMNPQRSTVWY'\n"
 	"   -seq INT             for tabular input: sequences are in column INT. Default 1\n"
 	"   -weight INT          for tabular input: weights are in column INT. Default 2\n"
     "   -region n1,n2        only consider subsequences from position n1 to n2 (start at 1). \n"
@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
 	// if degenerate allowed, default to use all IUPAC DNA bases. to look at gappmer only, use ACGTN
 	
 	/*
-	string protein = "ACDEFGHIJKLMNOPQRSTUVWY";
+	string protein = "ACDEFGHIKLMNPQRSTVWY";
 	string dna = "ACGT";
 	string DNA_gap = "ACGTN";
 	string DNA_all = "ACGTRYMKWSBDHVN";
@@ -407,7 +407,7 @@ int main(int argc, char* argv[]) {
 	if(boost::algorithm::to_lower_copy(alphabet) == "dna") 
 		alphabet="ACGT";
 	else if (boost::algorithm::to_lower_copy(alphabet) == "protein") 
-		alphabet = "ACDEFGHIJKLMNOPQRSTUVWY";
+		alphabet = "ACDEFGHIKLMNPQRSTVWY";
 
     // determine the length of k-mer
     if (k == 0 && max_k == 0) // neither is specified, do upto 4-mers
@@ -938,7 +938,7 @@ WriteFasta(seqs1,"implanted.fa");
 	
 	// total number of tests to be performed, ~ n_kmer * seq_len * shift
 	// to be used in multiple testing correction
-	int nTest = 0; 
+	signed long long int nTest = 0; 
 	
 	// generate all exact kmers	
 	vector<string> kmers = generate_kmers(min_k, alphabet);
@@ -969,7 +969,7 @@ WriteFasta(seqs1,"implanted.fa");
 	// multiple by shift
 	nTest = nTest * (max_shift - min_shift + 1);
 	message(to_string(nTest) + " tests (kmer x position x shifts) will be performed");
-	if (nTest > 10000000) {
+	if (nTest > 10000000 || kmers.size() > 10000000 || dkmers.size() > 10000000) {
 		message("ERROR: too many tests to perform! Exit");
 		system_run("touch exit_with_error");exit(1);
 	}
