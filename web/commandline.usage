@@ -25,7 +25,7 @@ Type of analysis
 Input
    -alphabet STR        alphabet for generating kmers, default=ACGT, case insensitive
                         note: 'dna' is equivalent to 'ACGT', 'U' will be converted to 'T'
-                              'protein' is equivalent to 'ACDEFGHIJKLMNOPQRSTUVWY'
+                              'protein' is equivalent to 'ACDEFGHIKLMNPQRSTVWY'
    -seq INT             for tabular input: sequences are in column INT. Default 1
    -weight INT          for tabular input: weights are in column INT. Default 2
    -region n1,n2        only consider subsequences from position n1 to n2 (start at 1). 

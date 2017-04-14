@@ -97,7 +97,7 @@ $region_last=scrub_alphanum($_POST['region_last']);
 
 $plottype=scrub_alphanum($_POST['plottype']);
 
-$last_residual=scrub_alphanum($_POST['last_residual']);
+$last_residue=scrub_alphanum($_POST['last_residue']);
 
 $mincount = scrub_alphanum($_POST['mincount']);
 if($mincount < 0)
@@ -222,7 +222,7 @@ if ($background == " -bgfile kpLogo.background.txt " || $background == " -markov
 
 //
 
-$command = "kpLogo kpLogo.input.txt -o kpLogo.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residual $stack_order -fix $maxFrac";
+$command = "kpLogo kpLogo.input.txt -o kpLogo.output $inputtype -seq $col_seq -weight $col_weight -alphabet $alphabet  $kmer_length $shift $background -startPos $startPos $degenerate $colorblind -minCount $mincount -pseudo $pseudo -region $region_first,$region_last $select_pkmers $remove_pkmers $plottype $small_sample -pc $p $last_residue $stack_order -fix $maxFrac";
 
 file_put_contents("../../num.job.each.day", date("Y-m-d")."\n", FILE_APPEND | LOCK_EX);
 $totalLines=intval(exec('wc -l ../../num.job.each.day'));

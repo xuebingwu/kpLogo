@@ -64,7 +64,7 @@ void print_help()
     "   -pc FLOAT            Bonferroni corrected p-value cut-off, default=0.05\n"
     "   -FDR                 adjust p value by FDR method ( default is Bonferroni correction)\n"
     "   -startPos INT        re-number position INT (1,2,3,..) as 1. The position before it will be -1\n"
-    "   -last_residual       use a kmer's last residual position as the kmer's position. Default is first residual\n"
+    "   -last_residue       use a kmer's last residual position as the kmer's position. Default is first residual\n"
     "   -pseudo FLOAT        pseudocount added to background counts. default=1.0. Ignored by -markov\n"
 	"   -fontsize INT        font size for plotting sequence logos, default 20\n"
 	"   -colorblind          use colorblind friendly color scheme\n"
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
     int startPos= 1; // coordinates
 	int fontsize=40;
 	string plot = "p"; // or b or f or s
-    bool last_residual = false;
+    bool last_residue = false;
 	int stack_order = 1;
 
 	// color blind
@@ -334,8 +334,8 @@ int main(int argc, char* argv[]) {
                 i=i+1;
             } else if (str == "-FDR") {
                 Bonferroni = false;
-            } else if (str == "-last_residual") {
-                last_residual = true;
+            } else if (str == "-last_residue") {
+                last_residue = true;
             } else if (str == "-startPos") {
                 startPos = atoi(argv[i + 1]);
                 i=i+1;
@@ -1079,7 +1079,7 @@ WriteFasta(seqs1,"implanted.fa");
 ///////////////////////////////////////////////////////////////
 
 	// use the last residual's position as the motif position
-	if(last_residual) use_end_position(outtmp);
+	if(last_residue) use_end_position(outtmp);
 	
 	if(Bonferroni == false || plot == "f")
 	{

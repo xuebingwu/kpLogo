@@ -127,7 +127,7 @@ color: #fff;
                    <option value="dna" selected="selected">DNA/RNA</option>
                    <option value="protein">Protein</option>
                    <option value="other">Other</option>
-             </select>  <input name="other_alphabet" id="other_alphabet" style='display:none' size="40" value="Other: enter all allowed residuals here" type="text" onfocus="if(this.value == 'Other: enter all allowed residuals here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed residuals here'; }" >
+             </select>  <input name="other_alphabet" id="other_alphabet" style='display:none' size="40" value="Other: enter all allowed residues here" type="text" onfocus="if(this.value == 'Other: enter all allowed residues here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed residues here'; }" >
 			</div>
          </tr>
 		
@@ -275,16 +275,16 @@ color: #fff;
 	  
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div id="degenerate_div1" style="text-align: right;"><strong>Degenerate residual </strong><a href="manual.html#degenerate-residual"><img src="info.gif" alt="help"></a><br>
+        <div id="degenerate_div1" style="text-align: right;"><strong>Degenerate residue </strong><a href="manual.html#degenerate-residue"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td colspan="1" rowspan="1" style="vertical-align: center;">
 	   <select name="degenerate" id="degenerate" onchange='check_other_degenerate(this.value)' >
-              <option value=""  > None (no degenerate residuals)</option>
+              <option value=""  > None (no degenerate residues)</option>
               <option value="-gapped" selected="selected" >ACGTN, i.e. gapped <i>k</i>-mer</option>
-			  <option value="-degenerate all">all IUPAC residuals: ACGTRYMKWSBDHVN</option>
+			  <option value="-degenerate all">all IUPAC residues: ACGTRYMKWSBDHVN</option>
 	          <option value="other">Other</option>
-	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" style='display:none' size="40" value="Other: enter all allowed residuals here" type="text" onfocus="if(this.value == 'Other: enter all allowed residuals here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed residuals here'; }"> 
+	  	</select> <input name="degenerate_alphabet" id="degenerate_alphabet" style='display:none' size="40" value="Other: enter all allowed residues here" type="text" onfocus="if(this.value == 'Other: enter all allowed residues here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Other: enter all allowed residues here'; }"> 
         </td>
       </tr>
 	  
@@ -343,7 +343,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
          <option value="2" selected="selected">di-</option>
          <option value="3">tri-</option>
          <option value="4">tetra-</option>
-         </select> residual frequency </label><br>
+         </select> residue frequency </label><br>
 
 
         <label>        <input name="background" value="markov_foreground" type="radio"> Markov model learned from input sequences, choose model order: <select name="markov_foreground_order" id="markov_foreground_order">
@@ -436,7 +436,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
       </div>
       </td>
       <td rowspan="1" colspan="1" style="vertical-align: center;">
-      Positions containing residuals with Bonferroni corrected <i>P</i> < <input value="0.01" name="p" id="p" style="width: 6em" min="0" type="number" step="any" onkeypress="return isNonNegNumberKey(event)"> will be highlighted by red coordinates</td>
+      Positions containing residues with Bonferroni corrected <i>P</i> < <input value="0.01" name="p" id="p" style="width: 6em" min="0" type="number" step="any" onkeypress="return isNonNegNumberKey(event)"> will be highlighted by red coordinates</td>
     </tr>
 	
     <tr>
@@ -456,15 +456,15 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
         <select name="stack_order" id="stack_order" style="vertical-align: center;">
-        <option value="-stack_order 1" selected="selected">frequent residual on top</option>
-        <option value="-stack_order -1">frequent residual on bottom</option>
+        <option value="-stack_order 1" selected="selected">frequent residue on top</option>
+        <option value="-stack_order -1">frequent residue on bottom</option>
         <option value="-stack_order 0">order specified by alphabet</option>
     </select> </td>
       </tr>
 
       <tr>
         <td colspan="1" style="vertical-align: center; text-align: center;">
-        <div style="text-align: right;"><strong>Scale residuals by </strong> <a href="manual.html#scaling"><img src="info.gif" alt="help"></a><br>
+        <div style="text-align: right;"><strong>Scale residues by </strong> <a href="manual.html#scaling"><img src="info.gif" alt="help"></a><br>
         </div>
         </td>
         <td rowspan="1" colspan="1" style="vertical-align: center;">
@@ -483,7 +483,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
           <td colspan="1" style="vertical-align: center; ">
 
         <label>
-        <input name="last_residual" value="-last_residual" type="checkbox"> Use the position of the last residual in a kmer as the position of the kmer. Default: the first residual </label>
+        <input name="last_residue" value="-last_residue" type="checkbox"> Use the position of the last residue in a kmer as the position of the kmer. Default: the first residue </label>
          <br>
      </tr>
 
@@ -494,7 +494,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
           </div>
           </td>
           <td rowspan="1" colspan="1" style="vertical-align: center;">
-          Set the <input value="1" name="startPos" id="startPos" style="width: 6em" min="1" type="number" step="any" onkeypress="return isNonNegIntegerKey(event)">-th residual as position 1. The positions before it will be numbered as -1, -2, etc (no 0).</td>
+          Set the <input value="1" name="startPos" id="startPos" style="width: 6em" min="1" type="number" step="any" onkeypress="return isNonNegIntegerKey(event)">-th residue as position 1. The positions before it will be numbered as -1, -2, etc (no 0).</td>
         </tr>
 		
         <tr>

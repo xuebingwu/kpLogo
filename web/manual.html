@@ -117,7 +117,7 @@ color: #fff;
                 <li><a href="#positional-kmer"> <i>k</i>-mer counting</a></li>
                 <ul>
                 	<li><a href="#kmer-length"><i>k</i>-mer length</a></li>
-                	<li><a href="#degenerate-residual">Degenerate residual (DNA/RNA)</a></li>				
+                	<li><a href="#degenerate-residual">Degenerate residue (DNA/RNA)</a></li>				
 				    <li><a href="#positional-shift">Positional shift (experimental)</a></li>
 				    <li><a href="#filter-by-kmer">Filter by positional <i>k</i>-mer</a></li>
 				</ul>
@@ -167,10 +167,10 @@ color: #fff;
       <font color="Blue"><i>k</i>-mer probability logo (<i>k</i>pLogo)</font> is a probability-based logo tool for integrated detection and visualization of position-specific ultra-short motifs from a set of aligned sequences. <i>k</i>pLogo also overcomes the limitations of conventional motif-visualization tools in handling positional interdependencies and utilizing ranked or weighted sequences increasingly available from high-throughput assays. 
 	  
 	  <p>
-	  Given a set of sequences of identical length, either unweighted, weighted, or ranked, <i>k</i>pLogo enumerates all possible <i>k</i>-mers of user-specified lengths, evaluates their presence at each position in all input sequences, and reports their enrichment and depletion at each position as determined using an appropriate statistical model. To visualize the results, kpLogo generates a new type of logo plot called the <i>k</i>-mer logo, in which at each position the most significant <i>k</i>-mer is plotted vertically with the total height scaled to its <i>P</i> value (log10 transformed) or test statistics, as appropriate. In addition to <i>k</i>-mer logo, <i>k</i>pLogo also generates logo plots for monomer frequency and information content.
+	  Given a set of sequences of identical length, either unweighted, weighted, or ranked, <i>k</i>pLogo enumerates all possible <i>k</i>-mers of user-specified lengths, evaluates their presence at each position in all input sequences, and reports their enrichment and depletion at each position as determined using an appropriate statistical model. To visualize the results, kpLogo generates a unique type of logo plot called the <i>k</i>-mer logo, in which at each position the most significant <i>k</i>-mer is plotted vertically with the total height scaled to its <i>P</i> value (log10 transformed) or test statistics, as appropriate. In addition to <i>k</i>-mer logo, <i>k</i>pLogo also generates logo plots for monomer frequency and information content.
 	  <p>
 	  
-	  The diagram below highlights two overlapping CNNC motifs at position 17 or 18 that are important for human microRNA processing (see <a href="#examples">Examples</a>):
+	  The diagram below highlights two overlapping CNNC motifs at specific positions within primary transcripts of human microRNAs, which are important for microRNA processing (see <a href="#examples">Examples</a>):
 	  
 	  				<p style="text-align:center;"><img src="./diagram.jpg" width="70%"></p>
 				
@@ -188,7 +188,7 @@ color: #fff;
 		  
 	  <p><b>Unique features of <i>k</i>pLogo </b></p>
       <i>k</i>pLogo combines motif discovery with visualization. Compared to
-      existing sequence logo generating tools, <i>k</i>pLogo is unique in several ways:<br> <br>
+      other tools that generate sequence logos, <i>k</i>pLogo is unique in several ways:<br> <br>
       1. handles ranked or weighted sequences<br>
       2. performs statistical tests to discover short motifs <br>
 	  3. visualizes not only single letters but also short motifs using <i>k</i>-mer logo<br>
@@ -211,7 +211,7 @@ color: #fff;
 <h3><a class="mozTocH3" name="email"></a>Email and data security</h3>
 	  
 	  <p>Note that user data will be <span style="color: red;">removed 10 days</span> after the job is submitted. Please download the data as soon as it is
-      available. All data related to the job can be immediately deleted if the user is concerned about the security of data, via a button in the result page. No copy of the data will be stored or used for other purposes. </p>
+      available. If the user wishes, all data related to the job can be  deleted immediately using  a button in the result page. No copy of the data will be stored or used for other purposes. </p>
 	  
 	  Users are recommended to provide an optional email address to receive notifications. If provided, two emails will be sent: one immediately after
       submitting the job, and the other after results are available. Both emails contain a link to the result page. The second email contains a PDF file with all logo plots. Note that users need to <span style="color: red;">keep the result page open</span> in a web browser for the second email to be sent. If the result page is closed before the job is finished, the second email will not be sent but users will still be able to open the result page using the link in the first email.<br>
@@ -222,9 +222,9 @@ color: #fff;
       The web server implements most functionality of <i>k</i>pLogo, and should be sufficient for most users. However, for simplicity and to avoid excess demand of server resources, a few restrictions have been imposed on the web version of <i>k</i>pLogo:<br>
       <ol>
           <li><span style="font-weight: bold;">Input file size</span>: Each input file should not exceed 2MB in size.<br> </li>
-          <li><span style="font-weight: bold;"><i>k</i>-mer length</span>: the max length of <i>k</i>-mer is limited to 6 for RNA/DNA sequences, and 4 for protein and other sequences.<br></li>
-          <li><span style="font-weight: bold;">sequence shuffling</span>: if choose to shuffle input sequences to generate the background, one can only preserve up to 4-residual frequency, and for each sequence, shuffle no more than 1000 times. <br> </li>
-        <li><span style="font-weight: bold;">model prediction</span>: the binary version allows user to score a new set of sequences using the positional sequence specificity model learned from the input. The web version does not support this functionality at this moment.<br>
+          <li><span style="font-weight: bold;"><i>k</i>-mer length</span>: the max length of <i>k</i>-mer is limited to 6 for RNA/DNA sequences, and 3 for protein and other sequences.<br></li>
+          <li><span style="font-weight: bold;">sequence shuffling</span>: if choosing to shuffle input sequences to generate the background, one can only preserve up to 4-residue frequency, and for each sequence, shuffle no more than 1000 times. <br> </li>
+        <li><span style="font-weight: bold;">model prediction</span>: the binary version allows the user to score a new set of sequences using the positional sequence specificity model learned from the input. The web version does not support this functionality at this moment.<br>
         </li>
       </ol>
 	  
@@ -233,11 +233,11 @@ color: #fff;
 	  
 	  <p style="text-align:center;"><img src="./manual/sequence-type.png" width="45%"></p>
 	  
-		<i>k</i>pLogo is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences. To run on other types of sequences, choose "Other" in "Sequence type" dropdown menu, and in the text box enter all allowed residuals/letters:
+		<i>k</i>pLogo is designed primarily for analyzing DNA or RNA sequences, but can also be used to study protein and other arbitrary types of sequences. To run on other types of sequences, choose "Other" in "Sequence type" dropdown menu, and in the text box enter all allowed residues/letters:
 		
   	  <p style="text-align:center;"><img src="./manual/sequence-type-other.png" width="30%"></p>
 		
-	  <p><b>Command-line options: </b>When <code>-alphabet</code> is not specified by users, <i>k</i>pLogo use the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>.	   To run <i>k</i>pLogo on protein sequences, please use <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIKLMNPQRSTVWY</code>.  Similarly, to run <i>k</i>pLogo on other types of sequences, use <code>-alphabet </code> to specify all allowed residuals.</p>
+	  <p><b>Command-line options: </b>When <code>-alphabet</code> is not specified by users, <i>k</i>pLogo uses the default <code>-alphabet ACGT</code>. Note RNA will be converted to DNA by default so for RNA input there is no need to specify <code>-alphabet ACGU</code>.	   To run <i>k</i>pLogo on protein sequences, please use <code>-alphabet protein</code>, which is equivalent to <code>-alphabet ACDEFGHIKLMNPQRSTVWY</code>.  Similarly, to run <i>k</i>pLogo on other types of sequences, use <code>-alphabet </code> to specify all allowed residues.</p>
 
       <h3><a class="mozTocH2" name="file-format"></a>File format</h3>
 	  
@@ -331,7 +331,7 @@ color: #fff;
 	  <b>start=1,end=0</b>: analyze all positions without trimming. All input sequences need to be of identical length. <br>
 	  <b>start=1,end=10</b>: analyze the first 10 positions. Input sequences need not to be of identical length. <br>
 	  <b>start=-9,end=0</b>: analyze the last 10 positions. Input sequences need not to be of identical length. <br>
-	  <b>start=1,end=-9</b>: analyze all but the last 10 positions, i.e. trim 10 residuals from the end. Input sequences need to be of identical length. <br>
+	  <b>start=1,end=-9</b>: analyze all but the last 10 positions, i.e. trim 10 residues from the end. Input sequences need to be of identical length. <br>
 	  
 	  
 	   <p><b>Command-line options</b>: <code>-region start,end</code></p>
@@ -340,16 +340,16 @@ color: #fff;
 	   
       <h2><a class="mozTocH2" name="positional-kmer"></a>Positional <i>k</i>-mer with shift and degeneracy</h2>
 
-		<p> A positional <i>k</i>-mer (or simply <i>k</i>-mer in this document) is a short sequence of length <i>k</i> associated with a specific position. Throughout this document, a positional <i>k</i>-mer has the format of <code>sequence:position:shift</code>, or simply <code>sequence:position</code> if no shift is allowed (default). For example, most introns start with a GU dinucleotide, and this dinucleotide motif (<i>k</i> = 2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first residual is used as the position of the <i>k</i>-mer.		</p>
+		<p> A positional <i>k</i>-mer (or simply <i>k</i>-mer in this document) is a short sequence of length <i>k</i> associated with a specific position. Throughout this document, a positional <i>k</i>-mer has the format of <code>sequence:position:shift</code>, or simply <code>sequence:position</code> if no shift is allowed (default). For example, most introns start with a GU dinucleotide, and this dinucleotide motif (<i>k</i> = 2) can be represented as <code>GU:1:0</code>, i.e. GU at position 1 with no shift. The position of the first residue is used as the position of the <i>k</i>-mer.		</p>
 		<h3><a class="mozTocH3" name="kmer-length"></a><i>k</i>-mer length</h3>
 		
-		<i>k</i>-mers up to 6 DNA/RNA residuals or 3 protein residuals are supported in the webserver, with the default being 1 to 4 for DNA/RNA and 1 to 2 for protein and other sequences. The command-line tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus needs much longer time to finish. 
-      <p style="text-align:center;"><img src="./manual/kmer-length.png" width="65%"></p>
+		<i>k</i>-mers up to 6 DNA/RNA residues or 3 protein residues are supported in the webserver, with the default being 1 to 4 for DNA/RNA and 1 to 2 for protein and other sequences. The command-line tool allows more flexibility in <i>k</i>-mer length. Please note that the number of all possible  <i>k</i>-mers increases exponentially with length and thus has a large influence on the run time. 
+        <p style="text-align:center;"><img src="./manual/kmer-length.png" width="65%"></p>
 
 
 
       <h3><a class="mozTocH3" name="degenerate-residual"></a>Degenerate
-        residual (DNA/RNA)</h3>
+        residue (DNA/RNA)</h3>
 		
 		<p>Biological sequence signals can  tolerate some mismatches, leading to degeneracy in the motif. For example, in addition to AAUAAA, AUUAAA is also used as a polyadenylation signal. Therefore a more general form of the polyadenylation signal is <code>AWUAAA</code>, where W is either A or U. <i>k</i>pLogo supports all degenerate codes defined in the <a
         href="http://en.wikipedia.org/wiki/Nucleic_acid_notation">IUPAC code</a> for nucleic acids (see table below). </p>
@@ -357,12 +357,12 @@ color: #fff;
                   	  <p style="text-align:center;"><img src="./manual/degenerate.png" width="55%"></p>
 
         
-		<p>The default of the webserver is to allow N (any of A/C/G/T/U) in the middle of a <i>k</i>-mer, which represents a gapped <i>k</i>-mer (<code>-degenerate ACGTN</code> or simply <code>-gapped</code>). Users can choose to not include degenerate residuals (default of command-line), use all IUPAC-defined residuals (<code>-degenerate all</code>), or only allow a subset of IUPAC residuals by choosing 'Other' in the dropdown menu.</p>
+		<p>The default of the webserver is to allow N (any of A/C/G/T/U) in the middle of a <i>k</i>-mer, which represents a gapped <i>k</i>-mer (<code>-degenerate ACGTN</code> or simply <code>-gapped</code>). Users can choose to not include degenerate residues (default of command-line), use all IUPAC-defined residues (<code>-degenerate all</code>), or only allow a subset of IUPAC residues by choosing 'Other' in the dropdown menu.</p>
         
           	  
           	            	  <p style="text-align:center;"><img src="./manual/degenerate-other.png" width="50%"></p>
 	  <p>For example, to allow only purine (R = A or G) and pyrimidine (Y = C or T), enter <code>ACGTRY</code> in the text box, <span style="color: red;">including
-      non-degenerate residuals</span>.<br>
+      non-degenerate residues</span>.<br>
       </p>
 	  <table style="width: 445px; height: 470px;" border="1"
         cellpadding="2" cellspacing="2" style="text-align:center;" >
@@ -604,8 +604,8 @@ color: #fff;
 		
         <h3><a class="mozTocH3" name="positional-shift"></a>Positional shift (<font color=Red>experimental</font>)</h3>
 
-      <p>In many  cases, sequence motifs are well positioned but can tolerate some offset. Such positioning flexibility is modeled by the positional shift in <i>k</i>pLogo. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In <i>k</i>pLogo, the position of a <i>k</i>-mer is defined as the position of the first residual in the <i>k</i>-mer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example currently it is not fully supported by some background models (See below).   </p>
-      <p>By default no positional shift is allowed (shift = 0). In the webserver users can choose to use a shift up to 6. The command-line tool again allows even larger shifts. </p>
+      <p>In many  cases, sequence motifs are well positioned but can tolerate some offset. Such positioning flexibility is modeled by the positional shift in <i>k</i>pLogo. For example, the canonical polyadenylation signal, AAUAAA, typically locates about 18 to 23 nucleotides upstream of the cleavage site, can be represented as <code>AAUAAA:-23:5</code>, i.e. the hexamer motif can be found at position -23, allowing a shift of 5, which means the motif can also occur at 5 other positions: -22, -21, -20, -19, and -18. In <i>k</i>pLogo, the position of a <i>k</i>-mer is defined as the position of the first residue in the <i>k</i>-mer, and positional shift is only allowed downstream of the start site, i.e. shift to the right. Positional shift is an experimental feature still under development. For example, currently it is not fully supported by some background models (See below).   </p>
+      <p>By default no positional shift is allowed (shift = 0). In the webserver users can choose to use a shift up to 6. The command-line tool allows  larger shifts. </p>
         <p style="text-align:center;"><img src="./manual/shift.png" width="70%"></p>
 
 		
@@ -615,8 +615,8 @@ color: #fff;
         
                 <p style="text-align:center;"><img src="./manual/kmer-filter.png" width="85%"></p>
 
-      <p>A positional <i>k</i>-mer is specified in the form of <strong>sequence:position:shift</strong>, or <strong>sequence:position</strong> using a default shift of 0. For example, GT:3:0 or GT:3 means GT starting at position 3 with no shift. Note that sequence can contain degenerate residuals. Position coordinates start at 1
-      for the first residual in sequence. </p>
+      <p>A positional <i>k</i>-mer is specified in the form of <strong>sequence:position:shift</strong>, or <strong>sequence:position</strong> using a default shift of 0. For example, GT:3:0 or GT:3 means GT starting at position 3 with no shift. Note that sequence can contain degenerate residues. Position coordinates start at 1
+      for the first residue in sequence. </p>
         <p> To filter by multiple positional <i>k</i>-mers, separate each by a comma (,). For example, GT:3:0,ACT:11:0,GGG:45:0 (<font color="red">NO SPACE!</font>). Note that when multiple positional <i>k</i>-mers are specified, the presence of any positional <i>k</i>-mer is defined as a match.  </p>
         <p>Here are two more examples: </p>
 <p><code>-select G:35:3,CNC:47:0</code> </p>
@@ -629,7 +629,7 @@ color: #fff;
 
       <p style="text-align:center;"><img src="./manual/model.png" width="80%"></p>
 
-		<p>For a given value of <i>k</i>, <i>k</i>pLogo enumerates all possible <i>k</i>-mers (allowing degenerate residuals when specified), determines their presence / absence at every possible positions in all input sequences, and reports their enrichment / depletion using statistical models specified by users.</p>
+		<p>For a given value of <i>k</i>, <i>k</i>pLogo enumerates all possible <i>k</i>-mers (allowing degenerate residues when specified), determines their presence / absence at every possible positions in all input sequences, and reports their enrichment / depletion using statistical models specified by users.</p>
        <h4><a class="mozTocH4" name="unweighted"></a>Unweighted (default): binomial test</h4>
      
       When neither <code>-ranked</code> nor <code>-weighted</code> is specified, <i>k</i>pLogo assumes the input is unweighted. <i>k</i>pLogo uses <code>one-sided binomial tests</code> to determine the significance of a <i>k</i>-mer at a position. Specifically, the number of trials is the total number of sequences, and the number of success is the number of sequences containing this <i>k</i>-mer at this position. The hypothesized probability of success, i.e. the expected / background probability of a sequence containing this <i>k</i>-mer at this position, can be calculated in several ways as specified by users (see details below). A z-score is also reported in the output, assuming Normal approximation. The sign of the z-score also indicates enrichment or depletion.<br>
@@ -652,11 +652,11 @@ color: #fff;
       <b>Shuffle
         input sequences</b>.
       This is implemented in the option <code>-shuffle n,m</code> (shuffle each sequence <code>n</code> times
-      preserving <code>m</code>-residual frequency). <i>k</i>pLogo uses the <a
+      preserving <code>m</code>-residue frequency). <i>k</i>pLogo uses the <a
         href="http://digital.cs.usu.edu/%7Emjiang/ushuffle/">ushuffle</a>
       code to shuffle input sequences while preserving the frequency of
       all
-      possible residual combinations of length specified by users. For
+      possible residue combinations of length specified by users. For
       example,
       in many genomic applications, DNA sequences are shuffled while
       preserving di-nucleotide frequencies. Each sequence can be shuffled
@@ -673,8 +673,8 @@ color: #fff;
       <b>Markov
         model from input sequences.</b>
       This is activated by <code>-markov</code>
-      specifying the order of the Markov model, which summarizes residual
-      frequency and dependence between neighboring residuals in input
+      specifying the order of the Markov model, which summarizes residue
+      frequency and dependence between neighboring residues in input
       sequences. Currently <i>k</i>pLogo supports zero, first, and second order
       Markov
       models. The hypothesized probability of a sequence containing a
@@ -683,7 +683,7 @@ color: #fff;
       <br>
       For example, the first-order Markov model learned from input
       sequences
-      includes all mono- and di-residual frequencies, which directly serve
+      includes all mono- and di-residue frequencies, which directly serve
       as
       the hypothesized probabilities for <i>k</i>-mers of length 1 and 2. For
       longer
@@ -701,7 +701,7 @@ color: #fff;
       <br>
       Where p(AB), p(BC), p(CD), p(B), and p(C) are the fraction of AB,
       BC,
-      and CD di-residuals and the fraction of the residual B and C in the
+      and CD di-residues and the fraction of the residue B and C in the
       input
       sequences, respectively.<br>
       <br>
@@ -730,7 +730,7 @@ color: #fff;
       (email
       authors for details), and does not support higher order Markov
       models. Please choose other background models when either
-      positional shift or degenerate residuals is used. <br>
+      positional shift or degenerate residues is used. <br>
       <p><b>Markov
         model from background sequences.</b>
       This is activated when both <code>-markov</code> and <code>-bgfile</code> are specified. The only difference from <code>-markov</code> alone is that
@@ -740,7 +740,7 @@ color: #fff;
       specified (<code>-bgfile, -shuffle, -markov</code>).
       It is preferred because it is fast, less noisy, handles both
       positional
-      shift and degenerate residuals. In this model, the hypothesized
+      shift and degenerate residues. In this model, the hypothesized
       probability of a sequence with a certain <i>k</i>-mer at a certain
       position is
       the average observed success rate (fraction of input sequences
@@ -758,7 +758,7 @@ When turned on by <code>-weighted</code>, <i>k</i>pLogo
       <br>
 1. positive sequences: sequences containing this <i>k</i>-mer at this
       position,
-      allowing position shift and degenerate residuals, if specified.<br>
+      allowing position shift and degenerate residues, if specified.<br>
 2. negative sequences: all other sequences, i.e., sequences that
       do not contain this <i>k</i>-mer at this position.<br>
       <br>
@@ -814,25 +814,25 @@ Note that this model is activated by the option <code>-ranked</code>, which
 
       <h2><a class="mozTocH2" name="logo-plots"></a>Logo plots</h2>
       <h3><a class="mozTocH3" name="frequency-logo"></a>Frequency logo</h3>
-      <p>In frequency logos, residuals are scaled relative to their frequencies at each position, and then stacked on top of each other with more frequent residual on top of less frequent residual.</p>
+      <p>In frequency logos, residues are scaled relative to their frequencies at each position, and then stacked on top of each other with more frequent residue on top of less frequent residue.</p>
       <h3><a class="mozTocH3" name="information-content-logo"></a>Information content logo</h3>
-	<p>Similar to frequency logos, in information content logo (conventional sequence logo) residuals are rescaled by frequency and stacked, and the total height of each position is further scaled relative to the information content, which is defined as </p>
+	<p>Similar to frequency logos, in information content logo (conventional sequence logo) residues are rescaled by frequency and stacked, and the total height of each position is further scaled relative to the information content, which is defined as </p>
 <img src="./infocont.png">
 
-<p>Here N is the number of residuals in the alphabet (all possible residuals that can occur at a position), and p<small>i</small> is the frequency of residual i at this position. </p> 
+<p>Here N is the number of residues in the alphabet (all possible residues that can occur at a position), and p<small>i</small> is the frequency of residue i at this position. </p> 
       <h3><a class="mozTocH3" name="probability-logo"></a>Probability logo</h3>
-<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. <i>k</i>pLogo extended the concept to ranked and weighted sequences. In probability logos, residuals are rescaled relative to the statistical significance (-log10(<i>P</i> value)) of each residual at each position. Enriched residuals stack on the top, whereas depleted residuals stack on the bottom. Significant positions will have coordinates colored in red.</p>
+<p>Probability logo is first proposed and implemented in <a href="https://plogo.uconn.edu/">pLogo</a> for unweighted sequences, especially protein sequences. <i>k</i>pLogo extended the concept to ranked and weighted sequences. In probability logos, residues are rescaled relative to the statistical significance (-log10(<i>P</i> value)) of each residue at each position. Enriched residues stack on the top, whereas depleted residues stack on the bottom. Significant positions will have coordinates colored in red.</p>
       <h3><a class="mozTocH3" name="kmer-logo"></a><i>k</i>-mer logo</h3>
-	<p><i>k</i>pLogo generates a new type of logo called <i>k</i>-mer logo to visualize motifs in addition to single residual. Stacked residuals at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depleted on the bottom. Both read from top to bottom.</p>
+	<p><i>k</i>pLogo generates a new type of logo called <i>k</i>-mer logo to visualize motifs in addition to single residue. Stacked residues at a position represents a single motif (the most significant) starting (or ending) at this position. The total height is rescaled relative to the significance of this motif. At each position, two motifs are shown, the most enriched on the top, and the most depleted on the bottom. Both read from top to bottom.</p>
 	<h3><a class="mozTocH3" name="p-value-cutoff"></a>Significant positions</h3>
-    <p>In probability logo and <i>k</i>-mer logo plots, positions containing residuals with <i>Bonferroni</i> corrected <i>P</i> value smaller than a predefined cut-off will be highlighted by <font color=Red>red</font> coordinates. The default cutoff is 0.01 in the webserver. </p>
+    <p>In probability logo and <i>k</i>-mer logo plots, positions containing residues with <i>Bonferroni</i> corrected <i>P</i> value smaller than a predefined cut-off will be highlighted by <font color=Red>red</font> coordinates. The default cutoff is 0.01 in the webserver. </p>
 	<h3><a class="mozTocH3" name="fix"></a>Fixed positions</h3>
-	<p>In many applications the input sequences may contain almost invariant residuals at certain positions, such as GG in guide RNA target sequences (see example below). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. <i>k</i>pLogo allows users to fix positions where a single residual occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. <i>P</i> values for fixed positions will be ignored for probability logo, and the height of the fixed residual will be 1.1 times of the max total height of non-fixed position. The coordinates for fixed positions will be highlighted by black coordinates.</p>
+	<p>In many applications the input sequences may contain almost invariant residues at certain positions, such as GG in guide RNA target sequences (see example below). The statistical model would not work well for extremely imbalanced samples, or the p-values are so small that it is hard to see signal at other positions. <i>k</i>pLogo allows users to fix positions where a single residue occurs in more than 75% of the sequences. This maximum frequency can be changed using <code>-fix</code> option. <i>P</i> values for fixed positions will be ignored for probability logo, and the height of the fixed residue will be 1.1 times of the max total height of non-fixed position. The coordinates for fixed positions will be highlighted by black coordinates.</p>
 	
       <h3><a class="mozTocH3" name="stackorder"></a>Stacking order</h3>
-	<p>In all logo plots other than <i>k</i>-mer logo, multiple residuals can stack on top of each other. By default, residuals with larger weights will be placed on top of residuals with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
+	<p>In all logo plots other than <i>k</i>-mer logo, multiple residues can stack on top of each other. By default, residues with larger weights will be placed on top of residues with smaller weights. This can be reversed with <code>-stack_order -1</code>. To ignore weight information and use order specified by alphabet, use <code>-stack_order 0</code>.  </p>
 	<h3><a class="mozTocH3" name="scaling"></a>Scaling</h3>
-    <p>By default residuals or <i>k</i>-mers are scaled by -log10 transformed <i>P</i> values. To highlight more the significant motifs, one can plot Bonferroni corrected <i>P</i> values. One can also plot test statistics. In cases where <i>P</i> values are too small to be represented in the computer system (P < 1E-308 ), <i>k</i>pLogo will automatically switch to test statistics.      </p>
+    <p>By default residues or <i>k</i>-mers are scaled by -log10 transformed <i>P</i> values. To highlight more the significant motifs, one can plot Bonferroni corrected <i>P</i> values. One can also plot test statistics. In cases where <i>P</i> values are too small to be represented in the computer system (P < 1E-308 ), <i>k</i>pLogo will automatically switch to test statistics.      </p>
     <p style="text-align:center;"><img src="./manual/scaling.png" width="40%"></p>
 
 	
@@ -842,7 +842,7 @@ Note that this model is activated by the option <code>-ranked</code>, which
 	  By default, <i>k</i>pLogo assigns each <i>k</i>-mer to the position of its starting (i.e., most 5' or most N-terminal) letter and compares the significance of its enrichment to that of all other <i>k</i>-mers assigned to the same position. <i>k</i>pLogo also allows the option of assigning each <i>k</i>-mer to the position of its end letter. Comparing these two schemes using pri-miRNA sequences shows that known motifs sharing a start or end position with a stronger motif can be masked out in one scheme or the other but that the strongest motif among all overlapping ones was identified in both schemes. 
 	  
 	<h3><a class="mozTocH3" name="position1"></a>Position 1</h3>
-    <p>  In many cases it makes more sense to call some position other than the first residual as position 1. If this is the case the positions before it will be numbered as -1, -2, etc (no 0).</p>
+    <p>  In many cases it makes more sense to call some position other than the first residue as position 1. If this is the case the positions before it will be numbered as -1, -2, etc (no 0).</p>
     <p style="text-align:center;"><img src="./manual/position1.png" width="80%"></p>
     
      
