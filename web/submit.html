@@ -109,11 +109,21 @@ color: #fff;
         </td>
 
         <td style="vertical-align: top;" ><br>
+			
             <strong><font color="SlateBlue">Optional</font>: upload background sequences (<2MB, fasta/tab) </strong> <a href="./manual.html#unweighted"><img src="./info.gif" alt="help"></a> </strong> <br><br>
+			
+	        <input name="enable_background" id="background_file_checkbox" value="file" type="checkbox" onclick="background_seq(this.value);"></label>
+			
                 <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />  
-                <input name="backgroundfile" type="file" style="vertical-align: top;">
-            <br><br> Or paste sequences below:<br>
-            <textarea name="backgroundpaste" cols="40" rows="8" id="backgroundpaste"></textarea>
+                <input name="backgroundfile" id="backgroundfile" type="file" style="vertical-align: top;" disabled=true >
+				
+            <br><br>
+	        <input name="enable_background" id="background_paste_checkbox" value="paste" type="checkbox" onclick="background_seq(this.value);"></label>
+			 Or paste sequences below:<br>
+            <textarea name="backgroundpaste" id="backgroundpaste"  cols="40" rows="8" id="backgroundpaste" disabled=true >
+</textarea>
+			
+			
         </td>
 
       </tr>
@@ -308,7 +318,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
         <option value="-max_shift 4">0,1,2,3,4</option>
         <option value="-max_shift 5">0,1,2,3,4,5</option>
         <option value="-max_shift 6">0,1,2,3,4,5,6</option>		
-	</select> (by default no positional shift allowed) (<font color=Red>CAUTION: experimental feature</font>)<br>
+	</select> (by default no positional shift allowed) (<font color=Red>caution: experimental feature</font>)<br>
 	
 	 </td>
       </tr>
@@ -333,7 +343,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 		  <div id="backgroundoptions2" > 
 
 				
-        <label>        <input name="background" value="bgfile" type="radio"> Background sequences (please upload or paste) </label>          
+        <label>        <input name="background" value="bgfile" type="radio" id="background_upload_or_paste"> Background sequences (please upload or paste) </label>          
          <br>
  		 <label>
          <input name="background" value="shuffle" type="radio"> Shuffle each input sequence 
@@ -388,7 +398,7 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 
 
         <label>
-        <input name="background" value="" checked="checked" type="radio"> Average across all positions in input sequences </label>
+        <input name="background" value="" checked="checked" type="radio" id="background_default" > Average across all positions in input sequences </label>
          <br>
      </div>
 
@@ -519,6 +529,30 @@ shift </strong> <a href="manual.html#positional-shift"><img src="info.gif" alt="
 <hr> <p align="center">Copyright (c) 2017 Xuebing Wu <br><br><br>
 
 <script>
+	
+function background_seq(val)
+{	
+	if(val==="file" && document.getElementById('background_file_checkbox').checked===true){
+		document.getElementById('background_upload_or_paste').checked=true;
+		document.getElementById('background_paste_checkbox').checked=false;
+		document.getElementById('backgroundfile').disabled=false;
+		document.getElementById('backgroundpaste').disabled=true;
+	} 
+	if(val==="paste" && document.getElementById('background_paste_checkbox').checked===true){
+		document.getElementById('background_upload_or_paste').checked=true;
+		document.getElementById('background_file_checkbox').checked=false;
+		document.getElementById('backgroundfile').disabled=true;
+		document.getElementById('backgroundpaste').disabled=false;
+	}
+	if(document.getElementById('background_file_checkbox').checked===false && document.getElementById('background_paste_checkbox').checked===false)
+	{
+		document.getElementById('background_default').checked=true;
+		document.getElementById('backgroundfile').disabled=true;
+		document.getElementById('backgroundpaste').disabled=true;
+	}
+}
+
+	
 function check_other_alphabet(val)
 {
     if(val==="other")
