@@ -28,6 +28,9 @@ extern "C"{
 
 using namespace std;
 
+map<char,map<char,int>> LoadScoreMat(string filename);
+int seqAlignmentScore(map<char,map<char,int>> M, string seq1, string seq2);
+
 boost::numeric::ublas::matrix<double> load_pwm_from_file(string filename, string alphabet = "ACGT" );
 boost::numeric::ublas::matrix<double> reverse_pwm(boost::numeric::ublas::matrix<double> pwm);
 

@@ -890,10 +890,10 @@ int main(int argc, char* argv[]) {
                 out1 << seqs1[i] << "\t"  << score << endl;	
 		}
 		out1.close();
-		message("- done");
+		message("Done");
 		
-		// writing feature matrix
-		significant_feature_matrix_kpLogo2(seqs1, weights, ranked_kmers, output+".feat.mat");
+		//message("writing feature matrix...");
+		//significant_feature_matrix_kpLogo2(seqs1, weights, ranked_kmers, output+".feat.mat");
 	
 		if (pair == false) return 0;
 		

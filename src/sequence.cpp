@@ -32,6 +32,97 @@ extern "C"{
 
 using namespace std;
 
+// protein sequence alignment scoring using BLOSUM
+
+// load pwm from file, contain only the matrix
+/*
+A	R	N	D	C	Q	E	G	H	I	L	K	M	F	P	S	T	W	Y	V	B	Z	X	*
+4	-1	-2	-2	0	-1	-1	0	-2	-1	-1	-1	-1	-2	-1	1	0	-3	-2	0	-2	-1	0	-4
+-1	5	0	-2	-3	1	0	-2	0	-3	-2	2	-1	-3	-2	-1	-1	-3	-2	-3	-1	0	-1	-4
+-2	0	6	1	-3	0	0	0	1	-3	-3	0	-2	-3	-2	1	0	-4	-2	-3	3	0	-1	-4
+-2	-2	1	6	-3	0	2	-1	-1	-3	-4	-1	-3	-3	-1	0	-1	-4	-3	-3	4	1	-1	-4
+0	-3	-3	-3	9	-3	-4	-3	-3	-1	-1	-3	-1	-2	-3	-1	-1	-2	-2	-1	-3	-3	-2	-4
+-1	1	0	0	-3	5	2	-2	0	-3	-2	1	0	-3	-1	0	-1	-2	-1	-2	0	3	-1	-4
+-1	0	0	2	-4	2	5	-2	0	-3	-3	1	-2	-3	-1	0	-1	-3	-2	-2	1	4	-1	-4
+0	-2	0	-1	-3	-2	-2	6	-2	-4	-4	-2	-3	-3	-2	0	-2	-2	-3	-3	-1	-2	-1	-4
+-2	0	1	-1	-3	0	0	-2	8	-3	-3	-1	-2	-1	-2	-1	-2	-2	2	-3	0	0	-1	-4
+-1	-3	-3	-3	-1	-3	-3	-4	-3	4	2	-3	1	0	-3	-2	-1	-3	-1	3	-3	-3	-1	-4
+-1	-2	-3	-4	-1	-2	-3	-4	-3	2	4	-2	2	0	-3	-2	-1	-2	-1	1	-4	-3	-1	-4
+-1	2	0	-1	-3	1	1	-2	-1	-3	-2	5	-1	-3	-1	0	-1	-3	-2	-2	0	1	-1	-4
+-1	-1	-2	-3	-1	0	-2	-3	-2	1	2	-1	5	0	-2	-1	-1	-1	-1	1	-3	-1	-1	-4
+-2	-3	-3	-3	-2	-3	-3	-3	-1	0	0	-3	0	6	-4	-2	-2	1	3	-1	-3	-3	-1	-4
+-1	-2	-2	-1	-3	-1	-1	-2	-2	-3	-3	-1	-2	-4	7	-1	-1	-4	-3	-2	-2	-1	-2	-4
+1	-1	1	0	-1	0	0	0	-1	-2	-2	0	-1	-2	-1	4	1	-3	-2	-2	0	0	0	-4
+0	-1	0	-1	-1	-1	-1	-2	-2	-1	-1	-1	-1	-2	-1	1	5	-2	-2	0	-1	-1	0	-4
+-3	-3	-4	-4	-2	-2	-3	-2	-2	-3	-2	-3	-1	1	-4	-3	-2	11	2	-3	-4	-3	-2	-4
+-2	-2	-2	-3	-2	-1	-2	-3	2	-1	-1	-2	-1	3	-3	-2	-2	2	7	-1	-3	-2	-1	-4
+0	-3	-3	-3	-1	-2	-2	-3	-3	3	1	-2	1	-1	-2	-2	0	-3	-1	4	-3	-2	-1	-4
+-2	-1	3	4	-3	0	1	-1	0	-3	-4	0	-3	-3	-2	0	-1	-4	-3	-3	4	1	-1	-4
+-1	0	0	1	-3	3	4	-2	0	-3	-3	1	-1	-3	-1	0	-1	-3	-2	-2	1	4	-1	-4
+0	-1	-1	-1	-2	-1	-1	-1	-1	-1	-1	-1	-1	-1	-2	0	0	-2	-1	-1	-1	-1	-1	-4
+-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	-4	1
+*/
+map<char,map<char,int>> LoadScoreMat(string filename){
+	
+	map<char,map<char,int>> scoreMat;
+		
+ 	ifstream fin(filename.c_str());
+	string line;
+	string alphabet;
+	vector<string> flds;
+	
+	// read line 1
+	getline(fin,line);
+	if(line.length() == 0){
+		message("ERROR! line 1 empty in scoring file: "+filename);
+		system_run("touch exit_with_error");exit(1);
+	}
+	flds = string_split(line);
+	int N=flds.size();
+	for(int i=0;i<N;i++) alphabet[i]=flds[i][0];
+
+	int i=0;
+	while(fin)
+	{
+		getline(fin,line);
+		if(line.length() == 0) continue;
+		flds = string_split(line);
+		if (N != flds.size())
+		{
+			message("ERROR! rows have different number of columns in scoring file: "+filename);
+			system_run("touch exit_with_error");exit(1);
+		}
+		for(int j=0;j<N;j++) {
+			scoreMat[alphabet[i]][alphabet[j]]=stoi(flds[j]);
+			//cout << alphabet[i] << "\t" << alphabet[j] << "\t" << scoreMat[alphabet[i]][alphabet[j]] << endl;
+		}
+		i = i + 1;
+		if(i > N)
+		{
+			message("ERROR! scoring file has too many rows: "+filename);
+			system_run("touch exit_with_error");exit(1);
+		}
+	}
+	fin.close();
+
+	return scoreMat;
+}
+
+// score two sequences for alignment score
+//
+int seqAlignmentScore(map<char,map<char,int>> M, string seq1, string seq2)
+{
+	if(seq1.size() != seq2.size()){
+		message("ERROR! the two sequences are different in size: \n"+seq1+"\n"+seq2);
+		system_run("touch exit_with_error");exit(1);
+	} 
+	int score=0;
+	for(int i=0;i<seq1.size();i++) score += M[seq1[i]][seq2[i]];
+	return score;
+}
+
+
+
 // return position of the char in str that is not found in alphabet
 // if no such char, return -1
 int bad_char(string str, string alphabet)
