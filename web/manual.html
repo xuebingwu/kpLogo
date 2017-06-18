@@ -1156,6 +1156,23 @@ href="http://www.amstat.org/publications/jse/v18n2/bellera.pdf">Download PDF</a>
 				    </small> </div>
 
 				
+        <p><br>
+        </p>
+      <h4><a class="mozTocH4" name="example1-setting"></a>Prediction</h4>
+        <p>The commandline version of <em>k</em>pLogo supports scoring of a list of new sequences using positional <em>k</em>-mer motifs learned from a previous run. Briefly, for a given sequence to be scored, the score is the sum of log10(p-value) of all positional <em>k</em>-mers present in the sequence. </p>
+        <p>As a toy example, here we will score the guide RNA sequences using the positional motifs we learned from themselves: </p>
+        <p>Full command line:</p>
+      <div style="border: 0px solid ; padding: 10px 40px; background:
+		           rgb(222, 222, 222) none repeat scroll 0% 50%;
+		           -moz-background-clip: -moz-initial; -moz-background-origin:
+		           -moz-initial; -moz-background-inline-policy: -moz-initial;
+		           font-family: Monaco;">
+        <p># training <br>
+        kpLogo gRNA.txt -weighted -o model_training</p>
+        <p># prediction<br>
+          kpLogo gRNA.txt -predict model_training</p>
+        <p># the output file model_training.score contains the score for each sequence</p>
+        </div>
         <p> </p>
 		
 
