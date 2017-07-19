@@ -1,0 +1,22 @@
+[Mon Jul  3 12:22:10 2017] Summary: 
+[Mon Jul  3 12:22:10 2017]    Input       :   kpLogo.input.txt
+[Mon Jul  3 12:22:10 2017]    Background  :   local
+[Mon Jul  3 12:22:10 2017]    Output      :   kpLogo.output.*
+[Mon Jul  3 12:22:10 2017]    alphabet    :   ACGT
+[Mon Jul  3 12:22:10 2017]    min_kmer    :   1
+[Mon Jul  3 12:22:10 2017]    max_kmer    :   4
+[Mon Jul  3 12:22:10 2017]    min_shift   :   0
+[Mon Jul  3 12:22:10 2017]    max_shift   :   0
+[Mon Jul  3 12:22:10 2017]    degenerate  :   ACGTN
+[Mon Jul  3 12:22:10 2017]    p           :   1.010000
+[Mon Jul  3 12:22:10 2017]    start at    :   1
+[Mon Jul  3 12:22:10 2017] 213 sequences loaded from kpLogo.input.txt
+[Mon Jul  3 12:22:10 2017] making frequency logo...
+[Mon Jul  3 12:22:12 2017] making information content logo...
+[Mon Jul  3 12:22:13 2017] 340 exact kmers to be tested
+[Mon Jul  3 12:22:13 2017] 500 k-mers allowing degenerate bases
+[Mon Jul  3 12:22:13 2017] 48624 tests (kmer x position x shifts) will be performed
+[Mon Jul  3 12:22:15 2017] 13400 positional kmers with p <1.010000
+[Mon Jul  3 12:22:15 2017] plotting the most significant kmer at each position...
+[Mon Jul  3 12:22:15 2017] plotting single nucleotide profile...
+[Mon Jul  3 12:22:17 2017] Done!
