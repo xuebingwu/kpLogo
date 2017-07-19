@@ -509,8 +509,17 @@ int main(int argc, char* argv[]) {
 		double score_cutoff=1e300;
 		string ylabel="weight";
 		int seq_len1 = pwm.size2();
-	    generate_ps_logo_from_pwm(pwm, output+".eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
-		generate_ps_logo_from_pwm(reverse_pwm(pwm), output+".rev.eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+	    //generate_ps_logo_from_pwm(pwm, output+".freq.eps",alphabet,fixed_position, fixed_residual,colors,score_cutoff,startPos,fontsize,ylabel,sqrt(seq_len1)/1.5,0,stack_order);	
+		
+		message("making frequency logo...");
+	    generate_ps_logo_from_pwm(pwm, output+".freq.eps",alphabet,fixed_position, fixed_residual,colors,1,startPos,fontsize,"Frequency",sqrt(seq_len1)/3.0,0,stack_order);
+	    system_run("ps2pdf -dEPSCrop "+output+".freq.eps "+output+".freq.pdf");
+	    system_run("convert "+output+".freq.eps "+output+".freq.png");
+
+	    message("making information content logo...");
+	    generate_ps_logo_from_pwm(pwm, output+".info.eps",alphabet,fixed_position, fixed_residual,colors,1,startPos,fontsize,"Bits",sqrt(seq_len1)/3.0,1000,stack_order);
+	    system_run("ps2pdf -dEPSCrop "+output+".info.eps "+output+".info.pdf");
+	    system_run("convert "+output+".info.eps "+output+".info.png");		
 		exit(0);
 	}
 

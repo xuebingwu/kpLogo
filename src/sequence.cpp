@@ -974,6 +974,7 @@ int find_significant_kmer_from_ranked_sequences(
 			}
 		}
 	}
+	outstream.close();
 
     return nSig;
 } // end of function
@@ -1083,7 +1084,7 @@ int find_significant_kmer_from_weighted_sequences(
 			}
 		}
 	}
-
+	outstream.close();
     return nSig;
 } // end of function
 
@@ -1203,7 +1204,7 @@ int find_significant_degenerate_shift_kmer_from_one_set_unweighted_sequences(
 			}
 		}
 	}
-
+	outstream.close();
     return nSig;
 } // end of function
 
@@ -1314,6 +1315,7 @@ int find_significant_pairs_from_weighted_sequences(
 			}
 		}
 	}
+	outstream.close();
     return nSig;
 } // end of function
 
@@ -1616,6 +1618,7 @@ vector<positional_kmer> build_model_from_kpLogo_output(string filename, int star
 			}
 		}
 	}
+	fin.close();
 	return ranked_kmers;
 }
 
@@ -1694,6 +1697,7 @@ vector<positional_kmer> load_model_from_file(string filename)
 		positional_kmer x(flds[0],stoi(flds[1]),stoi(flds[2]),stof(flds[3]),stoi(flds[4]));
 		ranked_kmers.push_back(x);
 	}
+	fin.close();
 	return ranked_kmers;
 }
 
@@ -1880,6 +1884,7 @@ void save_feature_matrix(map<string,string> seqs, vector<string> kmers, string o
 		}
 		outstream << endl;
 	}
+	outstream.close();
 } // end of function
 
 // read kpLogo output into two vectors
@@ -3631,6 +3636,7 @@ bool is_fasta(string filename)
 	ifstream fin(filename.c_str());
 	string line;
 	getline(fin,line);
+	fin.close();
 	return line[0] == '>';
 }
 
@@ -3686,6 +3692,7 @@ void WriteFasta(map<string,string> seqs, string filename){
     {
         fout << ">" << it->first << endl << it->second << endl;
     }
+	fout.close();
 }
 
 vector<string> first_n_bases(vector<string> seqs,int n){
@@ -3933,7 +3940,7 @@ map<string,string> ExpandMotifs(map<string,string>& motifs, int nmismatch, bool 
 array<int,2> match(string motiffile, string seqfile, string outfile, int nmismatch, bool rc, set<char> alphabet) {
   int nsite = 0; // total number of matches to report
   int nseq = 0;
-  ifstream fmotif, fseq;
+  ifstream fseq;
   ofstream fout;
   
   // load motifs
