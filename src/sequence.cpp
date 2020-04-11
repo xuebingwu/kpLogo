@@ -960,6 +960,7 @@ int find_significant_kmer_from_ranked_sequences(
 				{
 					continue;
 				}
+				//debug
 				//cout << kmers[i] << "\t" << pos << "\t" << ranks.size() << endl;
 				array<double,2> utest = Mann_Whitney_U_test(ranks, nSeq);
 				if (utest[1] < pCutoff)

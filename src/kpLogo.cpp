@@ -988,7 +988,7 @@ WriteFasta(seqs1,"implanted.fa");
 //			part 6: search for significant kmers	
 ///////////////////////////////////////////////////////////////
 	
-	if(minCount < 1) minCount = seqs1.size() * minCount;
+	if(minCount < 1) minCount = max(5.0,seqs1.size() * minCount);
 	
     // number of significant kmers
     int nSig = 0; // based on uncorrected and corrected p-value
